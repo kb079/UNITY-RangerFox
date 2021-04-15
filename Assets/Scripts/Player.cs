@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Player : MonoBehaviour
     private float movSpeed;
     private bool canAttack;
     public bool isAttacking;
+    private string hudText;
+    
   
 
     private bool cooldownA1, cooldownA2, cooldownDash;
@@ -30,6 +33,7 @@ public class Player : MonoBehaviour
         health = 100;
         stamina = 100;
         mana = 100;
+        hudText = "";
     }
 
     void Update()
@@ -155,6 +159,14 @@ public class Player : MonoBehaviour
             initialCamera.gameObject.SetActive(true);
             playerCamera.gameObject.SetActive(false);
         }
+
+        if (c.gameObject.CompareTag("chest"))
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                c.GetComponent<Chest>().openChest();
+            }
+        }
     }
 
     public void doDamage(uint dmg)
@@ -170,6 +182,11 @@ public class Player : MonoBehaviour
             canAttack = true;
             initialCamera.gameObject.SetActive(false);
             playerCamera.gameObject.SetActive(true);
+        }
+
+        if (c.gameObject.CompareTag("chest"))
+        {
+            hudText = "";
         }
     }
 
@@ -187,6 +204,17 @@ public class Player : MonoBehaviour
     {
         return mana;
     }
+
+    public string getHudText()
+    {
+        return hudText;
+    }
+
+    public void setHudText(string text)
+    {
+        hudText = text;
+    }
+
 
     private bool useStamina(float needed)
     {
