@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     private bool canAttack;
     public bool isAttacking;
     private string hudText;
+    private float poisonTime = 1.2f;
     
   
 
@@ -87,10 +88,10 @@ public class Player : MonoBehaviour
             stamina += 0.15f;
         }
 
-        if (mana < 100)
+        /*if (mana < 100)
         {
             mana += 0.1f;
-        }
+        }*/
     }
 
     private void attack1()
@@ -113,6 +114,21 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         cooldownDash = false;
+    }
+
+    IEnumerator poisoned(float ticks, uint dmg)
+    {
+        yield return new WaitForSeconds(poisonTime);
+        poisonDamage(ticks, dmg);
+    }
+
+    public void poisonDamage(float ticks, uint dmg)
+    {
+        doDamage(dmg);
+        ticks--;
+        if(ticks > 0) {
+            StartCoroutine(poisoned(ticks, dmg));
+        }
     }
 
     private void attack2()
@@ -146,10 +162,10 @@ public class Player : MonoBehaviour
     {
         if (c.gameObject.CompareTag("enemyHand"))
         {
-            if (c.gameObject.GetComponentInParent<Enemy>().isAttacking)
+            if (c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking)
             {
                 doDamage(10);
-                c.gameObject.GetComponentInParent<Enemy>().isAttacking = false;
+                c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking = false;
             }
         }
 

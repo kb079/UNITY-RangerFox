@@ -29,17 +29,8 @@ public class Chest : MonoBehaviour
     {
         if (c.gameObject.CompareTag("Player") && !isOpened)
         {
-            c.GetComponent<Player>().setHudText("Press [E] open chest");
+            c.GetComponent<Player>().setHudText("Press [E] to open chest");
         }
     }
-
-    void OnTriggerExit(Collider c)
-    {
-        if (c.gameObject.CompareTag("Player") && isOpened)
-        {
-            c.GetComponent<Player>().setHudText("");
-        }
-    }
-
 
 }

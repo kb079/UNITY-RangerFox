@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 public class Bola : MonoBehaviour
 {
     private Camera player;
     private Rigidbody rb;
+    [SerializeField] int damage = 8;
 
     void Start()
     {
@@ -36,7 +38,7 @@ public class Bola : MonoBehaviour
     {
         if (c.gameObject.CompareTag("enemy"))
         {
-            c.gameObject.GetComponent<Enemy>().doDamage();
+            c.gameObject.GetComponent<Enemy>().doDamage(damage);
             Destroy(gameObject);
         }
     }
