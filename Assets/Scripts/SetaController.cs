@@ -67,6 +67,7 @@ public class SetaController : Enemy
         if(!isHiding) transform.LookAt(new Vector3(player.transform.position.x, 0, player.transform.position.z));
         if (flag_attack)
         {
+            flag_attack = false;
             float time = Random.Range(2f, 4f);
             StartCoroutine(waitTo(0, time));
         }
@@ -74,7 +75,6 @@ public class SetaController : Enemy
 
     IEnumerator waitTo(int caseId, float time)
     {
-        flag_attack = false;
         yield return new WaitForSeconds(time);
         //0: attack, 1: hide, 2: unhide, 3: prepare unhiding
         switch (caseId)
