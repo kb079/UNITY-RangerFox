@@ -1,25 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class SetaController : Enemy
 {
-    private GameObject player;
-    private Player playerComponent;
-    private bool isActive = false, isDead = false, flag_attack = false, isHiding = true;
     [SerializeField] int health = 15, maxDis = 20;
     [SerializeField] GameObject objAtk;
-    [SerializeField] Transform negZ, posZ, negX, posX;
-    private float nZ, pZ, nX, pX;
+    public Transform negZ, posZ, negX, posX;
+    public bool hasLimits;
+    private GameObject player;
+    private bool isActive = false, isDead = false, isHiding = true, flag_attack = false, flag_prepare_unhide = false, flag_unhide = false, flag_hide = false;
+    private float nZ, pZ, nX, pX, rad = 8f, playerRad = 2f;
 
     private void Start()
     {
-        nZ = negZ.position.z;
-        pZ = posZ.position.z;
-        nX = negX.position.x;
-        pX = posX.position.x;
+        if (hasLimits)
+        {
+            nZ = negZ.position.z;
+            pZ = posZ.position.z;
+            nX = negX.position.x;
+            pX = posX.position.x;
+        }
         player = GameObject.FindGameObjectWithTag("Player");
-        playerComponent = player.GetComponent<Player>();
+        //se coloca por debajo del terreno
         transform.position = new Vector3(transform.position.x, -10, transform.position.z);
     }
 
@@ -27,52 +31,79 @@ public class SetaController : Enemy
     {
         if (!isDead)
         {
-            activate();
+            checkIfActive();
             if (isActive)
             {
-                action();
+                actions();
             }
-        } else
-        {
-            StopAllCoroutines();
         }
+        else StopAllCoroutines();
     }
 
-    private void activate()
+    private void checkIfActive()
     {
         Vector3 pos1 = transform.position;
         Vector3 pos2 = player.transform.position;
 
         int distance = (int)Vector3.Distance(pos1, pos2);
-        //debug*
-        playerComponent.setHudText(distance.ToString());
-        //*
-        //activar
+        //activar al acercarse a la distancia establecida
         if (distance <= maxDis && !isActive)
         {
-            StartCoroutine(waitTo(3, 0.1f));
+            //el enemigo aparece en la última posición en la que quedó
+            transform.position = new Vector3(transform.position.x, -3, transform.position.z);
+            StartCoroutine(waitTo(2, 0.8f));
             isActive = true;
-        } 
-        //desactivar
-        else if (distance > maxDis && isActive){
+        }
+        //desactivar al alejarse de la distancia establecida
+        else if (distance > maxDis && isActive)
+        {
+            //se vuelve a esconder bajo tierra
             transform.position = new Vector3(transform.position.x, -10, transform.position.z);
-            isActive = false;
             StopAllCoroutines();
             flag_attack = false;
+            flag_hide = false;
+            flag_prepare_unhide = false;
+            flag_unhide = false;
+            isActive = false;
         }
     }
 
-    private void action()
+    private void actions()
     {
-        if(!isHiding) transform.LookAt(new Vector3(player.transform.position.x, 0, player.transform.position.z));
-        if (flag_attack)
+        //si no esta escondido apuntara a la direccion del jugador, asi se evitan errores de rotacion al acercarse demasiado
+        //las balas se disparan en dicha direccion
+        if (!isHiding) transform.LookAt(new Vector3(player.transform.position.x, 0, player.transform.position.z));
+        if (flag_prepare_unhide)
         {
-            flag_attack = false;
+            flag_prepare_unhide = false;
+            prepareUnhiding();
+            //el tiempo está fijo porque la animación de salir de la tierra siempre es igual
+            StartCoroutine(waitTo(2, 0.8f));
+        }
+        else if (flag_unhide)
+        {
+            flag_unhide = false;
+            unhide();
             float time = Random.Range(2f, 4f);
             StartCoroutine(waitTo(0, time));
         }
+        else if (flag_attack)
+        {
+            flag_attack = false;
+            attack();
+            float time = Random.Range(1.5f, 2.5f);
+            StartCoroutine(waitTo(1, time));
+        }
+        else if (flag_hide)
+        {
+            flag_hide = false;
+            hide();
+            float time = Random.Range(2.5f, 3.5f);
+            StartCoroutine(waitTo(3, time));
+        }
     }
 
+    //controla el tiempo entre cada acción
     IEnumerator waitTo(int caseId, float time)
     {
         yield return new WaitForSeconds(time);
@@ -80,16 +111,16 @@ public class SetaController : Enemy
         switch (caseId)
         {
             case 0:
-                attack();
+                flag_attack = true;
                 break;
             case 1:
-                hide();
+                flag_hide = true;
                 break;
             case 2:
-                unhide();
+                flag_unhide = true;
                 break;
             case 3:
-                prepareUnhiding();
+                flag_prepare_unhide = true;
                 break;
         }
     }
@@ -98,21 +129,16 @@ public class SetaController : Enemy
     {
         GameObject attackClone = Instantiate(objAtk, objAtk.transform.position, transform.rotation);
         attackClone.SetActive(true);
-        float time = Random.Range(1.5f, 2.5f);
-        StartCoroutine(waitTo(1, time));
     }
 
     private void hide()
     {
         transform.position = new Vector3(transform.position.x, -10, transform.position.z);
         isHiding = true;
-        float time = Random.Range(2f, 4f);
-        StartCoroutine(waitTo(3, time));
     }
 
     private void unhide()
     {
-        flag_attack = true;
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         isHiding = false;
     }
@@ -120,23 +146,27 @@ public class SetaController : Enemy
     private void prepareUnhiding()
     {
         //radio disponible por el que saldrá
-        float r1 = Random.Range(-10f, 10f);
-        float r2 = Random.Range(-10f, 10f);
+        Vector2 circle = Random.insideUnitCircle * rad;
+        float r1 = circle.x;
+        float r2 = circle.y;
 
-        //para evitar que salga justo debajo del jugador
-        //if (r1 < 2 && r1 > -2) r1 = 2;
-        //if (r2 < 2 && r2 > -2) r2 = -2;
+        //para evitar que salga justo debajo del jugador al resultado se le suma un radio establecido
+        if (r1 < 0) r1 -= playerRad; else r1 += playerRad;
+        if (r2 < 0) r2 -= playerRad; else r2 += playerRad;
 
         float newX = player.transform.position.x + r1;
         float newZ = player.transform.position.z + r2;
 
-        //para evitar que se salga de los límites
-        if (newX >= pX || newX <= nX) newX = nX;
-        if (newZ >= pZ || newZ <= nZ) newZ = nZ;
+        //para evitar que se salga de los límites (si estan activados)
+        if (hasLimits)
+        {
+            if (newX > pX) newX = pX;
+            else if (newX < nX) newX = nX;
+            if (newZ > pZ) newZ = pZ;
+            else if (newZ < nZ) newZ = nZ;
+        }
 
         transform.position = new Vector3(newX, -3, newZ);
-
-        StartCoroutine(waitTo(2, 0.8f));
     }
 
 
@@ -156,6 +186,29 @@ public class SetaController : Enemy
             originalRot.x = 90;
             transform.localEulerAngles = originalRot;
             Destroy(gameObject, 3);
+        }
+    }
+}
+
+
+//--------------------------------------------------------------
+//para activar/desactivar los transform en el inspector de unity
+//--------------------------------------------------------------
+[CustomEditor(typeof(SetaController))]
+public class EffectsInspector : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        SetaController seta = (SetaController)target;
+        seta.hasLimits = EditorGUILayout.Toggle("Has Limits", seta.hasLimits);
+
+        if (seta.hasLimits)
+        {
+            //EditorGUILayout.field;
+            EditorGUILayout.ObjectField("-Z Limit", seta.negZ, typeof(Transform), true);
+            EditorGUILayout.ObjectField("+Z Limit", seta.posZ, typeof(Transform), true);
+            EditorGUILayout.ObjectField("-X Limit", seta.negX, typeof(Transform), true);
+            EditorGUILayout.ObjectField("+X Limit", seta.posX, typeof(Transform), true);
         }
     }
 }
