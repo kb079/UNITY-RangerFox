@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+
     private uint health;
     private float stamina, mana;
 
@@ -17,23 +19,30 @@ public class Player : MonoBehaviour
     private float movSpeed;
     private bool canAttack;
     public bool isAttacking;
-  
+    private string hudText;
+    private float poisonTime = 1.2f;
+
+
 
     private bool cooldownA1, cooldownA2, cooldownDash;
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //con esto activado no se puede interactuar con el hud
+        //Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
         canAttack = false;
         isAttacking = false;
         health = 100;
         stamina = 100;
         mana = 100;
+        hudText = "";
     }
 
     void Update()
     {
+        if (health >= 100) health = 100;
+        if (mana >= 100) mana = 100;
         movSpeed = defaultSpeed;
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
@@ -60,10 +69,10 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
-        
+
         //transform.Rotate(new Vector3(0, y * camMovementSpeed * Time.deltaTime));
         //mouseY = Mathf.Clamp(mouseY, -120, 120);
-        
+
 
         if (canAttack && !cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8))
         {
@@ -78,15 +87,15 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(stamina < 100)
+        if (stamina < 100)
         {
             stamina += 0.15f;
         }
 
-        if (mana < 100)
+        /*if (mana < 100)
         {
             mana += 0.1f;
-        }
+        }*/
     }
 
     private void attack1()
@@ -109,6 +118,22 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         cooldownDash = false;
+    }
+
+    IEnumerator poisoned(float ticks, uint dmg)
+    {
+        yield return new WaitForSeconds(poisonTime);
+        poisonDamage(ticks, dmg);
+    }
+
+    public void poisonDamage(float ticks, uint dmg)
+    {
+        doDamage(dmg);
+        ticks--;
+        if (ticks > 0)
+        {
+            StartCoroutine(poisoned(ticks, dmg));
+        }
     }
 
     private void attack2()
@@ -142,10 +167,10 @@ public class Player : MonoBehaviour
     {
         if (c.gameObject.CompareTag("enemyHand"))
         {
-            if (c.gameObject.GetComponentInParent<Enemy>().isAttacking)
+            if (c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking)
             {
                 doDamage(10);
-                c.gameObject.GetComponentInParent<Enemy>().isAttacking = false;
+                c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking = false;
             }
         }
 
@@ -155,6 +180,14 @@ public class Player : MonoBehaviour
             initialCamera.gameObject.SetActive(true);
             playerCamera.gameObject.SetActive(false);
         }
+
+        if (c.gameObject.CompareTag("chest"))
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                c.GetComponent<Chest>().openChest();
+            }
+        }
     }
 
     public void doDamage(uint dmg)
@@ -162,7 +195,7 @@ public class Player : MonoBehaviour
         health -= dmg;
         //TODO
     }
-    
+
     private void OnTriggerExit(Collider c)
     {
         if (c.gameObject.CompareTag("madriguera"))
@@ -171,11 +204,26 @@ public class Player : MonoBehaviour
             initialCamera.gameObject.SetActive(false);
             playerCamera.gameObject.SetActive(true);
         }
+
+        if (c.gameObject.CompareTag("chest"))
+        {
+            hudText = "";
+        }
     }
 
     public uint getHealth()
     {
         return health;
+    }
+
+    public void addHealth(uint addedHealth)
+    {
+        health += addedHealth;
+    }
+
+    public void addMana(uint addedMana)
+    {
+        mana += addedMana;
     }
 
     public float getStamina()
@@ -187,6 +235,17 @@ public class Player : MonoBehaviour
     {
         return mana;
     }
+
+    public string getHudText()
+    {
+        return hudText;
+    }
+
+    public void setHudText(string text)
+    {
+        hudText = text;
+    }
+
 
     private bool useStamina(float needed)
     {
