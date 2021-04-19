@@ -13,6 +13,9 @@ TagManager:
   - hud_hpBar
   - enemyHand
   - playerHand
+  - chest
+  - UIManager
+  - Item
   layers:
   - Default
   - TransparentFX

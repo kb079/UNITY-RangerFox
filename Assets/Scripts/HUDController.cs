@@ -8,10 +8,13 @@ public class HUDController : MonoBehaviour
     public Slider manaBar;
     public Text hudText;
     private Player player;
-
+    //Debug---------------------------
+    private Inventory inventory;
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        //Debug---------------------------
+        inventory = GetComponent<Inventory>();
     }
     void Update()
     {
@@ -19,5 +22,9 @@ public class HUDController : MonoBehaviour
         staminaBar.value = player.getStamina();
         manaBar.value = player.getMana();
         hudText.text = player.getHudText();
+        //Debug---------------------------
+        if (Input.GetKeyDown(KeyCode.H)) inventory.addToInventory("healing1", 1);
+        if (Input.GetKeyDown(KeyCode.J)) inventory.addToInventory("mana1", 2);
+        //Debug---------------------------
     }
 }

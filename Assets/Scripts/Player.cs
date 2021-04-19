@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+
     private uint health;
     private float stamina, mana;
 
@@ -20,14 +21,15 @@ public class Player : MonoBehaviour
     public bool isAttacking;
     private string hudText;
     private float poisonTime = 1.2f;
-    
-  
+
+
 
     private bool cooldownA1, cooldownA2, cooldownDash;
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //con esto activado no se puede interactuar con el hud
+        //Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
         canAttack = false;
         isAttacking = false;
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (health >= 100) health = 100;
+        if (mana >= 100) mana = 100;
         movSpeed = defaultSpeed;
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
@@ -65,10 +69,10 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
-        
+
         //transform.Rotate(new Vector3(0, y * camMovementSpeed * Time.deltaTime));
         //mouseY = Mathf.Clamp(mouseY, -120, 120);
-        
+
 
         if (canAttack && !cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8))
         {
@@ -83,7 +87,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(stamina < 100)
+        if (stamina < 100)
         {
             stamina += 0.15f;
         }
@@ -126,7 +130,8 @@ public class Player : MonoBehaviour
     {
         doDamage(dmg);
         ticks--;
-        if(ticks > 0) {
+        if (ticks > 0)
+        {
             StartCoroutine(poisoned(ticks, dmg));
         }
     }
@@ -190,7 +195,7 @@ public class Player : MonoBehaviour
         health -= dmg;
         //TODO
     }
-    
+
     private void OnTriggerExit(Collider c)
     {
         if (c.gameObject.CompareTag("madriguera"))
@@ -209,6 +214,16 @@ public class Player : MonoBehaviour
     public uint getHealth()
     {
         return health;
+    }
+
+    public void addHealth(uint addedHealth)
+    {
+        health += addedHealth;
+    }
+
+    public void addMana(uint addedMana)
+    {
+        mana += addedMana;
     }
 
     public float getStamina()
