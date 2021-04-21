@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     public bool isAttacking;
     private string hudText;
     private float poisonTime = 1.2f;
+    private GameObject inventory;
+    private bool isInventoryEnabled = true;
 
 
 
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour
     {
         //con esto activado no se puede interactuar con el hud
         //Cursor.lockState = CursorLockMode.Locked;
+        inventory = GameObject.FindGameObjectWithTag("Inventory");
         rb = GetComponent<Rigidbody>();
         canAttack = false;
         isAttacking = false;
@@ -41,6 +44,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(GameConstants.key_inventory))
+        {
+            isInventoryEnabled = !isInventoryEnabled;
+            inventory.SetActive(isInventoryEnabled);
+        }
+
         if (health >= 100) health = 100;
         if (mana >= 100) mana = 100;
         movSpeed = defaultSpeed;
@@ -50,7 +59,7 @@ public class Player : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * camMovementSpeed;
         //float mouseX = Input.GetAxis("Mouse Y") * camMovementSpeed;
 
-        if (Input.GetKey(KeyCode.Space) && useStamina(0.2f))
+        if (Input.GetKey(GameConstants.key_run) && useStamina(0.2f))
         {
             movSpeed += 10f;
         }
@@ -59,7 +68,7 @@ public class Player : MonoBehaviour
         Vector3 rotateValue = new Vector3(0, mouseX * -1, 0);
         transform.eulerAngles = transform.eulerAngles - rotateValue;
 
-        if (!cooldownDash && Input.GetKey(KeyCode.R) && useStamina(10))
+        if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
         {
             rb.AddForce(transform.forward + playerCamera.transform.forward * 40000f);
             cooldownDash = true;
@@ -183,7 +192,7 @@ public class Player : MonoBehaviour
 
         if (c.gameObject.CompareTag("chest"))
         {
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKey(GameConstants.key_interact))
             {
                 c.GetComponent<Chest>().openChest();
             }

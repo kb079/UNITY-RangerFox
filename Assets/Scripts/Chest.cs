@@ -22,8 +22,7 @@ public class Chest : MonoBehaviour
             originalPos.x = -50;
             chestDoor.transform.eulerAngles = originalPos;
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().setHudText("");
-
-            inventory.addToInventory("healing1", 1);
+            inventory.addToInventory(GameConstants.it_healing_2);
             isOpened = true;
         }
     }
@@ -32,7 +31,7 @@ public class Chest : MonoBehaviour
     {
         if (c.gameObject.CompareTag("Player") && !isOpened)
         {
-            c.GetComponent<Player>().setHudText("Press [E] to open chest");
+            c.GetComponent<Player>().setHudText("Press [" + GameConstants.key_interact.ToString() + "] to open chest");
         }
     }
 
