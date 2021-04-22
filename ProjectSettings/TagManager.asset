@@ -16,6 +16,7 @@ TagManager:
   - chest
   - UIManager
   - Item
+  - Inventory
   layers:
   - Default
   - TransparentFX

@@ -23,8 +23,8 @@ public class HUDController : MonoBehaviour
         manaBar.value = player.getMana();
         hudText.text = player.getHudText();
         //Debug---------------------------
-        if (Input.GetKeyDown(KeyCode.H)) inventory.addToInventory("healing1", 1);
-        if (Input.GetKeyDown(KeyCode.J)) inventory.addToInventory("mana1", 2);
+        if (Input.GetKeyDown(KeyCode.H)) inventory.addToInventory(GameConstants.it_healing_1);
+        if (Input.GetKeyDown(KeyCode.J)) inventory.addToInventory(GameConstants.it_mana_1);
         //Debug---------------------------
     }
 }
