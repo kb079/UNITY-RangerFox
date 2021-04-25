@@ -8,6 +8,7 @@ public class SetaBall : MonoBehaviour
     [SerializeField] float impulse = 6f;
     private uint damage = 3;
     private float ticks = 5;
+    public GameObject barrier;
 
     void Start()
     {
@@ -19,8 +20,16 @@ public class SetaBall : MonoBehaviour
     {
         if (c.gameObject.CompareTag("Player"))
         {
-            c.gameObject.GetComponent<Player>().poisonDamage(ticks, damage);
-            Destroy(gameObject);
+            if(barrier.activeInHierarchy == false) { 
+                c.gameObject.GetComponent<Player>().poisonDamage(ticks, damage);
+                Destroy(gameObject);
+            }
+            else
+            {
+                c.gameObject.GetComponent<Player>().useMana(20);
+                Destroy(gameObject);
+            }
         }
+
     }
 }

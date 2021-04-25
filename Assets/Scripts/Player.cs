@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 
     private uint health;
     private float stamina, mana;
+    private int count_bar = 0;
 
     private Rigidbody rb;
 
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
     private string hudText;
     private float poisonTime = 1.2f;
     private GameObject inventory;
+    public GameObject barrier;
     private bool isInventoryEnabled = true;
 
 
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
         //con esto activado no se puede interactuar con el hud
         //Cursor.lockState = CursorLockMode.Locked;
         inventory = GameObject.FindGameObjectWithTag("Inventory");
+        //barrier = GameObject.FindGameObjectWithTag("Barrier");
         rb = GetComponent<Rigidbody>();
         canAttack = false;
         isAttacking = false;
@@ -44,6 +47,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        
+
         if (Input.GetKeyDown(GameConstants.key_inventory))
         {
             isInventoryEnabled = !isInventoryEnabled;
@@ -92,6 +97,19 @@ public class Player : MonoBehaviour
         {
             attack2();
         }
+
+        if (Input.GetKeyDown(GameConstants.key_barrier))
+        {
+            count_bar++;
+            if (count_bar % 2 != 0) barrier.SetActive(true);
+            else barrier.SetActive(false);
+        }
+
+        if (mana < 0.05)
+        {
+            count_bar = 0; 
+            barrier.SetActive(false);
+        }
     }
 
     private void FixedUpdate()
@@ -105,6 +123,15 @@ public class Player : MonoBehaviour
         {
             mana += 0.1f;
         }*/
+    }
+
+    private void LateUpdate()
+    {
+        if(barrier.activeInHierarchy == true)
+        {
+            useMana(0.05f);
+            
+        } 
     }
 
     private void attack1()
@@ -178,6 +205,7 @@ public class Player : MonoBehaviour
         {
             if (c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking)
             {
+                if(barrier.activeInHierarchy == false)
                 doDamage(10);
                 c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking = false;
             }
@@ -256,7 +284,7 @@ public class Player : MonoBehaviour
     }
 
 
-    private bool useStamina(float needed)
+    public bool useStamina(float needed)
     {
 
         if (stamina >= needed)
@@ -276,7 +304,7 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    private bool useMana(float needed)
+    public bool useMana(float needed)
     {
 
         if (mana >= needed)
