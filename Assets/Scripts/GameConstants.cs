@@ -15,4 +15,5 @@ public class GameConstants : MonoBehaviour
     public const KeyCode key_run = KeyCode.Space;
     public const KeyCode key_dash = KeyCode.R;
     public const KeyCode key_interact = KeyCode.E;
+    public const KeyCode key_barrier = KeyCode.B;
 }

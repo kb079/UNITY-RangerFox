@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public Camera playerCamera, initialCamera;
     public GameObject bola;
     public GameObject hand;
+    public GameObject barrier;
 
     private float camMovementSpeed = 1.6f;
     private const float defaultSpeed = 7.5f;
@@ -92,6 +93,18 @@ public class Player : MonoBehaviour
         {
             attack2();
         }
+
+        if (Input.GetKeyDown(GameConstants.key_barrier) && useMana(0.05f))
+        {
+           barrier.SetActive(true);
+            
+        }
+
+        if (Input.GetKeyUp(GameConstants.key_barrier))
+        {
+            barrier.SetActive(false);
+
+        }
     }
 
     private void FixedUpdate()
@@ -105,6 +118,19 @@ public class Player : MonoBehaviour
         {
             mana += 0.1f;
         }*/
+    }
+
+    private void LateUpdate()
+    {
+        if (barrier.activeInHierarchy)
+        {
+            if (!useMana(0.025f))
+            {
+                barrier.SetActive(false);
+            }
+            
+        }
+
     }
 
     private void attack1()
@@ -178,7 +204,14 @@ public class Player : MonoBehaviour
         {
             if (c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking)
             {
-                doDamage(10);
+                if(!barrier.activeInHierarchy) { 
+                    doDamage(10);
+                }
+                else
+                {
+                    useMana(10);
+                }
+
                 c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking = false;
             }
         }
@@ -285,7 +318,7 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    private bool useMana(float needed)
+    public bool useMana(float needed)
     {
 
         if (mana >= needed)
