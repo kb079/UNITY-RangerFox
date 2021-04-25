@@ -197,6 +197,15 @@ public class Player : MonoBehaviour
                 c.GetComponent<Chest>().openChest();
             }
         }
+        if (c.gameObject.CompareTag("chestEnemy"))
+        {
+            if (Input.GetKey(GameConstants.key_interact))
+            {
+                c.GetComponent<ChestController>().isOpened = true;
+                doDamage(10);
+            }
+         
+        }
     }
 
     public void doDamage(uint dmg)
@@ -214,7 +223,7 @@ public class Player : MonoBehaviour
             playerCamera.gameObject.SetActive(true);
         }
 
-        if (c.gameObject.CompareTag("chest"))
+        if (c.gameObject.CompareTag("chest") || c.gameObject.CompareTag("chestEnemy"))
         {
             hudText = "";
         }
