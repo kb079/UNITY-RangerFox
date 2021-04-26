@@ -20,7 +20,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void doPlayerDamage(uint dmg) {
+    protected virtual void doPlayerDamage(uint dmg) {
         player.GetComponent<Player>().doDamage(dmg);
     }
 
@@ -29,17 +29,18 @@ public abstract class Enemy : MonoBehaviour
         checkHP();
     }
 
-    public abstract void attack();
+    protected abstract void attack();
 
-    public virtual void searchPlayer() {
+    protected virtual void searchPlayer() {
         Vector3 pos1 = transform.position;
         Vector3 pos2 = player.transform.position;
 
-        int distance = (int)Vector3.Distance(pos1, pos2);
+        uint distance = (uint)Vector3.Distance(pos1, pos2);
         if (distance <= 30 && distance > 3)
         {
             agent.isStopped = false;
             agent.SetDestination(player.transform.position);
+            transform.LookAt(player.transform);
         }
         else if (distance < 3)
         {
@@ -51,7 +52,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    public virtual void checkHP()
+    protected virtual void checkHP()
     {
         if (health == 0 && !isDead)
         {

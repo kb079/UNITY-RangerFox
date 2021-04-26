@@ -26,7 +26,7 @@ public class DoowellController : Enemy
         }
     }
 
-    public override void attack()
+    protected override void attack()
     {
         transform.LookAt(pos2);
         bala.transform.LookAt(pos2);
@@ -45,7 +45,7 @@ public class DoowellController : Enemy
         cabeza.SetActive(true);
     }
 
-    public override void searchPlayer()
+    protected override void searchPlayer()
     {
         int distance = (int)Vector3.Distance(pos1, pos2);
         if(distance <= actionRadio)

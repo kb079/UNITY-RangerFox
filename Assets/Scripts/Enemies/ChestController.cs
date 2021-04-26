@@ -129,7 +129,7 @@ public class ChestController : Enemy
         }
     }
 
-    public override void attack()
+    protected override void attack()
     {
         Vector3 pos1 = transform.position;
         Vector3 pos2 = player.transform.position;

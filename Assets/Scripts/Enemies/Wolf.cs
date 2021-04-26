@@ -20,7 +20,7 @@ public class Wolf : Enemy
         }
     }
 
-    public override void attack()
+    protected override void attack()
     {
         cooldown = true;
         Vector3 originalPos = enemyHand.transform.eulerAngles;

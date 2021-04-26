@@ -123,7 +123,7 @@ public class SetaController : Enemy
         }
     }
 
-    public override void attack()
+    protected override void attack()
     {
         GameObject attackClone = Instantiate(objAtk, objAtk.transform.position, transform.rotation);
         attackClone.SetActive(true);
@@ -168,7 +168,7 @@ public class SetaController : Enemy
     }
 
 
-    public override void checkHP()
+    protected override void checkHP()
     {
         base.checkHP();
         Destroy(gameObject, 3);
