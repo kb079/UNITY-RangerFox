@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     private float movSpeed;
     private bool canAttack;
     public bool isAttacking;
+    public bool isBarrierActive = false;
     private string hudText;
     private float poisonTime = 1.2f;
     private GameObject inventory;
@@ -84,8 +85,16 @@ public class Player : MonoBehaviour
 
         if (canAttack && !cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8)) attack1();
         if (canAttack && !cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
-        if (Input.GetKeyDown(GameConstants.key_barrier) && useMana(0.05f)) barrier.SetActive(true);
-        if (Input.GetKeyUp(GameConstants.key_barrier)) barrier.SetActive(false);
+        if (Input.GetKeyDown(GameConstants.key_barrier) && useMana(0.05f))
+        {
+            barrier.SetActive(true);
+            isBarrierActive = true;
+        }
+        if (Input.GetKeyUp(GameConstants.key_barrier))
+        {
+            barrier.SetActive(false);
+            isBarrierActive = false;
+        }
     }
 
     private void FixedUpdate()
@@ -103,6 +112,7 @@ public class Player : MonoBehaviour
             if (!useMana(0.025f))
             {
                 barrier.SetActive(false);
+                isBarrierActive = false;
             }
         }
     }
@@ -133,12 +143,12 @@ public class Player : MonoBehaviour
     IEnumerator poisoned(float ticks, int dmg)
     {
         yield return new WaitForSeconds(poisonTime);
-        poisonDamage(ticks, dmg);
+        doDamage(dmg, ticks);
     }
 
-    public void poisonDamage(float ticks, int dmg)
+    public void doDamage(int dmg, float ticks)
     {
-        doDamage(dmg);
+        doSingleDamage(dmg);
         ticks--;
         if (ticks > 0)
         {
@@ -193,7 +203,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void doDamage(int dmg)
+    public void doSingleDamage(int dmg)
     {
         health -= dmg;
     }

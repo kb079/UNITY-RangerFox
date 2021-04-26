@@ -46,7 +46,7 @@ public class Wolf : Enemy
         cooldown = false;
     }
 
-    private void OnTriggerStay(Collider c)
+    new private void OnTriggerStay(Collider c)
     {
         if (c.gameObject.Equals(player))
         {

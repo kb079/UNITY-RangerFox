@@ -40,8 +40,8 @@ public class SetaController : Enemy
 
     private void checkIfActive()
     {
-        Vector3 pos1 = transform.position;
-        Vector3 pos2 = player.transform.position;
+        Vector3 pos1 = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 pos2 = new Vector3(player.transform.position.x, 0, player.transform.position.z);
 
         int distance = (int)Vector3.Distance(pos1, pos2);
         //activar al acercarse a la distancia establecida

@@ -49,8 +49,9 @@ public class ChestController : Enemy
         }
     }
 
-    private void OnTriggerStay(Collider c)
+    new private void OnTriggerStay(Collider c)
     {
+        base.OnTriggerStay(c);
         if (c.gameObject.CompareTag("Player"))
         {
             if (Input.GetKey(GameConstants.key_interact))

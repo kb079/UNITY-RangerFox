@@ -1,26 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestBall : MonoBehaviour
+public class ChestBall : EnemyBall
 {
-    private Rigidbody rb;
-    private float impulse = 700f;
-    private int damage = 5;
-    private float ticks = 5;
-
     void Start()
     {
-        Destroy(gameObject, 3);
         rb = GetComponent<Rigidbody>();
+        damage = GameConstants.Chest_Dmg;
+        impulse = 430f;
+        ticks = 5;
+        Destroy(gameObject, 3);
         rb.AddForce(transform.forward * impulse, ForceMode.Force);
-    }
-    private void OnTriggerEnter(Collider c)
-    {
-        if (c.gameObject.CompareTag("Player"))
-        {
-            c.gameObject.GetComponent<Player>().poisonDamage(ticks, damage);
-            Destroy(gameObject);
-        }
     }
 }

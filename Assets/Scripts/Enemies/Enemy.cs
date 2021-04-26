@@ -21,11 +21,11 @@ public abstract class Enemy : MonoBehaviour
         if (GetComponent<NavMeshAgent>() != null) {
             agent = GetComponent<NavMeshAgent>();
         }
+        Debug.Log("perrrrrro");
     }
 
     protected virtual void doPlayerDamage(int dmg) {
-        player.GetComponent<Player>().doDamage(dmg);
-       
+        player.GetComponent<Player>().doDamage(dmg, 1);
     }
 
     public virtual void doDamage(int dmg) {
@@ -78,7 +78,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
-    private void OnTriggerStay(Collider c)
+    protected virtual void OnTriggerStay(Collider c)
     {
         if (c.gameObject.CompareTag("playerHand"))
         {

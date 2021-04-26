@@ -17,6 +17,8 @@ TagManager:
   - UIManager
   - Item
   - Inventory
+  - chestEnemy
+  - Barrier
   layers:
   - Default
   - TransparentFX

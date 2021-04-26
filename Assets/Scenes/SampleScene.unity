@@ -1012,6 +1012,7 @@ MonoBehaviour:
   barrier: {fileID: 1690929560}
   bossBarrier: {fileID: 2125435585716974927}
   isAttacking: 0
+  isBarrierActive: 0
 --- !u!136 &704794956
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1109,7 +1110,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &705507993
 GameObject:

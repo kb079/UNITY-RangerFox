@@ -46,7 +46,7 @@ public class Chest : MonoBehaviour
     }
     private void OnTriggerExit(Collider c)
     {
-        try { c.GetComponent<Player>().setHudText(""); }
-        catch (Exception e) { }
+        Player p = c.GetComponent<Player>();
+        if(p != null) p.setHudText("");
     }
 }

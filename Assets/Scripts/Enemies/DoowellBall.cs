@@ -1,26 +1,31 @@
 using UnityEngine;
 
-public class DoowellBall : MonoBehaviour
+public class DoowellBall : EnemyBall
 {
-    private Rigidbody rb;
-    [SerializeField] float impulse = 6f;
-    private int damage = 20;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        damage = GameConstants.Doowell_Dmg;
+        impulse = 1700f;
         rb.AddForce(transform.forward * impulse, ForceMode.Force);
     }
-
+    new private void OnTriggerEnter(Collider c) { }
     private void OnCollisionEnter(Collision c)
     {
         if (c.gameObject.CompareTag("Player"))
-            c.gameObject.GetComponent<Player>().doDamage(damage);
-
-        DoowellController body = c.gameObject.GetComponent<DoowellController>();
-        if (body == null)
         {
+            Player p = c.gameObject.GetComponent<Player>();
+            if (!p.isBarrierActive)
+            {
+                p.doDamage(damage, ticks);
+            }
+            else
+            {
+                p.useMana(ticks * damage);
+            }
             Destroy(gameObject);
-        }     
+        }
+        DoowellController body = c.gameObject.GetComponent<DoowellController>();
+        if (body == null) Destroy(gameObject);   
     }
 }
