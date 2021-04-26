@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 public class Bola : MonoBehaviour
 {
     private Camera player;
     private Rigidbody rb;
-    [SerializeField] int damage = 8;
+    [SerializeField] uint damage = 8;
 
     void Start()
     {
@@ -28,8 +27,6 @@ public class Bola : MonoBehaviour
     void Update()
     {
         rb.AddForce(player.transform.forward * 40f);
-        
-
        // float step = 8 * Time.deltaTime;
         //transform.localPosition = player.transform.position + player.transform.forward * step;
     }

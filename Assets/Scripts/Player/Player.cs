@@ -237,7 +237,6 @@ public class Player : MonoBehaviour
         hudText = text;
     }
 
-
     private bool useStamina(float needed)
     {
 

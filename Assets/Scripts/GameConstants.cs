@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameConstants : MonoBehaviour
@@ -16,4 +14,11 @@ public class GameConstants : MonoBehaviour
     public const KeyCode key_dash = KeyCode.R;
     public const KeyCode key_interact = KeyCode.E;
     public const KeyCode key_barrier = KeyCode.B;
+
+    //enemigos
+    public const uint Wolf_HP = 20;
+    public const uint Seta_HP = 20;
+    public const uint Doowell_HP = 20;
+    public const uint Chest_HP = 20;
+    public const uint Fairy_HP = 20;
 }

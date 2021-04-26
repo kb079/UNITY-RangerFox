@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class ChestController : Enemy
 {
-    [SerializeField] int health = 15, maxDis = 20;
+    [SerializeField] int maxDis = 20;
     [SerializeField] GameObject objAtk;
-    public Transform negZ, posZ, negX, posX;
+    private Transform negZ, posZ, negX, posX;
     public bool hasLimits, isOpened = false;
     public GameObject chestDoor;
-    private GameObject player;
-    private bool isActive = false, isDead = false, isHiding = true, flag_attack = false, flag_unhide = false, flag_hide = false;
+    private bool isActive = false, isHiding = true, flag_attack = false, flag_unhide = false, flag_hide = false;
     private float nZ, pZ, nX, pX;
 
     private void Start()
     {
+        health = GameConstants.Chest_HP;
         if (hasLimits)
         {
             nZ = negZ.position.z;
@@ -22,7 +22,6 @@ public class ChestController : Enemy
             pX = posX.position.x;
         }
         isOpened = false;
-        player = GameObject.FindGameObjectWithTag("Player");
         //se coloca por debajo del terreno
         transform.position = new Vector3(transform.position.x, -2, transform.position.z);
     }
@@ -37,36 +36,16 @@ public class ChestController : Enemy
                 actions();
               
             }
-            
         }
         else StopAllCoroutines();
     }
 
     void OnTriggerEnter(Collider c)
     {
-        if (c.gameObject.CompareTag("Player") && !isOpened && !isActive)
+        if (c.gameObject.Equals(player) && !isOpened && !isActive)
         {
-            c.GetComponent<Player>().setHudText("Press [" + GameConstants.key_interact.ToString() + "] to open chest");
-            
+            c.GetComponent<Player>().setHudText("Press [" + GameConstants.key_interact.ToString() + "] to open chest");   
         }
-    }
-
-    new private void OnTriggerStay(Collider c)
-    {
-        if (c.gameObject.CompareTag("Player"))
-        {
-            if (Input.GetKey(GameConstants.key_interact))
-            {
-                isOpened = true;
-                c.GetComponent<Player>().doDamage(10);
-            }
-         
-        }
-    }
-
-    private void OnTriggerExit(Collider c)
-    {
-        c.GetComponent<Player>().setHudText("");
     }
 
     private void checkIfActive()
@@ -150,7 +129,7 @@ public class ChestController : Enemy
         }
     }
 
-    private void attack()
+    public override void attack()
     {
         Vector3 pos1 = transform.position;
         Vector3 pos2 = player.transform.position;
@@ -161,7 +140,6 @@ public class ChestController : Enemy
             GameObject attackClone = Instantiate(objAtk, objAtk.transform.position, objAtk.transform.rotation);
             attackClone.SetActive(true);
         }
-       
     }
 
     private void hide()
@@ -175,26 +153,4 @@ public class ChestController : Enemy
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         isHiding = false;
     }
-
-
-    public override void doDamage(int dmg)
-    {
-        health -= dmg;
-        checkHP();
-    }
-
-    private void checkHP()
-    {
-        if (health <= 0 && !isDead)
-        {
-            isDead = true;
-            GetComponent<Rigidbody>().isKinematic = true;
-            Vector3 originalRot = transform.localEulerAngles;
-            originalRot.x = 90;
-            transform.localEulerAngles = originalRot;
-            Destroy(gameObject, 3);
-        }
-    }
 }
-
-

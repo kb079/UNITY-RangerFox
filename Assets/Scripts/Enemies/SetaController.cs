@@ -1,20 +1,19 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
 public class SetaController : Enemy
 {
-    [SerializeField] int health = 15, maxDis = 20;
+    [SerializeField] int maxDis = 20;
     [SerializeField] GameObject objAtk;
     public Transform negZ, posZ, negX, posX;
     public bool hasLimits;
-    private GameObject player;
-    private bool isActive = false, isDead = false, isHiding = true, flag_attack = false, flag_prepare_unhide = false, flag_unhide = false, flag_hide = false;
+    private bool isActive = false, isHiding = true, flag_attack = false, flag_prepare_unhide = false, flag_unhide = false, flag_hide = false;
     private float nZ, pZ, nX, pX, rad = 8f, playerRad = 2f;
 
     private void Start()
     {
+        health = GameConstants.Seta_HP;
         if (hasLimits)
         {
             nZ = negZ.position.z;
@@ -22,7 +21,6 @@ public class SetaController : Enemy
             nX = negX.position.x;
             pX = posX.position.x;
         }
-        player = GameObject.FindGameObjectWithTag("Player");
         //se coloca por debajo del terreno
         transform.position = new Vector3(transform.position.x, -10, transform.position.z);
     }
@@ -125,7 +123,7 @@ public class SetaController : Enemy
         }
     }
 
-    private void attack()
+    public override void attack()
     {
         GameObject attackClone = Instantiate(objAtk, objAtk.transform.position, transform.rotation);
         attackClone.SetActive(true);
@@ -170,23 +168,10 @@ public class SetaController : Enemy
     }
 
 
-    public override void doDamage(int dmg)
+    public override void checkHP()
     {
-        health -= dmg;
-        checkHP();
-    }
-
-    private void checkHP()
-    {
-        if (health <= 0 && !isDead)
-        {
-            isDead = true;
-            GetComponent<Rigidbody>().isKinematic = true;
-            Vector3 originalRot = transform.localEulerAngles;
-            originalRot.x = 90;
-            transform.localEulerAngles = originalRot;
-            Destroy(gameObject, 3);
-        }
+        base.checkHP();
+        Destroy(gameObject, 3);
     }
 }
 
