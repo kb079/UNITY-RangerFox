@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
 
-    private uint health;
+    private int health;
     private float stamina, mana;
 
     private Rigidbody rb;
@@ -131,13 +131,13 @@ public class Player : MonoBehaviour
         cooldownDash = false;
     }
 
-    IEnumerator poisoned(float ticks, uint dmg)
+    IEnumerator poisoned(float ticks, int dmg)
     {
         yield return new WaitForSeconds(poisonTime);
         poisonDamage(ticks, dmg);
     }
 
-    public void poisonDamage(float ticks, uint dmg)
+    public void poisonDamage(float ticks, int dmg)
     {
         doDamage(dmg);
         ticks--;
@@ -185,7 +185,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void doDamage(uint dmg)
+    public void doDamage(int dmg)
     {
         health -= dmg;
     }
@@ -200,18 +200,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    public uint getHealth()
+    public int getHealth()
     {
         return health;
     }
 
-    public void addHealth(uint addedHealth)
+    public void addHealth(int addedHealth)
     {
         if (addedHealth + health < 100) health += addedHealth;
         else health = 100;
     }
 
-    public void addMana(uint addedMana)
+    public void addMana(int addedMana)
     {
         if (addedMana + mana < 100) mana += addedMana;
         else mana = 100;

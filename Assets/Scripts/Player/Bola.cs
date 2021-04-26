@@ -4,7 +4,7 @@ public class Bola : MonoBehaviour
 {
     private Camera player;
     private Rigidbody rb;
-    [SerializeField] uint damage = 8;
+    [SerializeField] int damage = 8;
 
     void Start()
     {

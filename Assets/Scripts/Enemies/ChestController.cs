@@ -42,9 +42,21 @@ public class ChestController : Enemy
 
     void OnTriggerEnter(Collider c)
     {
+               
         if (c.gameObject.Equals(player) && !isOpened && !isActive)
         {
             c.GetComponent<Player>().setHudText("Press [" + GameConstants.key_interact.ToString() + "] to open chest");   
+        }
+    }
+
+    private void OnTriggerStay(Collider c)
+    {
+        if (c.gameObject.CompareTag("Player"))
+        {
+            if (Input.GetKey(GameConstants.key_interact))
+            {
+                isOpened = true;
+            }
         }
     }
 
@@ -56,7 +68,7 @@ public class ChestController : Enemy
 
         int distance = (int)Vector3.Distance(pos1, pos2);
         //activar cuando intenta abrirlo
-        if (isOpened && !isActive)
+        if (isOpened && !isActive && distance <= maxDis)
         {
             //el enemigo aparece en la �ltima posici�n en la que qued�
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);

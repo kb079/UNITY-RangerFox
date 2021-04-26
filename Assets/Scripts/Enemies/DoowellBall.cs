@@ -4,7 +4,7 @@ public class DoowellBall : MonoBehaviour
 {
     private Rigidbody rb;
     [SerializeField] float impulse = 6f;
-    private uint damage = 20;
+    private int damage = 20;
 
     void Start()
     {

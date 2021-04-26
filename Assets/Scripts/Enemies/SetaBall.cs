@@ -6,7 +6,7 @@ public class SetaBall : MonoBehaviour
 {
     private Rigidbody rb;
     [SerializeField] float impulse = 6f;
-    private uint damage = 3;
+    private int damage = 3;
     private float ticks = 5;
     public GameObject barrier;
 

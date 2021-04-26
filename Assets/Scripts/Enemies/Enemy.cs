@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    protected uint health;
+    protected int health;
 
     protected bool isAttacking;
     protected bool isDead;
@@ -20,12 +20,15 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual void doPlayerDamage(uint dmg) {
+    protected virtual void doPlayerDamage(int dmg) {
         player.GetComponent<Player>().doDamage(dmg);
+       
     }
 
-    public virtual void doDamage(uint dmg) {
+    public virtual void doDamage(int dmg) {
+        Debug.Log("doDamage");
         health -= dmg;
+        Debug.Log("esta es la vida que tiene ahora" + health);
         checkHP();
     }
 
@@ -54,12 +57,15 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void checkHP()
     {
-        if (health == 0 && !isDead)
+        Debug.Log("estoy mirando la vida");
+        if (health <= 0 && !isDead)
         {
-            if(agent != null)
+            Debug.Log("muerto");
+            if (agent != null)
             {
                 Destroy(agent);
             }
+            Debug.Log("doDamage");
             isDead = true;
             GetComponent<Rigidbody>().isKinematic = true;
             Vector3 originalRot = transform.localEulerAngles;
@@ -69,7 +75,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
-    private void OnTriggerStay(Collider c)
+    protected void OnTriggerStay(Collider c)
     {
         if (c.gameObject.CompareTag("playerHand"))
         {

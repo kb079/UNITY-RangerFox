@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,6 +46,7 @@ public class Chest : MonoBehaviour
     }
     private void OnTriggerExit(Collider c)
     {
-        c.GetComponent<Player>().setHudText("");
+        try { c.GetComponent<Player>().setHudText(""); }
+        catch (Exception e) { }
     }
 }

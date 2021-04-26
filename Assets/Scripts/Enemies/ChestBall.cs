@@ -6,7 +6,7 @@ public class ChestBall : MonoBehaviour
 {
     private Rigidbody rb;
     private float impulse = 700f;
-    private uint damage = 5;
+    private int damage = 5;
     private float ticks = 5;
 
     void Start()

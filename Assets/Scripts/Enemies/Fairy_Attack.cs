@@ -3,7 +3,7 @@ using UnityEngine;
 public class Fairy_Attack : MonoBehaviour
 {
     private Rigidbody rb;
-    private uint damage = 8;
+    private int damage = 8;
     public GameObject fairy;
 
     void Start()
