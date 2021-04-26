@@ -5,6 +5,9 @@ public abstract class Enemy : MonoBehaviour
 {
     protected int health;
 
+    protected uint searchRadius = 30;
+    protected uint attackRadius = 3;
+
     protected bool isAttacking;
     protected bool isDead;
     protected bool cooldown;
@@ -39,13 +42,13 @@ public abstract class Enemy : MonoBehaviour
         Vector3 pos2 = player.transform.position;
 
         uint distance = (uint)Vector3.Distance(pos1, pos2);
-        if (distance <= 30 && distance > 3)
+        if (distance <= searchRadius && distance > attackRadius)
         {
             agent.isStopped = false;
             agent.SetDestination(player.transform.position);
-            transform.LookAt(player.transform);
+            //transform.LookAt(player.transform);
         }
-        else if (distance < 3)
+        else if (distance < attackRadius)
         {
             agent.isStopped = true;
             if (!cooldown)
@@ -75,7 +78,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
 
-    protected void OnTriggerStay(Collider c)
+    private void OnTriggerStay(Collider c)
     {
         if (c.gameObject.CompareTag("playerHand"))
         {

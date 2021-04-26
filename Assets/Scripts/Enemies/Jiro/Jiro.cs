@@ -1,14 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Wolf : Enemy
+public class Jiro : Enemy
 {
-    public GameObject enemyHand;
+    public GameObject hand;
+    public GameObject projectile;
+    public GameObject rock;
+
     private float attackingTime = 0.4f;
     private float attackCooldown = 1f;
 
     private void Start()
     {
+        attackRadius = 16;
         health = GameConstants.Wolf_HP;
     }
 
@@ -22,22 +27,34 @@ public class Wolf : Enemy
 
     protected override void attack()
     {
+        attackProjectile();
         cooldown = true;
-        Vector3 originalPos = enemyHand.transform.eulerAngles;
+        /*
+        Vector3 originalPos = hand.transform.eulerAngles;
         originalPos.x = -50;
-        enemyHand.transform.eulerAngles = originalPos;
+        hand.transform.eulerAngles = originalPos;
         isAttacking = true;
-
+        */
         StartCoroutine(finishAttack(attackingTime));
         StartCoroutine(finishAttackCooldown(attackCooldown));
+    }
+
+    private void attackProjectile()
+    {
+        transform.LookAt(player.transform.position);
+
+        GameObject attackObjClone = Instantiate(projectile, projectile.transform.position, projectile.transform.rotation);
+        attackObjClone.SetActive(true);
+        //cooldown = true;
     }
 
     IEnumerator finishAttack(float time)
     {
         yield return new WaitForSeconds(time);
-        Vector3 originalPos = enemyHand.transform.eulerAngles;
+
+        Vector3 originalPos = hand.transform.eulerAngles;
         originalPos.x = 0;
-        enemyHand.transform.eulerAngles = originalPos;
+        hand.transform.eulerAngles = originalPos;
     }
 
     IEnumerator finishAttackCooldown(float time)
@@ -50,7 +67,7 @@ public class Wolf : Enemy
     {
         if (c.gameObject.Equals(player))
         {
-            Vector3 ray_start = enemyHand.transform.position + new Vector3(0f, .5f, 0f);
+            Vector3 ray_start = hand.transform.position + new Vector3(0f, .5f, 0f);
             bool collision_front = Physics.Raycast(ray_start, transform.forward, 3f);
 
             if (collision_front && isAttacking)
@@ -68,4 +85,5 @@ public class Wolf : Enemy
             }
         }
     }
+
 }

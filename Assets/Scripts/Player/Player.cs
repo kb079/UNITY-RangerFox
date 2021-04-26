@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public GameObject bola;
     public GameObject hand;
     public GameObject barrier;
+    public GameObject bossBarrier;
 
     private float camMovementSpeed = 1.6f;
     private const float defaultSpeed = 7.5f;
@@ -24,8 +25,6 @@ public class Player : MonoBehaviour
     private float poisonTime = 1.2f;
     private GameObject inventory;
     private bool isInventoryEnabled = true;
-
-
 
     private bool cooldownA1, cooldownA2, cooldownDash;
 
@@ -183,6 +182,15 @@ public class Player : MonoBehaviour
             initialCamera.gameObject.SetActive(true);
             playerCamera.gameObject.SetActive(false);
         }
+
+    }
+
+    private void OnTriggerEnter(Collider c)
+    {
+        if (c.gameObject.CompareTag("bossFloor"))
+        {
+            bossBarrier.SetActive(true);
+        }
     }
 
     public void doDamage(int dmg)
@@ -198,6 +206,14 @@ public class Player : MonoBehaviour
             initialCamera.gameObject.SetActive(false);
             playerCamera.gameObject.SetActive(true);
         }
+        /*
+        if (c.gameObject.CompareTag("bossFloor"))
+        {
+            Debug.Log("aaaa");
+            Vector3 dir = transform.position - c.transform.position;
+            rb.AddForce(-dir * 300f);
+        }
+        */
     }
 
     public int getHealth()
