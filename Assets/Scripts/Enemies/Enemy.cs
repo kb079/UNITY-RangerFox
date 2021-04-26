@@ -53,7 +53,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void checkHP()
     {
-        if (health <= 0 && !isDead)
+        if (health == 0 && !isDead)
         {
             if(agent != null)
             {
@@ -79,5 +79,4 @@ public abstract class Enemy : MonoBehaviour
             }
         }
     }
-
 }
