@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
         float y = Input.GetAxis("Vertical");
 
         float mouseX = Input.GetAxis("Mouse X") * camMovementSpeed;
-        //float mouseX = Input.GetAxis("Mouse Y") * camMovementSpeed;
+        float mouseY = Input.GetAxis("Mouse Y") * camMovementSpeed;
 
         if (Input.GetKey(GameConstants.key_run) && useStamina(0.2f))
         {
@@ -66,6 +66,7 @@ public class Player : MonoBehaviour
 
         Vector3 move = transform.right * x * movSpeed + transform.forward * y * movSpeed;
         Vector3 rotateValue = new Vector3(0, mouseX * -1, 0);
+        playerCamera.transform.Rotate(-mouseY, 0, 0);
         transform.eulerAngles = transform.eulerAngles - rotateValue;
 
         if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))

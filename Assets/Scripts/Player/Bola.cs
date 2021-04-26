@@ -16,17 +16,17 @@ public class Bola : MonoBehaviour
         //originalPos.x = player.transform.position.x;
        // originalPos.z = player.transform.position.z;
         transform.localPosition = originalPos + player.transform.forward;
+        rb.AddForce((player.transform.forward + new Vector3(0, 0.25f, 0)) * 40f, ForceMode.Impulse);
 
-        
-       // Vector3 originalPos = transform.eulerAngles;
-       //originalPos.y = playerVision;
-       //transform.eulerAngles = originalPos;
+        // Vector3 originalPos = transform.eulerAngles;
+        //originalPos.y = playerVision;
+        //transform.eulerAngles = originalPos;
 
     }
 
     void Update()
     {
-        rb.AddForce(player.transform.forward * 40f);
+        
        // float step = 8 * Time.deltaTime;
         //transform.localPosition = player.transform.position + player.transform.forward * step;
     }
