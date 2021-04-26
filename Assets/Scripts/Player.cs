@@ -45,14 +45,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        //activar/desactivar inventario
         if (Input.GetKeyDown(GameConstants.key_inventory))
         {
             isInventoryEnabled = !isInventoryEnabled;
             inventory.SetActive(isInventoryEnabled);
         }
 
-        if (health >= 100) health = 100;
-        if (mana >= 100) mana = 100;
         movSpeed = defaultSpeed;
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
@@ -84,27 +83,10 @@ public class Player : MonoBehaviour
         //mouseY = Mathf.Clamp(mouseY, -120, 120);
 
 
-        if (canAttack && !cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8))
-        {
-            attack1();
-        }
-
-        if (canAttack && !cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5))
-        {
-            attack2();
-        }
-
-        if (Input.GetKeyDown(GameConstants.key_barrier) && useMana(0.05f))
-        {
-           barrier.SetActive(true);
-            
-        }
-
-        if (Input.GetKeyUp(GameConstants.key_barrier))
-        {
-            barrier.SetActive(false);
-
-        }
+        if (canAttack && !cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8)) attack1();
+        if (canAttack && !cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
+        if (Input.GetKeyDown(GameConstants.key_barrier) && useMana(0.05f)) barrier.SetActive(true);
+        if (Input.GetKeyUp(GameConstants.key_barrier)) barrier.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -113,11 +95,6 @@ public class Player : MonoBehaviour
         {
             stamina += 0.15f;
         }
-
-        /*if (mana < 100)
-        {
-            mana += 0.1f;
-        }*/
     }
 
     private void LateUpdate()
@@ -128,11 +105,10 @@ public class Player : MonoBehaviour
             {
                 barrier.SetActive(false);
             }
-            
         }
-
     }
 
+    //ataque mágico
     private void attack1()
     {
         GameObject bolaClone = Instantiate(bola);
@@ -171,6 +147,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //ataque físico
     private void attack2()
     {
         cooldownA2 = true;
@@ -200,51 +177,17 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay(Collider c)
     {
-        if (c.gameObject.CompareTag("enemyHand"))
-        {
-            if (c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking)
-            {
-                if(!barrier.activeInHierarchy) { 
-                    doDamage(10);
-                }
-                else
-                {
-                    useMana(10);
-                }
-
-                c.gameObject.GetComponentInParent<BasicEnemy>().isAttacking = false;
-            }
-        }
-
         if (c.gameObject.CompareTag("madriguera"))
         {
             canAttack = false;
             initialCamera.gameObject.SetActive(true);
             playerCamera.gameObject.SetActive(false);
         }
-
-        if (c.gameObject.CompareTag("chest"))
-        {
-            if (Input.GetKey(GameConstants.key_interact))
-            {
-                c.GetComponent<Chest>().openChest();
-            }
-        }
-        if (c.gameObject.CompareTag("chestEnemy"))
-        {
-            if (Input.GetKey(GameConstants.key_interact))
-            {
-                c.GetComponent<ChestController>().isOpened = true;
-                doDamage(10);
-            }
-         
-        }
     }
 
     public void doDamage(uint dmg)
     {
         health -= dmg;
-        //TODO
     }
 
     private void OnTriggerExit(Collider c)
@@ -255,11 +198,6 @@ public class Player : MonoBehaviour
             initialCamera.gameObject.SetActive(false);
             playerCamera.gameObject.SetActive(true);
         }
-
-        if (c.gameObject.CompareTag("chest") || c.gameObject.CompareTag("chestEnemy"))
-        {
-            hudText = "";
-        }
     }
 
     public uint getHealth()
@@ -269,12 +207,14 @@ public class Player : MonoBehaviour
 
     public void addHealth(uint addedHealth)
     {
-        health += addedHealth;
+        if (addedHealth + health < 100) health += addedHealth;
+        else health = 100;
     }
 
     public void addMana(uint addedMana)
     {
-        mana += addedMana;
+        if (addedMana + mana < 100) mana += addedMana;
+        else mana = 100;
     }
 
     public float getStamina()
@@ -314,7 +254,6 @@ public class Player : MonoBehaviour
             }
             return true;
         }
-
         return false;
     }
 
@@ -334,7 +273,6 @@ public class Player : MonoBehaviour
             }
             return true;
         }
-
         return false;
     }
 }

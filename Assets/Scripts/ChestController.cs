@@ -1,9 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class ChestController : Enemy
@@ -56,7 +51,23 @@ public class ChestController : Enemy
         }
     }
 
+    new private void OnTriggerStay(Collider c)
+    {
+        if (c.gameObject.CompareTag("Player"))
+        {
+            if (Input.GetKey(GameConstants.key_interact))
+            {
+                isOpened = true;
+                c.GetComponent<Player>().doDamage(10);
+            }
+         
+        }
+    }
 
+    private void OnTriggerExit(Collider c)
+    {
+        c.GetComponent<Player>().setHudText("");
+    }
 
     private void checkIfActive()
     {

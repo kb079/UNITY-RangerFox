@@ -26,7 +26,16 @@ public class Chest : MonoBehaviour
             isOpened = true;
         }
     }
-
+    private void OnTriggerStay(Collider c)
+    {
+        if (c.gameObject.CompareTag("Player"))
+        {
+            if (Input.GetKey(GameConstants.key_interact))
+            {
+                openChest();
+            }
+        }
+    }
     void OnTriggerEnter(Collider c)
     {
         if (c.gameObject.CompareTag("Player") && !isOpened)
@@ -34,5 +43,8 @@ public class Chest : MonoBehaviour
             c.GetComponent<Player>().setHudText("Press [" + GameConstants.key_interact.ToString() + "] to open chest");
         }
     }
-
+    private void OnTriggerExit(Collider c)
+    {
+        c.GetComponent<Player>().setHudText("");
+    }
 }
