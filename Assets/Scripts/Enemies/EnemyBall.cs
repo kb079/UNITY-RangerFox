@@ -9,6 +9,16 @@ public abstract class EnemyBall : MonoBehaviour
 
     protected Rigidbody rb;
 
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    protected virtual void Start()
+    {
+        rb.AddForce(transform.forward * impulse, ForceMode.Impulse);
+    }
+
     protected void OnTriggerEnter(Collider c)
     {
         if (c.gameObject.CompareTag("Player"))

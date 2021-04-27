@@ -4,9 +4,8 @@ public class Fairy_Attack : EnemyBall
 {
     public GameObject fairy;
 
-    void Start()
+    protected override void Start()
     {
-        rb = GetComponent<Rigidbody>();
         damage = GameConstants.Fairy_Dmg;
         impulse = 15f;
         Destroy(gameObject, 5);

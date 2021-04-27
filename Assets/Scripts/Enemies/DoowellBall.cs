@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class DoowellBall : EnemyBall
 {
-    void Start()
+    protected override void Start()
     {
-        rb = GetComponent<Rigidbody>();
         damage = GameConstants.Doowell_Dmg;
         impulse = 1700f;
-        rb.AddForce(transform.forward * impulse, ForceMode.Force);
+        base.Start();
+
     }
     new private void OnTriggerEnter(Collider c) { }
     private void OnCollisionEnter(Collision c)

@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
 
         if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
         {
-            rb.AddForce(transform.forward + playerCamera.transform.forward * 40000f);
+            rb.AddForce(transform.forward + playerCamera.transform.forward * 30000f);
             cooldownDash = true;
             StartCoroutine(finishDash(2f));
         }
@@ -194,6 +194,11 @@ public class Player : MonoBehaviour
             playerCamera.gameObject.SetActive(false);
         }
 
+        //TODO: no esta bien ponerlo aqui
+        if (c.gameObject.CompareTag("bossFloor"))
+        {
+            rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+        }
     }
 
     private void OnTriggerEnter(Collider c)
@@ -217,14 +222,13 @@ public class Player : MonoBehaviour
             initialCamera.gameObject.SetActive(false);
             playerCamera.gameObject.SetActive(true);
         }
-        /*
+        
         if (c.gameObject.CompareTag("bossFloor"))
         {
-            Debug.Log("aaaa");
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
             Vector3 dir = transform.position - c.transform.position;
-            rb.AddForce(-dir * 300f);
+            rb.AddForce(-dir * 300f, ForceMode.Force);
         }
-        */
     }
 
     public int getHealth()

@@ -21,14 +21,6 @@ public class Bola : MonoBehaviour
         // Vector3 originalPos = transform.eulerAngles;
         //originalPos.y = playerVision;
         //transform.eulerAngles = originalPos;
-
-    }
-
-    void Update()
-    {
-        
-       // float step = 8 * Time.deltaTime;
-        //transform.localPosition = player.transform.position + player.transform.forward * step;
     }
 
     private void OnTriggerEnter(Collider c)

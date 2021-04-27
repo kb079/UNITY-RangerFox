@@ -1,19 +1,29 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Jiro : Enemy
 {
+    public GameObject body;
     public GameObject hand;
     public GameObject projectile;
     public GameObject rock;
 
+    public List<GameObject> rockPositions;
+    private bool searchingRock;
+    public bool hasRock;
+    private System.Random rand = new System.Random();
+
     private float attackingTime = 0.4f;
-    private float attackCooldown = 1f;
+    private float attackCooldown = 4f;
+    private int lastRock = 0;
 
     private void Start()
     {
-        attackRadius = 16;
+        searchingRock = false;
+        hasRock = false;
+        attackRadius = 25;
+        searchRadius = 70;
         health = GameConstants.Wolf_HP;
     }
 
@@ -25,27 +35,67 @@ public class Jiro : Enemy
         }
     }
 
-    protected override void attack()
+    IEnumerator startHandAttack(float time)
     {
-        attackProjectile();
-        cooldown = true;
-        /*
+        yield return new WaitForSeconds(time);
         Vector3 originalPos = hand.transform.eulerAngles;
         originalPos.x = -50;
         hand.transform.eulerAngles = originalPos;
         isAttacking = true;
-        */
         StartCoroutine(finishAttack(attackingTime));
+    }
+
+    protected override void attack()
+    {
+        attackRadius = rand.Next(1, 60);
+        if (attackRadius <= 10)
+        {
+            attackRadius = 10;
+            agent.SetDestination(player.transform.position);
+
+            StartCoroutine(startHandAttack(3f));
+        }else if(attackRadius > 20 && attackRadius < 30)
+        {
+            attackProjectile();
+        }
+        else if(lastRock < 5)
+        {
+            attackRock();
+        }
+        else
+        {
+            attackProjectile();
+        }
+
+        cooldown = true;
         StartCoroutine(finishAttackCooldown(attackCooldown));
     }
 
     private void attackProjectile()
     {
         transform.LookAt(player.transform.position);
+        chargeItem(projectile);
+        body.GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
+        StartCoroutine(prepareProjectileAttack(1.2f));
+    }
 
-        GameObject attackObjClone = Instantiate(projectile, projectile.transform.position, projectile.transform.rotation);
+    private void attackRock()
+    {
+        agent.isStopped = false;
+        agent.SetDestination(rockPositions[lastRock].transform.position);
+        searchingRock = true;
+    }
+
+    private void chargeItem(GameObject item)
+    {
+        GameObject attackObjClone = Instantiate(item, item.transform.position, item.transform.rotation, transform);
         attackObjClone.SetActive(true);
-        //cooldown = true;
+    }
+
+    IEnumerator prepareProjectileAttack(float time)
+    {
+        yield return new WaitForSeconds(time);
+        body.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
     }
 
     IEnumerator finishAttack(float time)
@@ -62,8 +112,35 @@ public class Jiro : Enemy
         yield return new WaitForSeconds(time);
         cooldown = false;
     }
+     protected override void searchPlayer()
+    {
+        if (!searchingRock && !hasRock)
+        {
+            base.searchPlayer();
+        }
+        else
+        {
+            if (hasRock)
+            {
+               agent.SetDestination(player.transform.position);
+            }
+            else
+            {
+                Vector3 playerPos = transform.position;
+                Vector3 rockPos = rockPositions[lastRock].transform.position;
+                if ((int)Vector3.Distance(playerPos, rockPos) < 5)
+                {
+                    chargeItem(rock);
+                    Destroy(rockPositions[lastRock]);
+                    lastRock++;
+                    searchingRock = false;
+                    hasRock = true;
+                }
+            }
+        }
+    }
 
-    private void OnTriggerStay(Collider c)
+    protected override void OnTriggerStay(Collider c)
     {
         if (c.gameObject.Equals(player))
         {
@@ -85,5 +162,10 @@ public class Jiro : Enemy
             }
         }
     }
-
+    
+    public void stopAgent()
+    {
+        agent.isStopped = true;
+        hasRock = false;
+    }
 }

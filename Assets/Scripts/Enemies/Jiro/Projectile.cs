@@ -1,24 +1,23 @@
+using System.Collections;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : EnemyBall
 {
-    private Rigidbody rb;
-    private int damage = 20;
     public GameObject jiro;
 
-    void Start()
+    protected override void Start()
     {
-        Destroy(gameObject, 5);
-        rb = GetComponent<Rigidbody>();
-        rb.AddForce(jiro.transform.forward * 35f, ForceMode.Impulse);
+        damage = 20;
+        impulse = 35f;
+        //Destroy(gameObject, 5);
+        rb.isKinematic = true;
+        StartCoroutine(shot(1.4f));  
     }
 
-    private void OnTriggerEnter(Collider c)
+    IEnumerator shot(float time)
     {
-        if (c.gameObject.CompareTag("Player"))
-        {
-            c.gameObject.GetComponent<Player>().doDamage(damage, 1);
-            Destroy(gameObject);
-        }
+        yield return new WaitForSeconds(time);
+        rb.isKinematic = false;
+        rb.AddForce(jiro.transform.forward * impulse, ForceMode.Impulse);
     }
 }

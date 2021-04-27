@@ -5,8 +5,8 @@ public abstract class Enemy : MonoBehaviour
 {
     protected int health;
 
-    protected uint searchRadius = 30;
-    protected uint attackRadius = 3;
+    protected int searchRadius = 30;
+    protected int attackRadius = 3;
 
     protected bool isAttacking;
     protected bool isDead;
@@ -21,7 +21,6 @@ public abstract class Enemy : MonoBehaviour
         if (GetComponent<NavMeshAgent>() != null) {
             agent = GetComponent<NavMeshAgent>();
         }
-        Debug.Log("perrrrrro");
     }
 
     protected virtual void doPlayerDamage(int dmg) {
@@ -41,7 +40,7 @@ public abstract class Enemy : MonoBehaviour
         Vector3 pos1 = transform.position;
         Vector3 pos2 = player.transform.position;
 
-        uint distance = (uint)Vector3.Distance(pos1, pos2);
+        int distance = (int)Vector3.Distance(pos1, pos2);
         if (distance <= searchRadius && distance > attackRadius)
         {
             agent.isStopped = false;
@@ -76,7 +75,6 @@ public abstract class Enemy : MonoBehaviour
             transform.localEulerAngles = originalRot;
         }
     }
-
 
     protected virtual void OnTriggerStay(Collider c)
     {

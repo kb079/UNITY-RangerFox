@@ -55,7 +55,8 @@ public class Fairy : Enemy
             //float y = Mathf.Sin(Time.realtimeSinceStartup * vSpeed) * amplitude;
             //float x = position.x += hSpeed;
         }
-        else if (distance > 6 && distance < 13)
+        //distance > 6 && 
+        else if (distance < 13)
         {
             agent.isStopped = true;
 
