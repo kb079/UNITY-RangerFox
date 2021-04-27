@@ -16,6 +16,8 @@ public class Fairy : Enemy
     void Start()
     {
         health = GameConstants.Fairy_HP;
+        attackRadius = 13;
+        searchRadius = 25;
         createNavAgent();
     }
 
@@ -26,7 +28,7 @@ public class Fairy : Enemy
 
     protected override void attack()
     {
-        transform.LookAt(player.transform.position);
+       // transform.LookAt(player.transform.position);
 
         GameObject attackObjClone = Instantiate(attackObj, attackObj.transform.position, attackObj.transform.rotation);
         attackObjClone.SetActive(true);
@@ -39,7 +41,7 @@ public class Fairy : Enemy
         yield return new WaitForSeconds(time);
         cooldown = false;
     }
-
+    /*
     protected override void searchPlayer()
     {
         Vector3 pos1 = transform.position;
@@ -70,9 +72,10 @@ public class Fairy : Enemy
             {
                 transform.position = Vector3.Lerp(Vector3.back, player.transform.forward, Time.deltaTime);
             }
-            */
         }
     }
+*/
+
 
     private void createNavAgent()
     {
