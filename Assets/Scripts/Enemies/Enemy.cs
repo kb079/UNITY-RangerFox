@@ -23,6 +23,14 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    protected virtual void Update()
+    {
+        if (!isDead)
+        {
+            searchPlayer();
+        }
+    }
+
     protected virtual void doPlayerDamage(int dmg) {
         player.GetComponent<Player>().doDamage(dmg, 1);
     }

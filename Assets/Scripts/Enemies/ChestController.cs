@@ -26,7 +26,7 @@ public class ChestController : Enemy
         transform.position = new Vector3(transform.position.x, -2, transform.position.z);
     }
 
-    void Update()
+    protected override void Update()
     {
         if (!isDead)
         {

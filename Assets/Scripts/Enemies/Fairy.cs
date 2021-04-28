@@ -21,11 +21,6 @@ public class Fairy : Enemy
         createNavAgent();
     }
 
-    void Update()
-    {
-        searchPlayer();
-    }
-
     protected override void attack()
     {
        // transform.LookAt(player.transform.position);

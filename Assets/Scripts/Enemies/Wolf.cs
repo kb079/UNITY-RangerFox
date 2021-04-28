@@ -12,14 +12,6 @@ public class Wolf : Enemy
         health = GameConstants.Wolf_HP;
     }
 
-    void Update()
-    {
-        if (!isDead)
-        {
-            searchPlayer();
-        }
-    }
-
     protected override void attack()
     {
         cooldown = true;
