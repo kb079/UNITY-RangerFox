@@ -14,6 +14,7 @@ public class GameConstants : MonoBehaviour
     public const KeyCode key_dash = KeyCode.R;
     public const KeyCode key_interact = KeyCode.E;
     public const KeyCode key_barrier = KeyCode.B;
+    public const KeyCode key_cameraZoom = KeyCode.K;
 
     //enemigos
     public const int Wolf_HP = 20;
@@ -28,4 +29,8 @@ public class GameConstants : MonoBehaviour
     public const int Doowell_Dmg = 20;
     public const int Chest_Dmg = 6;
     public const int Fairy_Dmg = 8;
+
+    //player
+    public const float camMovementSpeed = 1.6f;
+    public const float ballDamage = 8f;
 }

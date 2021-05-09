@@ -2,32 +2,26 @@ using UnityEngine;
 
 public class Bola : MonoBehaviour
 {
-    private Camera player;
+    private Camera playerCam;
     private Rigidbody rb;
-    [SerializeField] int damage = 8;
 
     void Start()
     {
         Destroy(gameObject, 5);
+
+        playerCam = GameObject.FindGameObjectWithTag("playerCam").GetComponent<Camera>();
         rb = GetComponent<Rigidbody>();
 
-        player = GameObject.FindGameObjectWithTag("playerCam").GetComponent<Camera>();
-        Vector3 originalPos = transform.position;
-        //originalPos.x = player.transform.position.x;
-       // originalPos.z = player.transform.position.z;
-        transform.localPosition = originalPos + player.transform.forward;
-        rb.AddForce((player.transform.forward + new Vector3(0, 0.25f, 0)) * 40f, ForceMode.Impulse);
-
-        // Vector3 originalPos = transform.eulerAngles;
-        //originalPos.y = playerVision;
-        //transform.eulerAngles = originalPos;
+        
+        //rb.AddForce(transform.forward + playerCam.transform.forward * 2000f, ForceMode.Acceleration);
+        rb.AddForce((playerCam.transform.forward + new Vector3(0, 0.35F, 0)) * 30F, ForceMode.Impulse);
     }
 
     private void OnTriggerEnter(Collider c)
     {
         if (c.gameObject.CompareTag("enemy"))
         {
-            c.gameObject.GetComponent<Enemy>().doDamage(damage);
+            c.gameObject.GetComponent<Enemy>().doDamage(GameConstants.ballDamage);
             Destroy(gameObject);
         }
     }
