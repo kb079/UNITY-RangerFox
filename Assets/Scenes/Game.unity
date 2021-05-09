@@ -6302,7 +6302,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704794954}
   m_LocalRotation: {x: -0, y: 0.42261827, z: -0, w: 0.9063079}
+<<<<<<< Updated upstream:Assets/Scenes/SampleScene.unity
   m_LocalPosition: {x: -484.6, y: 3.89, z: -484.85}
+=======
+  m_LocalPosition: {x: -482.7, y: 3.89, z: -483.52}
+>>>>>>> Stashed changes:Assets/Scenes/Game.unity
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 823679620}
@@ -10223,7 +10227,11 @@ PrefabInstance:
     - target: {fileID: 4389765062511141931, guid: 44d061411b0e1904182a505d7ee3857b,
         type: 3}
       propertyPath: m_RootOrder
+<<<<<<< Updated upstream:Assets/Scenes/SampleScene.unity
       value: 2
+=======
+      value: 3
+>>>>>>> Stashed changes:Assets/Scenes/Game.unity
       objectReference: {fileID: 0}
     - target: {fileID: 4389765062511141931, guid: 44d061411b0e1904182a505d7ee3857b,
         type: 3}
@@ -11928,7 +11936,7 @@ LightingSettings:
   m_PrefabAsset: {fileID: 0}
   m_Name: Settings.lighting
   serializedVersion: 3
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 0
   m_RealtimeEnvironmentLighting: 1
@@ -12779,7 +12787,11 @@ PrefabInstance:
     - target: {fileID: 4389765062511141931, guid: 44d061411b0e1904182a505d7ee3857b,
         type: 3}
       propertyPath: m_RootOrder
+<<<<<<< Updated upstream:Assets/Scenes/SampleScene.unity
       value: 1
+=======
+      value: 2
+>>>>>>> Stashed changes:Assets/Scenes/Game.unity
       objectReference: {fileID: 0}
     - target: {fileID: 4389765062511141931, guid: 44d061411b0e1904182a505d7ee3857b,
         type: 3}
