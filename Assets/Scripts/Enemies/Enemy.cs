@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    protected int health;
+    protected float health;
 
     protected int searchRadius = 30;
     protected int attackRadius = 3;
@@ -35,7 +35,7 @@ public abstract class Enemy : MonoBehaviour
         player.GetComponent<Player>().doDamage(dmg, 1);
     }
 
-    public virtual void doDamage(int dmg) {
+    public virtual void doDamage(float dmg) {
         Debug.Log("doDamage");
         health -= dmg;
         Debug.Log("esta es la vida que tiene ahora" + health);
