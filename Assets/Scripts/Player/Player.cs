@@ -1,10 +1,8 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-
     private int health;
     private float stamina, mana;
 
@@ -16,7 +14,6 @@ public class Player : MonoBehaviour
     public GameObject barrier;
     public GameObject bossBarrier;
 
-    private float camMovementSpeed = 1.6f;
     private const float defaultSpeed = 7.5f;
     private float movSpeed;
     private bool canAttack;
@@ -31,8 +28,9 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        //con esto activado no se puede interactuar con el hud
-        //Cursor.lockState = CursorLockMode.Locked;
+        //El cursor no se sale de la pantalla
+        Cursor.lockState = CursorLockMode.Confined;
+
         inventory = GameObject.FindGameObjectWithTag("Inventory");
         rb = GetComponent<Rigidbody>();
         canAttack = false;
@@ -56,17 +54,13 @@ public class Player : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
 
-        float mouseX = Input.GetAxis("Mouse X") * camMovementSpeed;
-        float mouseY = Input.GetAxis("Mouse Y") * camMovementSpeed;
+        float mouseX = Input.GetAxis("Mouse X") * GameConstants.camMovementSpeed;
 
-        if (Input.GetKey(GameConstants.key_run) && useStamina(0.2f))
-        {
-            movSpeed += 10f;
-        }
+        if (Input.GetKey(GameConstants.key_run) && useStamina(0.2f)) movSpeed += 10f;
 
         Vector3 move = transform.right * x * movSpeed + transform.forward * y * movSpeed;
         Vector3 rotateValue = new Vector3(0, mouseX * -1, 0);
-        playerCamera.transform.Rotate(-mouseY, 0, 0);
+
         transform.eulerAngles = transform.eulerAngles - rotateValue;
 
         if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
@@ -79,10 +73,6 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
-
-        //transform.Rotate(new Vector3(0, y * camMovementSpeed * Time.deltaTime));
-        //mouseY = Mathf.Clamp(mouseY, -120, 120);
-
 
         if (canAttack && !cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8)) attack1();
         if (canAttack && !cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
@@ -100,10 +90,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (stamina < 100)
-        {
-            stamina += 0.15f;
-        }
+        if (stamina < 100) stamina += 0.15f;
     }
 
     private void LateUpdate()
