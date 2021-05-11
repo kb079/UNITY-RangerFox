@@ -26,15 +26,6 @@ public class Jiro : Enemy
         searchRadius = 70;
         health = GameConstants.Wolf_HP;
     }
-
-    void Update()
-    {
-        if (!isDead)
-        {
-            searchPlayer();
-        }
-    }
-
     IEnumerator startHandAttack(float time)
     {
         yield return new WaitForSeconds(time);

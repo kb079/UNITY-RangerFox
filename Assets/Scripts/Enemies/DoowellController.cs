@@ -8,28 +8,16 @@ public class DoowellController : Enemy
     public int actionRadio = 30, attackRadio = 3;
     public float velocity = 1f;
 
-    private Vector3 pos1, pos2;
-
     void Start()
     {
         health = GameConstants.Doowell_HP;
         bala.SetActive(false);
     }
 
-    void Update()
-    {
-        if (!isDead)
-        {
-            pos1 = transform.position;
-            pos2 = player.transform.position;
-            searchPlayer();
-        }
-    }
-
     protected override void attack()
     {
-        transform.LookAt(pos2);
-        bala.transform.LookAt(pos2);
+        transform.LookAt(player.transform.position);
+        bala.transform.LookAt(player.transform.position);
         cooldown = true;
         isAttacking = true;
         cabeza.SetActive(false);
@@ -47,6 +35,9 @@ public class DoowellController : Enemy
 
     protected override void searchPlayer()
     {
+        Vector3 pos1 = transform.position;
+        Vector3 pos2 = player.transform.position;
+
         int distance = (int)Vector3.Distance(pos1, pos2);
         if(distance <= actionRadio)
         {

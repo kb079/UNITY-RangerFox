@@ -25,7 +25,7 @@ public class SetaController : Enemy
         transform.position = new Vector3(transform.position.x, -10, transform.position.z);
     }
 
-    void Update()
+    protected override void Update()
     {
         if (!isDead)
         {

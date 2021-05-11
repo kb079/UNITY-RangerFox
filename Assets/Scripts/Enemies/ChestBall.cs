@@ -5,9 +5,9 @@ public class ChestBall : EnemyBall
     protected override void Start()
     {
         damage = GameConstants.Chest_Dmg;
-        impulse = 430f;
+        impulse = 600f;
         ticks = 5;
         Destroy(gameObject, 3);
-        base.Start();
+        rb.AddForce(transform.forward * impulse, ForceMode.Force);
     }
 }

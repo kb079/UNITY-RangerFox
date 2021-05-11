@@ -12,14 +12,6 @@ public class Wolf : Enemy
         health = GameConstants.Wolf_HP;
     }
 
-    void Update()
-    {
-        if (!isDead)
-        {
-            searchPlayer();
-        }
-    }
-
     protected override void attack()
     {
         cooldown = true;
@@ -46,8 +38,10 @@ public class Wolf : Enemy
         cooldown = false;
     }
 
-    new private void OnTriggerStay(Collider c)
+    protected override void OnTriggerStay(Collider c)
     {
+        base.OnTriggerStay(c);
+
         if (c.gameObject.Equals(player))
         {
             Vector3 ray_start = enemyHand.transform.position + new Vector3(0f, .5f, 0f);
