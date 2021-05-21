@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Madriguera.unity
+    guid: 1746d2bd305ed454a98e5cadeb2157b5
   m_configObjects: {}

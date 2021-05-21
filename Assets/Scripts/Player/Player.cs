@@ -1,14 +1,15 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     private int health;
     private float stamina, mana;
 
-    private Rigidbody rb;
+    protected Rigidbody rb;
 
-    public Camera playerCamera, initialCamera;
+    public Camera playerCamera;
     public GameObject bola;
     public GameObject hand;
     public GameObject barrier;
@@ -16,13 +17,12 @@ public class Player : MonoBehaviour
 
     private const float defaultSpeed = 7.5f;
     private float movSpeed;
-    private bool canAttack;
     public bool isAttacking;
     public bool isBarrierActive = false;
     private string hudText;
     private float poisonTime = 1.2f;
-    private GameObject inventory;
-    private bool isInventoryEnabled = true;
+    protected GameObject inventory;
+    protected bool isInventoryEnabled = true;
 
     private bool cooldownA1, cooldownA2, cooldownDash;
 
@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
 
         inventory = GameObject.FindGameObjectWithTag("Inventory");
         rb = GetComponent<Rigidbody>();
-        canAttack = false;
         isAttacking = false;
         health = 100;
         stamina = 100;
@@ -43,13 +42,17 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //activar/desactivar inventario
-        if (Input.GetKeyDown(GameConstants.key_inventory))
-        {
-            isInventoryEnabled = !isInventoryEnabled;
-            inventory.SetActive(isInventoryEnabled);
-        }
 
+        playerMoves();
+        activateActions();
+
+        if (!cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8)) attack1();
+        if (!cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
+        
+    }
+
+    protected void playerMoves()
+    {
         movSpeed = defaultSpeed;
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
@@ -73,9 +76,16 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
+    }
 
-        if (canAttack && !cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8)) attack1();
-        if (canAttack && !cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
+    protected void activateActions()
+    {
+        //activar/desactivar inventario
+        if (Input.GetKeyDown(GameConstants.key_inventory))
+        {
+            isInventoryEnabled = !isInventoryEnabled;
+            inventory.SetActive(isInventoryEnabled);
+        }
         if (Input.GetKeyDown(GameConstants.key_barrier) && useMana(0.05f))
         {
             barrier.SetActive(true);
@@ -88,7 +98,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         if (stamina < 100) stamina += 0.15f;
     }
@@ -122,7 +132,7 @@ public class Player : MonoBehaviour
         cooldownA1 = false;
     }
 
-    IEnumerator finishDash(float time)
+    protected IEnumerator finishDash(float time)
     {
         yield return new WaitForSeconds(time);
         cooldownDash = false;
@@ -174,13 +184,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay(Collider c)
     {
-        if (c.gameObject.CompareTag("madriguera"))
-        {
-            canAttack = false;
-            initialCamera.gameObject.SetActive(true);
-            playerCamera.gameObject.SetActive(false);
-        }
-
         //TODO: no esta bien ponerlo aqui
         if (c.gameObject.CompareTag("bossFloor"))
         {
@@ -190,6 +193,10 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider c)
     {
+        if (c.gameObject.CompareTag("madriguera"))
+        {
+            SceneManager.LoadSceneAsync(2);
+        }
         if (c.gameObject.CompareTag("bossFloor"))
         {
             bossBarrier.SetActive(true);
@@ -202,14 +209,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnTriggerExit(Collider c)
-    {
-        if (c.gameObject.CompareTag("madriguera"))
-        {
-            canAttack = true;
-            initialCamera.gameObject.SetActive(false);
-            playerCamera.gameObject.SetActive(true);
-        }
-        
+    { 
         if (c.gameObject.CompareTag("bossFloor"))
         {
             rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
@@ -255,7 +255,7 @@ public class Player : MonoBehaviour
         hudText = text;
     }
 
-    private bool useStamina(float needed)
+    protected bool useStamina(float needed)
     {
 
         if (stamina >= needed)
