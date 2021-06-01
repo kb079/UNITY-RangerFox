@@ -10,6 +10,7 @@ public class SetaController : Enemy
     public bool hasLimits;
     private bool isActive = false, isHiding = true, flag_attack = false, flag_prepare_unhide = false, flag_unhide = false, flag_hide = false;
     private float nZ, pZ, nX, pX, rad = 8f, playerRad = 2f;
+    public GameObject[] animations;
 
     private void Start()
     {
@@ -38,6 +39,18 @@ public class SetaController : Enemy
         else StopAllCoroutines();
     }
 
+    private void changeAnimation(int id)
+    {
+        animations[0].SetActive(false);
+        animations[1].SetActive(false);
+        animations[2].SetActive(false);
+        animations[3].SetActive(false);
+        animations[4].SetActive(false);
+        animations[5].SetActive(false);
+
+        animations[id].SetActive(true);
+    }
+
     private void checkIfActive()
     {
         Vector3 pos1 = new Vector3(transform.position.x, 0, transform.position.z);
@@ -48,7 +61,8 @@ public class SetaController : Enemy
         if (distance <= maxDis && !isActive)
         {
             //el enemigo aparece en la última posición en la que quedó
-            transform.position = new Vector3(transform.position.x, -3, transform.position.z);
+            changeAnimation(4);
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
             StartCoroutine(waitTo(2, 0.8f));
             isActive = true;
         }
@@ -73,6 +87,7 @@ public class SetaController : Enemy
         if (!isHiding) transform.LookAt(new Vector3(player.transform.position.x, 0, player.transform.position.z));
         if (flag_prepare_unhide)
         {
+            changeAnimation(4);
             flag_prepare_unhide = false;
             prepareUnhiding();
             //el tiempo está fijo porque la animación de salir de la tierra siempre es igual
@@ -80,6 +95,7 @@ public class SetaController : Enemy
         }
         else if (flag_unhide)
         {
+            changeAnimation(5);
             flag_unhide = false;
             unhide();
             float time = Random.Range(2f, 4f);
@@ -87,15 +103,16 @@ public class SetaController : Enemy
         }
         else if (flag_attack)
         {
+            changeAnimation(3);
             flag_attack = false;
-            attack();
-            float time = Random.Range(1.5f, 2.5f);
-            StartCoroutine(waitTo(1, time));
+            //float time = Random.Range(1.5f, 2.5f);
+            StartCoroutine(waitTo(5, 1f));
         }
         else if (flag_hide)
         {
+            changeAnimation(2);
             flag_hide = false;
-            hide();
+            hide_1();
             float time = Random.Range(2.5f, 3.5f);
             StartCoroutine(waitTo(3, time));
         }
@@ -105,7 +122,7 @@ public class SetaController : Enemy
     IEnumerator waitTo(int caseId, float time)
     {
         yield return new WaitForSeconds(time);
-        //0: attack, 1: hide, 2: unhide, 3: prepare unhiding
+        //0: attack, 1: hide, 2: unhide, 3: prepare unhiding, 4: hide 1 to 2, 5: prepare attack animation, 6: change to idle
         switch (caseId)
         {
             case 0:
@@ -120,6 +137,18 @@ public class SetaController : Enemy
             case 3:
                 flag_prepare_unhide = true;
                 break;
+            case 4:
+                hide_2();
+                break;
+            case 5:
+                attack();
+                StartCoroutine(waitTo(1, Random.Range(2.5f, 3.5f)));
+                break;
+            case 6:
+                changeAnimation(0);
+                break;
+            default:
+                break;
         }
     }
 
@@ -127,9 +156,15 @@ public class SetaController : Enemy
     {
         GameObject attackClone = Instantiate(objAtk, objAtk.transform.position, transform.rotation);
         attackClone.SetActive(true);
+        StartCoroutine(waitTo(6, 0.8f));
     }
 
-    private void hide()
+    private void hide_1()
+    {
+        StartCoroutine(waitTo(4, 0.8f));
+    }
+
+    private void hide_2()
     {
         transform.position = new Vector3(transform.position.x, -10, transform.position.z);
         isHiding = true;
@@ -139,6 +174,7 @@ public class SetaController : Enemy
     {
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         isHiding = false;
+        StartCoroutine(waitTo(6, 0.7f));
     }
 
     private void prepareUnhiding()
@@ -164,14 +200,18 @@ public class SetaController : Enemy
             else if (newZ < nZ) newZ = nZ;
         }
 
-        transform.position = new Vector3(newX, -3, newZ);
+        transform.position = new Vector3(newX, 0, newZ);
     }
 
 
     protected override void checkHP()
     {
-        base.checkHP();
-        Destroy(gameObject, 3);
+        if (health <= 0 && !isDead)
+        {
+            isDead = true;
+            changeAnimation(1);
+            Destroy(gameObject, 3);
+        }
     }
 }
 
@@ -197,3 +237,13 @@ public class EffectsInspector : Editor
         }
     }
 }
+
+/*enum animationEnum
+{
+    IDLE = 0,
+    DEAD = 1,
+    HIDE = 2,
+    ATTACK = 3,
+    UNHIDE_1 = 4,
+    UNHIDE_2 = 5
+}*/
