@@ -15,7 +15,7 @@ public class PlayerMadriguera : Player
     {
         if (c.gameObject.CompareTag("madriguera"))
         {
-            SceneManager.LoadSceneAsync(1);
+            SceneManager.LoadSceneAsync(3);
         }
     }
 

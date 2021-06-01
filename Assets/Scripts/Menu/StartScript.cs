@@ -5,6 +5,6 @@ public class StartScript : MonoBehaviour
 {
     public void playStart()
     {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadSceneAsync(2);
     }
 }

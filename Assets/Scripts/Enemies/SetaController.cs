@@ -219,7 +219,7 @@ public class SetaController : Enemy
 //--------------------------------------------------------------
 //para activar/desactivar los transform en el inspector de unity
 //--------------------------------------------------------------
-[CustomEditor(typeof(SetaController))]
+/*[CustomEditor(typeof(SetaController))]
 public class EffectsInspector : Editor
 {
     public override void OnInspectorGUI()
@@ -236,7 +236,7 @@ public class EffectsInspector : Editor
             EditorGUILayout.ObjectField("+X Limit", seta.posX, typeof(Transform), true);
         }
     }
-}
+}*/
 
 /*enum animationEnum
 {
