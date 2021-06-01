@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 699ead7a6a8df4e42b6a90f81c12d1aa
+guid: 46136f86c48b56d47952aa5e202b63fd
 ModelImporter:
   serializedVersion: 21100
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: yuki_death
+    second: yuki_idle
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -41,18 +41,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: yuki_death
+      name: yuki_idle
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 96
+      lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

@@ -8,13 +8,14 @@ public class Player : MonoBehaviour
     private float stamina, mana;
 
     protected Rigidbody rb;
+    private Animator anim;
 
     public Camera playerCamera;
     public GameObject bola;
     public GameObject hand;
     public GameObject barrier;
     public GameObject bossBarrier;
-
+   
     private const float defaultSpeed = 7.5f;
     private float movSpeed;
     public bool isAttacking;
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     protected GameObject inventory;
     protected bool isInventoryEnabled = true;
 
-    private bool cooldownA1, cooldownA2, cooldownDash;
+    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier;
 
     private void Start()
     {
@@ -33,7 +34,9 @@ public class Player : MonoBehaviour
 
         inventory = GameObject.FindGameObjectWithTag("Inventory");
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
         isAttacking = false;
+        canUseBarrier = true;
         health = 100;
         stamina = 100;
         mana = 100;
@@ -46,7 +49,7 @@ public class Player : MonoBehaviour
         playerMoves();
         activateActions();
 
-        if (!cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8)) attack1();
+        if (!cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8)) StartCoroutine(attack1(1.2f));
         if (!cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
         
     }
@@ -59,23 +62,65 @@ public class Player : MonoBehaviour
 
         float mouseX = Input.GetAxis("Mouse X") * GameConstants.camMovementSpeed;
 
-        if (Input.GetKey(GameConstants.key_run) && useStamina(0.2f)) movSpeed += 10f;
-
         Vector3 move = transform.right * x * movSpeed + transform.forward * y * movSpeed;
         Vector3 rotateValue = new Vector3(0, mouseX * -1, 0);
 
         transform.eulerAngles = transform.eulerAngles - rotateValue;
 
-        if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
+        if ((x != 0 || y != 0) && (!isAttacking && !runningAnim))
         {
-            rb.AddForce(transform.forward + playerCamera.transform.forward * 30000f);
-            cooldownDash = true;
-            StartCoroutine(finishDash(2f));
+            if (Input.GetKey(GameConstants.key_run) && useStamina(0.2f))
+            {
+                movSpeed += 25f;
+                toggleRunAnim(true);
+            }
+            else
+            {
+                toggleWalkAnim(true);
+            }
+
+            if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
+            {
+                rb.AddForce(transform.forward + playerCamera.transform.forward * 30000f);
+                cooldownDash = true;
+                StartCoroutine(finishDash(2f));
+            }
+            else
+            {
+                rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+            }
         }
         else
         {
-            rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+            toggleWalkAnim(false);
         }
+    }
+
+    private void toggleWalkAnim(bool state)
+    {
+        if (anim.GetBool("run"))
+        {
+            toggleRunAnim(false);
+        }
+        anim.SetBool("walk", state);
+    }
+
+    private void toggleRunAnim(bool state)
+    {
+        anim.SetBool("run", state);
+    }
+
+    private void runAnimation(string name, float time)
+    {
+        runningAnim = true;
+        anim.SetTrigger(name);
+        StartCoroutine(finishAnimation(time));
+    }
+
+    IEnumerator finishAnimation(float time)
+    {
+        yield return new WaitForSeconds(time);
+        runningAnim = false;
     }
 
     protected void activateActions()
@@ -86,16 +131,33 @@ public class Player : MonoBehaviour
             isInventoryEnabled = !isInventoryEnabled;
             inventory.SetActive(isInventoryEnabled);
         }
-        if (Input.GetKeyDown(GameConstants.key_barrier) && useMana(0.05f))
+        if (Input.GetKeyDown(GameConstants.key_barrier) && !isBarrierActive && canUseBarrier && useMana(0.05f))
         {
-            barrier.SetActive(true);
             isBarrierActive = true;
+            StartCoroutine(delayActiveBarrier());
+            runAnimation("barrier", 2.4f);
+            canUseBarrier = false;
+            StartCoroutine(delayBarrierKey());
         }
-        if (Input.GetKeyUp(GameConstants.key_barrier))
+        if (Input.GetKeyUp(GameConstants.key_barrier) && isBarrierActive && canUseBarrier)
         {
             barrier.SetActive(false);
             isBarrierActive = false;
+            canUseBarrier = false;
+            StartCoroutine(delayBarrierKey());
         }
+    }
+    IEnumerator delayActiveBarrier()
+    {
+        yield return new WaitForSeconds(1f);
+        barrier.SetActive(true);
+    }
+
+
+    IEnumerator delayBarrierKey()
+    {
+        yield return new WaitForSeconds(1.2f);
+        canUseBarrier = true;
     }
 
     protected void FixedUpdate()
@@ -116,20 +178,24 @@ public class Player : MonoBehaviour
     }
 
     //ataque mágico
-    private void attack1()
+    IEnumerator attack1(float time)
     {
+        yield return new WaitForSeconds(time);
         GameObject bolaClone = Instantiate(bola);
         bolaClone.SetActive(true);
         bolaClone.transform.position = bola.transform.position;
         cooldownA1 = true;
+        isAttacking = true;
+        anim.SetTrigger("magic");
 
-        StartCoroutine(finishAttack1(0.6f));
+        StartCoroutine(finishAttack1(2.6f));
     }
 
     IEnumerator finishAttack1(float time)
     {
         yield return new WaitForSeconds(time);
         cooldownA1 = false;
+        isAttacking = false;
     }
 
     protected IEnumerator finishDash(float time)
@@ -158,28 +224,17 @@ public class Player : MonoBehaviour
     private void attack2()
     {
         cooldownA2 = true;
-        Vector3 originalPos = hand.transform.eulerAngles;
-        originalPos.x = -50;
-        hand.transform.eulerAngles = originalPos;
+        anim.SetTrigger("hit");
         isAttacking = true;
 
-        StartCoroutine(finishAttack2(0.3f));
-        StartCoroutine(finishAttack2Cooldown(0.6f));
-    }
-
-    IEnumerator finishAttack2(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        Vector3 originalPos = hand.transform.eulerAngles;
-        originalPos.x = 0;
-        hand.transform.eulerAngles = originalPos;
+        StartCoroutine(finishAttack2Cooldown(2.64f));
     }
 
     IEnumerator finishAttack2Cooldown(float time)
     {
         yield return new WaitForSeconds(time);
         cooldownA2 = false;
+        isAttacking = false;
     }
 
     private void OnTriggerStay(Collider c)
