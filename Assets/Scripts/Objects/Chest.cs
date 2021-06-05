@@ -7,11 +7,11 @@ public class Chest : MonoBehaviour
 {
     private bool isOpened;
     public GameObject chestDoor;
-    private Inventory inventory;
+    private InventoryObject inventory;
     
     void Start()
     {
-        inventory  = GameObject.FindGameObjectWithTag("UIManager").GetComponent<Inventory>();
+        inventory  = GameObject.FindGameObjectWithTag("UIManager").GetComponent<InventoryObject>();
         isOpened = false;
     }
 
@@ -23,7 +23,7 @@ public class Chest : MonoBehaviour
             originalPos.x = -50;
             chestDoor.transform.eulerAngles = originalPos;
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().setHudText("");
-            inventory.addToInventory(GameConstants.it_healing_2);
+            inventory.addItem(inventory.container[1].item, 1);
             isOpened = true;
         }
     }
