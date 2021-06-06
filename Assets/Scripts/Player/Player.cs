@@ -15,7 +15,8 @@ public class Player : MonoBehaviour
     public GameObject hand;
     public GameObject barrier;
     public GameObject bossBarrier;
-   
+    public GameObject crossHair;
+
     private const float defaultSpeed = 7.5f;
     private float movSpeed;
     public bool isAttacking;
@@ -25,7 +26,7 @@ public class Player : MonoBehaviour
     protected GameObject inventory;
     protected bool isInventoryEnabled = true;
 
-    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier;
+    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier, isDead;
 
     private void Start()
     {
@@ -45,12 +46,29 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (!isDead)
+        {
+            playerMoves();
+            activateActions();
 
-        playerMoves();
-        activateActions();
-
-        if (!cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8)) StartCoroutine(attack1(1.2f));
-        if (!cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
+            if (!cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8))
+            {
+                cooldownA1 = true;
+                float time = 0.84f;
+                if (!crossHair.activeInHierarchy)
+                {
+                    anim.SetTrigger("magic");
+                }
+                else
+                {
+                    anim.SetBool("magicCH", true);
+                    time = 0.55f;
+                }
+     
+                StartCoroutine(attack1(time));
+            }
+            if (!cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
+        }
         
     }
 
@@ -69,6 +87,7 @@ public class Player : MonoBehaviour
 
         if ((x != 0 || y != 0) && (!isAttacking && !runningAnim))
         {
+
             if (Input.GetKey(GameConstants.key_run) && useStamina(0.2f))
             {
                 movSpeed += 25f;
@@ -76,8 +95,13 @@ public class Player : MonoBehaviour
             }
             else
             {
-                toggleWalkAnim(true);
+                toggleRunAnim(false);
+                //toggleWalkAnim(true);
             }
+
+            toggleWalkAnim(true);
+            anim.SetFloat("playerX", x);
+            anim.SetFloat("playerZ", y);
 
             if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
             {
@@ -85,24 +109,19 @@ public class Player : MonoBehaviour
                 cooldownDash = true;
                 StartCoroutine(finishDash(2f));
             }
-            else
-            {
-                rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
-            }
+
+             rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
         else
         {
             toggleWalkAnim(false);
+            anim.SetFloat("mouseX", mouseX * 5.6f);
         }
     }
 
     private void toggleWalkAnim(bool state)
     {
-        if (anim.GetBool("run"))
-        {
-            toggleRunAnim(false);
-        }
-        anim.SetBool("walk", state);
+        if(anim.GetBool("walk") != state) anim.SetBool("walk", state);
     }
 
     private void toggleRunAnim(bool state)
@@ -149,10 +168,9 @@ public class Player : MonoBehaviour
     }
     IEnumerator delayActiveBarrier()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         barrier.SetActive(true);
     }
-
 
     IEnumerator delayBarrierKey()
     {
@@ -184,11 +202,11 @@ public class Player : MonoBehaviour
         GameObject bolaClone = Instantiate(bola);
         bolaClone.SetActive(true);
         bolaClone.transform.position = bola.transform.position;
-        cooldownA1 = true;
         isAttacking = true;
-        anim.SetTrigger("magic");
 
-        StartCoroutine(finishAttack1(2.6f));
+        if(crossHair.activeInHierarchy) anim.SetBool("magicCH", false);
+
+        StartCoroutine(finishAttack1(0.15f));
     }
 
     IEnumerator finishAttack1(float time)
@@ -227,7 +245,7 @@ public class Player : MonoBehaviour
         anim.SetTrigger("hit");
         isAttacking = true;
 
-        StartCoroutine(finishAttack2Cooldown(2.64f));
+        StartCoroutine(finishAttack2Cooldown(1.6f));
     }
 
     IEnumerator finishAttack2Cooldown(float time)
@@ -258,9 +276,32 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision c)
+    {
+        //TODO - KB
+        //CHECKEO SI EL JUGADOR SE COLISIONA CON ALGUN OBJETO
+        //SE EJECUTA ANIMACION DE "SE HA COLISIONADO CON ALGO" Y LO ECHA PARA ATRAS
+        
+        if (!runningAnim && c.gameObject.CompareTag("tree"))
+        {
+            runAnimation("blockWalk", 0.6f);
+            rb.AddForce((-transform.forward * 2000f) * Time.deltaTime, ForceMode.Impulse);
+        }
+        
+    }
+
     public void doSingleDamage(int dmg)
     {
         health -= dmg;
+        if (health <= 0) playerDead();
+    }
+
+    private void playerDead()
+    {
+        isDead = true;
+        anim.SetTrigger("death");
+        //TODO: DELAY 3S -- > MOSTRAR PANTALLA MUERTE
+
     }
 
     private void OnTriggerExit(Collider c)
@@ -312,7 +353,6 @@ public class Player : MonoBehaviour
 
     protected bool useStamina(float needed)
     {
-
         if (stamina >= needed)
         {
             float newStamina = stamina - needed;
@@ -331,7 +371,6 @@ public class Player : MonoBehaviour
 
     public bool useMana(float needed)
     {
-
         if (mana >= needed)
         {
             float newStamina = mana - needed;

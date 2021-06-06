@@ -12,7 +12,13 @@ public class CameraManager : MonoBehaviour
     public Camera camera1;
     public Camera camera2;
     public GameObject crosshair;
+    private GameObject player;
     private bool blocked;
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     void Update()
     {
@@ -41,10 +47,12 @@ public class CameraManager : MonoBehaviour
         if (!crosshair.activeInHierarchy)
         {
             ShowOverheadView();
+            player.GetComponent<Animator>().SetBool("crosshair", true);
         }
         else
         {
             ShowFirstPersonView();
+            player.GetComponent<Animator>().SetBool("crosshair", false);
         }
         yield return new WaitForSeconds(0.5f);
         blocked = false;
