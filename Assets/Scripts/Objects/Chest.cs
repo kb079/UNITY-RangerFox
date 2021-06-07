@@ -6,11 +6,9 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     private bool isOpened;
-    public GameObject chestDoor;
     private InventoryObject inventory;
     private Animator animator;
 
-    
     void Start()
     {
         inventory  = GameObject.FindGameObjectWithTag("UIManager").GetComponent<InventoryObject>();
@@ -22,10 +20,8 @@ public class Chest : MonoBehaviour
     {
         if (!isOpened)
         {
-            //Vector3 originalPos = chestDoor.transform.eulerAngles;
-            //originalPos.x = -50;
-           // chestDoor.transform.eulerAngles = originalPos;
-            animator.SetBool("boton",true);
+           
+            animator.SetBool("boton", true);
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().setHudText("");
             inventory.addItem(inventory.container[1].item, 1);
             isOpened = true;
@@ -46,9 +42,8 @@ public class Chest : MonoBehaviour
         if (c.gameObject.CompareTag("Player") && !isOpened)
         {
             c.GetComponent<Player>().setHudText("Press [" + GameConstants.key_interact.ToString() + "] to open chest");
-        } 
+        }
     }
-
     private void OnTriggerExit(Collider c)
     {
         Player p = c.GetComponent<Player>();
