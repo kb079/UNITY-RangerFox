@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2502451616900905108}
   m_Layer: 0
   m_Name: arbol-rosa
-  m_TagString: Untagged
+  m_TagString: tree
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

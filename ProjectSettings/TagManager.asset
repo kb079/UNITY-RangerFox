@@ -19,6 +19,12 @@ TagManager:
   - Inventory
   - chestEnemy
   - Barrier
+  - bossRock
+  - bossBarrier
+  - crosshair
+  - bossFloor
+  - tree
+  - yuki_hand
   layers:
   - Default
   - TransparentFX
