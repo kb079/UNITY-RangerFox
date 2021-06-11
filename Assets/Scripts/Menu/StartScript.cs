@@ -7,4 +7,9 @@ public class StartScript : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(2);
     }
+
+    public void exitGame()
+    {
+        Application.Quit();
+    }
 }
