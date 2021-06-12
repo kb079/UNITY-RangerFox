@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Teleport : MonoBehaviour
 {
 
-    public Transform teleportTarget;
-    public GameObject thePlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +25,7 @@ public class Teleport : MonoBehaviour
             if (Input.GetKey(GameConstants.key_interact))
             {
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().setHudText("");
-                thePlayer.transform.position = teleportTarget.transform.position;
+                SceneManager.LoadScene("Madriguera");
             }
         }
     }
