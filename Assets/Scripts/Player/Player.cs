@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private float poisonTime = 1.2f;
     protected GameObject inventory;
     protected bool isInventoryEnabled = true;
+    public GameObject nuevaPosicion;
 
     private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier, isDead;
 
@@ -39,9 +40,10 @@ public class Player : MonoBehaviour
         isAttacking = false;
         canUseBarrier = true;
         health = 100;
-        stamina = 100;
+        stamina = 200;
         mana = 100;
         hudText = "";
+
     }
 
     void Update()
@@ -88,7 +90,7 @@ public class Player : MonoBehaviour
         if ((x != 0 || y != 0) && (!isAttacking && !runningAnim))
         {
 
-            if (Input.GetKey(GameConstants.key_run) && useStamina(0.2f))
+            if (Input.GetKey(GameConstants.key_run) && useStamina(0))
             {
                 movSpeed += 25f;
                 toggleRunAnim(true);
@@ -272,8 +274,11 @@ public class Player : MonoBehaviour
         }
         if (c.gameObject.CompareTag("bossFloor"))
         {
-            bossBarrier.SetActive(true);
+            //bossBarrier.SetActive(true);
+            Debug.Log("funciona");
+            SceneManager.LoadSceneAsync(4);
         }
+        Debug.Log("esta colisionando");
     }
 
     private void OnCollisionEnter(Collision c)

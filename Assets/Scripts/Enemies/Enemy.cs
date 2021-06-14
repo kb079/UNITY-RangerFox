@@ -86,7 +86,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void OnTriggerStay(Collider c)
     {
-        if (c.gameObject.CompareTag("playerHand"))
+        if (c.gameObject.CompareTag("yuki_hand"))
         {
             if (c.gameObject.GetComponentInParent<Player>().isAttacking)
             {
