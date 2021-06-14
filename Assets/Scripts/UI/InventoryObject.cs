@@ -50,23 +50,23 @@ public class InventoryObject : MonoBehaviour
         //**********
 
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(GameConstants.key_inv1))
         {
             useItem(0);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(GameConstants.key_inv2))
         {
             useItem(1);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(GameConstants.key_inv3))
         {
             useItem(2);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        else if (Input.GetKeyDown(GameConstants.key_inv4))
         {
             useItem(3);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        else if (Input.GetKeyDown(GameConstants.key_inv5))
         {
             useItem(4);
         }

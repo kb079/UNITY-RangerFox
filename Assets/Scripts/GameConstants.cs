@@ -9,12 +9,20 @@ public class GameConstants : MonoBehaviour
     public const string it_healing_2 = "healing2";
 
     //teclas
-    public const KeyCode key_inventory = KeyCode.I;
-    public const KeyCode key_run = KeyCode.Space;
-    public const KeyCode key_dash = KeyCode.R;
-    public const KeyCode key_interact = KeyCode.E;
-    public const KeyCode key_barrier = KeyCode.B;
-    public const KeyCode key_cameraZoom = KeyCode.K;
+    public static KeyCode key_attack = KeyCode.Mouse0;
+    public static KeyCode key_magic = KeyCode.Mouse1;
+    public static KeyCode key_inventory = KeyCode.I;
+    public static KeyCode key_run = KeyCode.Space;
+    public static KeyCode key_dash = KeyCode.R;
+    public static KeyCode key_interact = KeyCode.E;
+    public static KeyCode key_barrier = KeyCode.B;
+    public static KeyCode key_cameraZoom = KeyCode.K;
+
+    public static KeyCode key_inv1 = KeyCode.Alpha1;
+    public static KeyCode key_inv2 = KeyCode.Alpha2;
+    public static KeyCode key_inv3 = KeyCode.Alpha3;
+    public static KeyCode key_inv4 = KeyCode.Alpha4;
+    public static KeyCode key_inv5 = KeyCode.Alpha5;
 
     //enemigos
     public const int Wolf_HP = 20;
@@ -31,6 +39,11 @@ public class GameConstants : MonoBehaviour
     public const int Fairy_Dmg = 8;
 
     //player
-    public const float camMovementSpeed = 1.6f;
+    public static float camMovementSpeed = 1.6f;
     public const float ballDamage = 8f;
+
+    //misc
+    public static int volume = 100;
 }
+
+
