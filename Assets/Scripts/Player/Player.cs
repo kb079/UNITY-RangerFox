@@ -286,13 +286,13 @@ public class Player : MonoBehaviour
     {
         if (c.gameObject.CompareTag("madriguera"))
         {
-            SceneManager.LoadSceneAsync(2);
+            SceneManager.LoadSceneAsync("Madriguera");
         }
-        if (c.gameObject.CompareTag("bossFloor"))
+        if (c.gameObject.CompareTag("SceneBoss"))
         {
             //bossBarrier.SetActive(true);
-            Debug.Log("funciona");
-            SceneManager.LoadSceneAsync(4);
+            
+            SceneManager.LoadSceneAsync("FinalBoss");
         }
         Debug.Log("esta colisionando");
     }

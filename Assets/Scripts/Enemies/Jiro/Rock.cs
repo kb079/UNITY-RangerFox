@@ -1,38 +1,38 @@
+using System.Collections;
 using UnityEngine;
 
 public class Rock : EnemyBall
 {
-    public GameObject jiro;
-
-    private GameObject player;
-    private bool thrown;
+    public GameObject jiroGO;
+    private JiroController jiro;
 
     protected override void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        damage = 12;
-        impulse = 35f;
-        thrown = false;
-        //Destroy(gameObject, 5);
+        damage = 18;
+        jiro = jiroGO.GetComponent<JiroController>();
+        float t = Random.Range(0f, 1.4f);
+        StartCoroutine(cor_init(t));
+        //(Temporal)
+        Destroy(gameObject, 10);
     }
 
-    private void Update()
+    IEnumerator cor_init(float time)
     {
-        if(!thrown) checkPlayerNear();
+        yield return new WaitForSeconds(time);
+        thrown();
     }
 
-    private void checkPlayerNear()
+    private void thrown()
     {
-        Vector3 pos1 = jiro.transform.position;
-        Vector3 pos2 = player.transform.position;
-
-        if ((uint)Vector3.Distance(pos1, pos2) < 24)
+        if (!jiro.isJiroDead())
         {
-            jiro.transform.LookAt(player.transform.position);
-            jiro.GetComponent<Jiro>().stopAgent();
             rb.isKinematic = false;
-            rb.AddForce(jiro.transform.forward * impulse, ForceMode.Impulse); 
-            thrown = true;
+            float yImpulse = Random.Range(16.0f, 40.0f);
+            float xImpulse = Random.Range(18.0f, 36.0f);
+            float scale = Random.Range(0.6f, 8.5f);
+            transform.localScale = new Vector3(scale, scale, scale);
+            rb.AddForce(Vector3.up * yImpulse, ForceMode.Impulse);
+            rb.AddForce(transform.forward * xImpulse, ForceMode.Impulse);
         }
     }
 }

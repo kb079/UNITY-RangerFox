@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class InventoryObject : MonoBehaviour
 {
     [SerializeField] GameObject[] UISlots;
-    [SerializeField] List<ItemObject> itemTypes;
+    public List<ItemObject> itemTypes;
     [SerializeField] Player player;
     [SerializeField] Sprite nullSprite;
     private List<Image> images = new List<Image>();
@@ -134,7 +134,10 @@ public class InventoryObject : MonoBehaviour
         switch (item.type)
         {
             case ItemType.Health:
+                Debug.Log(">" + container.Count);
+                Debug.Log("<" + container[position].ToString());
                 player.addHealth(item.value);
+
                 break;
             case ItemType.Mana:
                 player.addMana(item.value);

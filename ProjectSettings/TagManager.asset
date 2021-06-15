@@ -25,6 +25,7 @@ TagManager:
   - bossFloor
   - tree
   - yuki_hand
+  - SceneBoss
   layers:
   - Default
   - TransparentFX

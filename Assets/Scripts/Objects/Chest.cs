@@ -23,7 +23,7 @@ public class Chest : MonoBehaviour
            
             animator.SetBool("boton", true);
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().setHudText("");
-            inventory.addItem(inventory.container[1].item, 1);
+            inventory.addItem(inventory.itemTypes[1], 1);
             isOpened = true;
         }
     }
