@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     protected bool isInventoryEnabled = true;
     public GameObject nuevaPosicion;
 
-    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier, isDead;
+    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier, isDead, isPaused;
 
     private void Start()
     {
@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         isAttacking = false;
         canUseBarrier = true;
+        isPaused = false;
         health = 100;
         stamina = 200;
         mana = 100;
@@ -48,7 +49,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!isDead)
+        if (!isDead && !isPaused)
         {
             playerMoves();
             activateActions();
@@ -71,9 +72,23 @@ public class Player : MonoBehaviour
             }
             if (!cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
         }
-        
-    }
 
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+        {
+            isPaused = true;
+            Time.timeScale = 0;
+            SceneManager.LoadSceneAsync("PauseMenu", LoadSceneMode.Additive);
+            playerCamera.GetComponent<CameraManager>().isPaused = true;            
+        }
+    }
+    
+    public void resumeGame()
+    {
+        playerCamera.GetComponent<CameraManager>().isPaused = false;
+        isPaused = false;
+        SceneManager.UnloadSceneAsync("PauseMenu");
+        Time.timeScale = 1;
+    }
     protected void playerMoves()
     {
         movSpeed = defaultSpeed;
@@ -83,8 +98,8 @@ public class Player : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * GameConstants.camMovementSpeed;
 
         Vector3 move = transform.right * x * movSpeed + transform.forward * y * movSpeed;
+        //ROTATE PLAYER WITH CAMERA
         Vector3 rotateValue = new Vector3(0, mouseX * -1, 0);
-
         transform.eulerAngles = transform.eulerAngles - rotateValue;
 
         if ((x != 0 || y != 0) && (!isAttacking && !runningAnim))

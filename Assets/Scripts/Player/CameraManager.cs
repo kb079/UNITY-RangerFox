@@ -14,7 +14,7 @@ public class CameraManager : MonoBehaviour
     public GameObject crosshair;
     private GameObject player;
     private bool blocked;
-
+    public bool isPaused = false;
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -22,23 +22,26 @@ public class CameraManager : MonoBehaviour
 
     void Update()
     {
-        //Camera limit
-        touchingUp = (Input.mousePosition.y >= Screen.height * 0.95) ? true : false;
-        touchingDown = (Input.mousePosition.y <= Screen.height / 2) ? true : false;
-        canRotate = true;
-
-        float camRotation = gameObject.transform.rotation.x;
-
-        if (camRotation <= maxY && touchingUp || camRotation >= minY && touchingDown) canRotate = false;
-
-        if (canRotate)
+        if (!isPaused)
         {
-            float mouseY = Input.GetAxis("Mouse Y") * GameConstants.camMovementSpeed;
-            transform.Rotate(-mouseY, 0, 0);
-        }
+            //Camera limit
+            touchingUp = (Input.mousePosition.y >= Screen.height * 0.95) ? true : false;
+            touchingDown = (Input.mousePosition.y <= Screen.height / 2) ? true : false;
+            canRotate = true;
 
-        //Zoom camera
-        if (Input.GetKey(GameConstants.key_cameraZoom) && !blocked) StartCoroutine(doAction());
+            float camRotation = gameObject.transform.rotation.x;
+
+            if (camRotation <= maxY && touchingUp || camRotation >= minY && touchingDown) canRotate = false;
+
+            if (canRotate)
+            {
+                float mouseY = Input.GetAxis("Mouse Y") * GameConstants.camMovementSpeed;
+                transform.Rotate(-mouseY, 0, 0);
+            }
+
+            //Zoom camera
+            if (Input.GetKey(GameConstants.key_cameraZoom) && !blocked) StartCoroutine(doAction());
+        }
     }
 
     IEnumerator doAction()
