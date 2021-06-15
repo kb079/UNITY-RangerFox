@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 456559236486208441}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 45.5796, y: 0.0000013113022, z: 46.885406}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1243501058710320029}
   - {fileID: 4707497509918070581}
@@ -72,7 +72,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!136 &763201691720647820
 CapsuleCollider:
@@ -85,9 +85,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.42938805
-  m_Height: 2.445597
+  m_Height: 2.642559
   m_Direction: 1
-  m_Center: {x: -0.08260536, y: 1.3651837, z: 0.9090061}
+  m_Center: {x: -0.08260533, y: 1.2667027, z: 0.9090061}
 --- !u!114 &763201691720647823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,6 +108,7 @@ MonoBehaviour:
   crossHair: {fileID: 0}
   isAttacking: 0
   isBarrierActive: 0
+  nuevaPosicion: {fileID: 0}
 --- !u!1 &4707497509593216918
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,8 +541,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.30285195
-  m_Center: {x: 3.2248978e-11, y: -0.038015068, z: 0.004133135}
+  m_Radius: 0.41418123
+  m_Center: {x: -4.498229e-10, y: -0.038015068, z: -0.10719618}
 --- !u!1001 &4707497508965603882
 PrefabInstance:
   m_ObjectHideFlags: 0

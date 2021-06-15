@@ -7,15 +7,26 @@ public class PlayerMadriguera : Player
 {
     void Update()
     {
-        playerMoves();
-        activateActions();
+        if (!isPaused)
+        {
+            playerMoves();
+            activateActions();
+        }
+
+        if (Input.GetKeyDown(KeyCode.P) && !isPaused)
+        {
+            isPaused = true;
+            Time.timeScale = 0;
+            SceneManager.LoadSceneAsync("PauseMenu", LoadSceneMode.Additive);
+            playerCamera.GetComponent<CameraManager>().isPaused = true;
+        }
     }
 
     private void OnTriggerExit(Collider c)
     {
         if (c.gameObject.CompareTag("madriguera"))
         {
-            SceneManager.LoadSceneAsync(3);
+            SceneManager.LoadSceneAsync(2);
         }
     }
 

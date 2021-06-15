@@ -124,6 +124,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &14003673 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4707497510670981251, guid: 43baac21f2da0ea4182cda0330566964,
+    type: 3}
+  m_PrefabInstance: {fileID: 683999831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &32214222
 GameObject:
   m_ObjectHideFlags: 0
@@ -1166,6 +1172,12 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 602082456}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!20 &340364202 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4707497509918070570, guid: 43baac21f2da0ea4182cda0330566964,
+    type: 3}
+  m_PrefabInstance: {fileID: 683999831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &341594449
 GameObject:
   m_ObjectHideFlags: 0
@@ -2204,6 +2216,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Yuki
       objectReference: {fileID: 0}
+    - target: {fileID: 763201691720647823, guid: 43baac21f2da0ea4182cda0330566964,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 945147447273799939, guid: 43baac21f2da0ea4182cda0330566964,
         type: 3}
       propertyPath: m_RootOrder
@@ -2274,7 +2291,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 763201691720647823, guid: 43baac21f2da0ea4182cda0330566964, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 43baac21f2da0ea4182cda0330566964, type: 3}
 --- !u!1 &713321190
 GameObject:
@@ -2581,6 +2599,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909835976}
   m_Mesh: {fileID: -5243098771569098612, guid: 604e3857ba30ec843b131325d7433d10, type: 3}
+--- !u!1 &962609742 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5539413872419233495, guid: 43baac21f2da0ea4182cda0330566964,
+    type: 3}
+  m_PrefabInstance: {fileID: 683999831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &983631559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4666,6 +4690,12 @@ RectTransform:
   m_AnchoredPosition: {x: -659, y: 447}
   m_SizeDelta: {x: 300, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1801359419 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7436170400519153014, guid: 43baac21f2da0ea4182cda0330566964,
+    type: 3}
+  m_PrefabInstance: {fileID: 683999831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1809898478
 GameObject:
   m_ObjectHideFlags: 0
@@ -5256,6 +5286,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a88290c1cced1cc418437713e6d5475a, type: 3}
+--- !u!1 &1928542227 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 456559236486208441, guid: 43baac21f2da0ea4182cda0330566964,
+    type: 3}
+  m_PrefabInstance: {fileID: 683999831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1928542228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928542227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 372d5dc4ada79b747abd0049c541c946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 340364202}
+  bola: {fileID: 14003673}
+  hand: {fileID: 962609742}
+  barrier: {fileID: 1801359419}
+  bossBarrier: {fileID: 0}
+  crossHair: {fileID: 290242343}
+  isAttacking: 0
+  isBarrierActive: 0
+  nuevaPosicion: {fileID: 0}
 --- !u!1 &1947612458
 GameObject:
   m_ObjectHideFlags: 0

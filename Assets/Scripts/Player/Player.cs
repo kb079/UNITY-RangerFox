@@ -26,8 +26,9 @@ public class Player : MonoBehaviour
     protected GameObject inventory;
     protected bool isInventoryEnabled = true;
     public GameObject nuevaPosicion;
+    public bool isPaused;
 
-    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier, isDead, isPaused;
+    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier, isDead;
 
     private void Start()
     {
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
             if (!cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused)
+        if (Input.GetKeyDown(KeyCode.P) && !isPaused)
         {
             isPaused = true;
             Time.timeScale = 0;
