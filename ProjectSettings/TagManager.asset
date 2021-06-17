@@ -26,6 +26,7 @@ TagManager:
   - tree
   - yuki_hand
   - SceneBoss
+  - terreno
   layers:
   - Default
   - TransparentFX

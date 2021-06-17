@@ -4,72 +4,83 @@ using UnityEngine;
 public class DoowellController : Enemy
 {
 
-    public GameObject[] animations;
+    [SerializeField] GameObject[] animations;
     [SerializeField] GameObject[] cabezas;
     [SerializeField] GameObject bala;
-    public int actionRadio = 30, attackRadio = 3;
+    private Rigidbody rb;
+    public int actionRadio = 30, attackRadio = 15;
     public float velocity = 10f;
-    private int id;
-    private int count = 0;
     private bool isRunning = false;
     private bool isIdle = false;
+    [SerializeField] GameObject cabeza;
+    [SerializeField] GameObject cabezaRock;
     private bool isActive = false;
     private Vector3 pos1;
     private Vector3 pos2;
+    private bool isHeadEnabled = true;
+    private bool hasDiedOnce = false;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
         isAttacking = false;
         cooldown = false;
         health = GameConstants.Doowell_HP;
         bala.SetActive(false);
         changeAnimation(0);
-        changeCabeza(0);
+    }
+
+    protected override void Update()
+    {
+        if (!isDead)
+        {
+            searchPlayer();
+        } else
+        {
+            Debug.Log("isdfeadddd");
+        }
     }
     private void changeAnimation(int i)
     {
+        
         animations[0].SetActive(false);
         animations[1].SetActive(false);
         animations[2].SetActive(false);
         animations[3].SetActive(false);
         animations[4].SetActive(false);
-        animations[i].SetActive(true);
-        id = i;
-    }
-    private void changeCabeza(int i)
-    {
-        cabezas[0].SetActive(false);
-        cabezas[1].SetActive(false);
-        cabezas[2].SetActive(false);
-        cabezas[3].SetActive(false);
-        if (cooldown == false)
-        {
-            cabezas[i].SetActive(true);
-        }
+        animations[5].SetActive(false);
 
+        animations[i].SetActive(true);
     }
+
+
     protected override void attack()
     {
         isAttacking = true;
         cooldown = true;
         changeAnimation(2);
-        StartCoroutine(waitTo(actions.FINISH_ATTACK, 1.2f));
+        StartCoroutine(waitTo(actions.FINISH_ATTACK, 0.9f));
+        // Escondo la cabeza al lanzarla
+        StartCoroutine(waitTo(actions.HEAD_ACTIVITY, 0.9f));
         transform.LookAt(player.transform.position);
         bala.transform.LookAt(player.transform.position);
-
+        // Tras este tiempo la cabeza volverá a ser visible
+        StartCoroutine(waitTo(actions.HEAD_ACTIVITY, 3f));
         StartCoroutine(waitTo(actions.FINISH_COOLDOWN, 5f));
     }
 
     IEnumerator waitTo(actions i, float time)
     {
+        Debug.Log("mira la corrutiiiina");
         yield return new WaitForSeconds(time);
-        if (!isDead)
+        if (!isDead || hasDiedOnce)
         {
             switch (i)
             {
                 case actions.FINISH_ATTACK:
                     isAttacking = false;
                     GameObject clon = Instantiate(bala, bala.transform.position, bala.transform.rotation);
+                    clon.transform.LookAt(player.transform);
                     clon.SetActive(true);
                     break;
                 case actions.FINISH_COOLDOWN:
@@ -77,6 +88,22 @@ public class DoowellController : Enemy
                     break;
                 case actions.FINISH_IDLE:
                     isIdle = false;
+                    break;
+                case actions.HEAD_ACTIVITY:
+                    isHeadEnabled = !isHeadEnabled;
+                    break;
+                case actions.REVIVE_PART_1:
+                    changeAnimation(5);
+                    StartCoroutine(waitTo(actions.REVIVE_PART_2, 1f));
+                    break;
+                case actions.REVIVE_PART_2:
+                    cabeza.SetActive(true);
+                    isDead = false;
+                    isAttacking = false;
+                    cooldown = false;
+                    health = GameConstants.Doowell_HP;
+                    changeAnimation(0);
+                    rb.isKinematic = false;
                     break;
                 default:
                     break;
@@ -87,31 +114,54 @@ public class DoowellController : Enemy
 
     protected override void checkHP()
     {
-        base.checkHP();
-        if (isDead == true)
+        if (health <= 0 && !isDead)
         {
-            Vector3 originalRot = transform.localEulerAngles;
-            originalRot.x = 0;
-            transform.localEulerAngles = originalRot;
+            StopAllCoroutines();
+            agent.isStopped = true;
+            isDead = true;
+            rb.isKinematic = true;
             changeAnimation(4);
-            Destroy(gameObject, 3);
+            if (!hasDiedOnce)
+            {
+                cabeza.SetActive(false);
+                cabezaRock.SetActive(false);
+                hasDiedOnce = true;
+                StartCoroutine(waitTo(actions.REVIVE_PART_1, 2f));
+            } else
+            {
+                cabeza.SetActive(false);
+                cabezaRock.SetActive(false);
+                Destroy(gameObject, 3);
+                Destroy(agent);
+            }
         }
 
     }
     protected override void searchPlayer()
     {
+        if (isIdle)
+        {
+            cabezaRock.SetActive(isHeadEnabled);
+            cabeza.SetActive(false);
+        } else
+        {
+            cabeza.SetActive(isHeadEnabled);
+            cabezaRock.SetActive(false);
+        }
         pos1 = transform.position;
         pos2 = player.transform.position;
-        changeCabeza(id);
         int distance = (int)Vector3.Distance(pos1, pos2);
         if (distance <= actionRadio)
         {
+            agent.SetDestination(pos2);
             isActive = true;
-            count = 0;
+            //count = 0;
             if (!cooldown)//puede atacar
             {
+                agent.SetDestination(pos2);
                 if (distance <= attackRadio)
                 {
+                    //Debug.Log("Debería atacar");
                     //Ataca
                     isRunning = false;
                     isIdle = false;
@@ -120,6 +170,7 @@ public class DoowellController : Enemy
                 }
                 else
                 {
+                    //Debug.Log("Debería perseguir");
                     //Persigue al jugador
                     isIdle = false;
                     if (isRunning == false && isAttacking == false)
@@ -127,33 +178,34 @@ public class DoowellController : Enemy
                         changeAnimation(1);
                         isRunning = true;
                         agent.isStopped = false;
-                        agent.SetDestination(pos2);
                     }
-
                 }
             }
             else
             {
                 if (distance < attackRadio)
                 {
+                    //Debug.Log("Debería huír");
                     //Huir
+                    Vector3 runTo = pos1 + pos1 - pos2;
+                    agent.SetDestination(runTo);
                     isIdle = false;
                     if (isRunning == false && isAttacking == false)
                     {
                         changeAnimation(1);
                         isRunning = true;
                         agent.isStopped = false;
-                        Vector3 runTo = pos1 + ((pos1 - pos2) * velocity);
-                        agent.SetDestination(runTo); ;
                     }
 
                 }
                 else
                 {
+                    //Debug.Log("Debería pararme");
                     //Pararse
                     isRunning = false;
                     if (isIdle == false && isAttacking == false)
                     {
+                        transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
                         changeAnimation(0);
                         isIdle = true;
                         agent.isStopped = true;
@@ -161,7 +213,7 @@ public class DoowellController : Enemy
                 }
             }
         }
-        else
+       /* else
         {
             isActive = false;
             isRunning = false;
@@ -169,12 +221,11 @@ public class DoowellController : Enemy
             {
                 isIdle = true;
                 changeAnimation(0);
-                animations[0].SetActive(true);
             }
-            rocking();
-        }
+            //rocking();
+        }*/
     }
-    private void rocking()
+    /*private void rocking()
     {
         if (isActive == false)
         {
@@ -187,11 +238,14 @@ public class DoowellController : Enemy
                 StartCoroutine(waitTo(actions.FINISH_IDLE, 1f));
             }
         }
-    }
+    }*/
 }
 enum actions
 {
     FINISH_ATTACK,
     FINISH_COOLDOWN,
-    FINISH_IDLE
+    FINISH_IDLE,
+    HEAD_ACTIVITY,
+    REVIVE_PART_1,
+    REVIVE_PART_2
 }

@@ -5,7 +5,7 @@ public class MenuButtonsController : MonoBehaviour
 {
     public void playStart()
     {
-        SceneManager.LoadSceneAsync("Madriguera");
+        SceneManager.LoadSceneAsync("Tutorial");
     }
 
     public void exitGame()

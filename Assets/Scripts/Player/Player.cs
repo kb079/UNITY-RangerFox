@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
         canUseBarrier = true;
         isPaused = false;
         health = 100;
-        stamina = 200;
+        stamina = 100;
         mana = 100;
         hudText = "";
 
@@ -106,7 +106,7 @@ public class Player : MonoBehaviour
         if ((x != 0 || y != 0) && (!isAttacking && !runningAnim))
         {
 
-            if (Input.GetKey(GameConstants.key_run) && useStamina(0))
+            if (Input.GetKey(GameConstants.key_run) && useStamina(0.05F))
             {
                 movSpeed += 25f;
                 toggleRunAnim(true);

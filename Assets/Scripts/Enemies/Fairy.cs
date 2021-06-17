@@ -5,6 +5,8 @@ using UnityEngine.AI;
 public class Fairy : Enemy
 {
     public GameObject attackObj;
+    public GameObject normalAnimation;
+    public GameObject deadAnimation;
     private float attackCooldown = 1.5f;
 
     /*
@@ -70,6 +72,21 @@ public class Fairy : Enemy
         }
     }
 */
+
+    protected override void checkHP()
+    {
+        if (health <= 0 && !isDead)
+        {
+            if (agent != null)
+            {
+                Destroy(agent);
+            }
+            isDead = true;
+            normalAnimation.SetActive(false);
+            deadAnimation.SetActive(true);
+            Destroy(gameObject, 4);
+        }
+    }
 
 
     private void createNavAgent()

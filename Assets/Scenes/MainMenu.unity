@@ -206,8 +206,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 413948630}
-        m_TargetAssemblyTypeName: StartScript, Assembly-CSharp
+      - m_Target: {fileID: 314389297}
+        m_TargetAssemblyTypeName: MenuButtonsController, Assembly-CSharp
         m_MethodName: exitGame
         m_Mode: 1
         m_Arguments:
@@ -545,8 +545,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 413948630}
-        m_TargetAssemblyTypeName: StartScript, Assembly-CSharp
+      - m_Target: {fileID: 314389297}
+        m_TargetAssemblyTypeName: MenuButtonsController, Assembly-CSharp
         m_MethodName: playStart
         m_Mode: 1
         m_Arguments:

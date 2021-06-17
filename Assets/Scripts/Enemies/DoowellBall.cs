@@ -5,9 +5,8 @@ public class DoowellBall : EnemyBall
     protected override void Start()
     {
         damage = GameConstants.Doowell_Dmg;
-        impulse = 1700f;
+        impulse = 32f;
         base.Start();
-
     }
     new private void OnTriggerEnter(Collider c) { }
     private void OnCollisionEnter(Collision c)

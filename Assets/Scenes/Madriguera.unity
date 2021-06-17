@@ -2219,7 +2219,7 @@ PrefabInstance:
     - target: {fileID: 763201691720647821, guid: 43baac21f2da0ea4182cda0330566964,
         type: 3}
       propertyPath: m_Constraints
-      value: 116
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 763201691720647823, guid: 43baac21f2da0ea4182cda0330566964,
         type: 3}
