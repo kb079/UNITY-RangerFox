@@ -30,6 +30,8 @@ public class Player : MonoBehaviour
 
     private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier, isDead;
 
+    public AudioSource audiosource;
+    [SerializeField] AudioClip[] sonidos;
     private void Start()
     {
         //El cursor no se sale de la pantalla
@@ -42,7 +44,7 @@ public class Player : MonoBehaviour
         canUseBarrier = true;
         isPaused = false;
         health = 100;
-        stamina = 100;
+        stamina = 200;
         mana = 100;
         hudText = "";
 
@@ -52,6 +54,7 @@ public class Player : MonoBehaviour
     {
         if (!isDead && !isPaused)
         {
+            playSound();
             playerMoves();
             activateActions();
 
@@ -68,7 +71,7 @@ public class Player : MonoBehaviour
                     anim.SetBool("magicCH", true);
                     time = 0.55f;
                 }
-     
+
                 StartCoroutine(attack1(time));
             }
             if (!cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
@@ -79,10 +82,10 @@ public class Player : MonoBehaviour
             isPaused = true;
             Time.timeScale = 0;
             SceneManager.LoadSceneAsync("PauseMenu", LoadSceneMode.Additive);
-            playerCamera.GetComponent<CameraManager>().isPaused = true;            
+            playerCamera.GetComponent<CameraManager>().isPaused = true;
         }
     }
-    
+
     public void resumeGame()
     {
         playerCamera.GetComponent<CameraManager>().isPaused = false;
@@ -106,7 +109,7 @@ public class Player : MonoBehaviour
         if ((x != 0 || y != 0) && (!isAttacking && !runningAnim))
         {
 
-            if (Input.GetKey(GameConstants.key_run) && useStamina(0.05F))
+            if (Input.GetKey(GameConstants.key_run) && useStamina(0))
             {
                 movSpeed += 25f;
                 toggleRunAnim(true);
@@ -128,7 +131,7 @@ public class Player : MonoBehaviour
                 StartCoroutine(finishDash(2f));
             }
 
-             rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
+            rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
         else
         {
@@ -139,7 +142,7 @@ public class Player : MonoBehaviour
 
     private void toggleWalkAnim(bool state)
     {
-        if(anim.GetBool("walk") != state) anim.SetBool("walk", state);
+        if (anim.GetBool("walk") != state) anim.SetBool("walk", state);
     }
 
     private void toggleRunAnim(bool state)
@@ -222,7 +225,7 @@ public class Player : MonoBehaviour
         bolaClone.transform.position = bola.transform.position;
         isAttacking = true;
 
-        if(crossHair.activeInHierarchy) anim.SetBool("magicCH", false);
+        if (crossHair.activeInHierarchy) anim.SetBool("magicCH", false);
 
         StartCoroutine(finishAttack1(0.15f));
     }
@@ -291,7 +294,7 @@ public class Player : MonoBehaviour
         if (c.gameObject.CompareTag("SceneBoss"))
         {
             //bossBarrier.SetActive(true);
-            
+
             SceneManager.LoadSceneAsync("FinalBoss");
         }
         Debug.Log("esta colisionando");
@@ -302,31 +305,39 @@ public class Player : MonoBehaviour
         //TODO - KB
         //CHECKEO SI EL JUGADOR SE COLISIONA CON ALGUN OBJETO
         //SE EJECUTA ANIMACION DE "SE HA COLISIONADO CON ALGO" Y LO ECHA PARA ATRAS
-        
+
         if (!runningAnim && c.gameObject.CompareTag("tree"))
         {
             runAnimation("blockWalk", 0.6f);
             rb.AddForce((-transform.forward * 2000f) * Time.deltaTime, ForceMode.Impulse);
         }
-        
+
     }
 
     public void doSingleDamage(int dmg)
     {
         health -= dmg;
+        //SE EJECUTA SONIDO DAÑO
+        if (!isDead)
+            audiosource.PlayOneShot(sonidos[4]);
         if (health <= 0) playerDead();
+
+
     }
 
     private void playerDead()
     {
+        if (!isDead)
+            audiosource.PlayOneShot(sonidos[5]);
         isDead = true;
+        //SE EJECUTA SONIDO MUERTE
         anim.SetTrigger("death");
         //TODO: DELAY 3S -- > MOSTRAR PANTALLA MUERTE
 
     }
 
     private void OnTriggerExit(Collider c)
-    { 
+    {
         if (c.gameObject.CompareTag("bossFloor"))
         {
             rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
@@ -406,5 +417,30 @@ public class Player : MonoBehaviour
             return true;
         }
         return false;
+    }
+    private void playSound()
+    {
+        //barrera
+        if (Input.GetKey(GameConstants.key_barrier) && canUseBarrier && !audiosource.isPlaying && mana > 0.05f)
+        {
+            audiosource.PlayOneShot(sonidos[0]);
+        }
+        //dash
+        if (Input.GetKeyDown(GameConstants.key_dash) && stamina > 10f && !cooldownDash)
+        {
+            audiosource.PlayOneShot(sonidos[1]);
+            Debug.Log(cooldownDash);
+
+        }
+        //atacar
+        if (Input.GetKeyDown(GameConstants.key_attack) && !cooldownA2)
+        {
+            audiosource.PlayOneShot(sonidos[2]);
+        }
+        //bola fuego
+        if (Input.GetKeyDown(GameConstants.key_magic) && mana > 8f && !cooldownA1)
+        {
+            audiosource.PlayOneShot(sonidos[3]);
+        }
     }
 }
