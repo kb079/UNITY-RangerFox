@@ -115,7 +115,7 @@ MonoBehaviour:
   sonidos:
   - {fileID: 8300000, guid: 75150b93af544354596d6e3eba157794, type: 3}
   - {fileID: 8300000, guid: ba724f14ae4fdf3478ad2861c9ca555d, type: 3}
-  - {fileID: 8300000, guid: 8f9849a8d1d942744bca79ef8af2858e, type: 3}
+  - {fileID: 8300000, guid: 67d2a077b5b22e84aa2d6f4717700738, type: 3}
   - {fileID: 8300000, guid: 11b2438de0e92e140a74f89a7d0b5f89, type: 3}
   - {fileID: 8300000, guid: e720623bf386dc144b7921efd32fcbb2, type: 3}
   - {fileID: 8300000, guid: 226f3208d6db7924e9734ca6c7311f10, type: 3}

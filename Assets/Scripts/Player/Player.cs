@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    private enum enum_sounds { Barrier = 0, Dash = 1, Attack = 2, Magic = 3 }
+
     private int health;
     private float stamina, mana;
 
@@ -423,24 +425,22 @@ public class Player : MonoBehaviour
         //barrera
         if (Input.GetKey(GameConstants.key_barrier) && canUseBarrier && !audiosource.isPlaying && mana > 0.05f)
         {
-            audiosource.PlayOneShot(sonidos[0]);
+            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Barrier]);
         }
         //dash
         if (Input.GetKeyDown(GameConstants.key_dash) && stamina > 10f && !cooldownDash)
         {
-            audiosource.PlayOneShot(sonidos[1]);
-            Debug.Log(cooldownDash);
-
+            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Dash]);
         }
         //atacar
         if (Input.GetKeyDown(GameConstants.key_attack) && !cooldownA2)
         {
-            audiosource.PlayOneShot(sonidos[2]);
+            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Attack]);
         }
         //bola fuego
         if (Input.GetKeyDown(GameConstants.key_magic) && mana > 8f && !cooldownA1)
         {
-            audiosource.PlayOneShot(sonidos[3]);
+            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Magic]);
         }
     }
 }
