@@ -45,15 +45,14 @@ public class Player : MonoBehaviour
         //El cursor no se sale de la pantalla
         Cursor.lockState = CursorLockMode.Confined;
 
-       
         inventory = GameObject.FindGameObjectWithTag("Inventory");
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        isDead = false;
         isAttacking = false;
         canUseBarrier = true;
         isPaused = false;
         hudText = "";
-
     }
 
     public void StartWalkingSound(float time)
@@ -352,13 +351,20 @@ public class Player : MonoBehaviour
 
     private void playerDead()
     {
-        if (!isDead)
+        if (!isDead) { 
             audiosource.PlayOneShot(sonidos[5]);
-        isDead = true;
-        //SE EJECUTA SONIDO MUERTE
-        anim.SetTrigger("death");
-        //TODO: DELAY 3S -- > MOSTRAR PANTALLA MUERTE
+            isDead = true;
+            //SE EJECUTA SONIDO MUERTE
+            anim.SetTrigger("death");
+            StartCoroutine(playerDead(4f));
+        }
+    }
 
+    IEnumerator playerDead(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Time.timeScale = 0;
+        SceneManager.LoadSceneAsync("DeathMenu", LoadSceneMode.Additive);
     }
 
     private void OnTriggerExit(Collider c)

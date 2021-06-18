@@ -27,4 +27,9 @@ public class MenuButtonsController : MonoBehaviour
     {
         SceneManager.UnloadSceneAsync("SettingsMenu");
     }
+
+    public void playAgain()
+    {
+        SceneManager.LoadSceneAsync("Madriguera");
+    }
 }
