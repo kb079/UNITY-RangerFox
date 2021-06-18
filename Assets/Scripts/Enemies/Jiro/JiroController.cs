@@ -6,9 +6,7 @@ public class JiroController : Enemy
 {
     private enum enum_actions { Jump = 1, Arm = 2, EnergyBall = 3, Earthquake = 4, Null = 0 }
     private enum enum_animations { Idle = 0, Walk = 1, Attack = 2, Jump_1 = 3, Jump_2 = 4, EnergyBall_1 = 5, EnergyBall_2 = 6, Earthquake = 7, Dead = 8 }
-
-    private enum enum_sounds { PrepareEnergyball = 0, Jump = 1, Dead = 2, Attack = 3, EarthQuake = 4}
-    private enum enum_cor { Attack, Earthquake, PrepareEnergyball, JumpToOrigin, Jump, EndEnergyball, EndJump, CameraShake, AttackSound, JumpSound, Default }
+    private enum enum_cor { Attack, Earthquake, PrepareEnergyball, JumpToOrigin, Jump, EndEnergyball, EndJump, CameraShake, Default }
 
     [SerializeField] GameObject projectile, rock, explosion, cam;
     [SerializeField] Animator animator;
@@ -19,17 +17,14 @@ public class JiroController : Enemy
     private enum_actions currentAction;
     private Rigidbody rb;
     private Vector3 yForce, originalPos, yForceReturning = 8.0f * Vector3.up;
-    private bool mustLookAtPlayer = false, flag_run_towards_player = true, canExplodeFloor = false, willUseEnergyAttack = false, flag_shake_camera = false, isActive = false;
+    private bool mustLookAtPlayer = false, flag_run_towards_player = true, canExplodeFloor = false, willUseEnergyAttack = false, flag_shake_camera = false;
     private float yFloatForce = 15.0f, xFloatForce = 0f, constantXForce = 3.04f, shakingForce = 0.5f, rockRad = 3f;
     private int mustChangeAction = 0;
 
-
-    public AudioSource audiosource;
-    [SerializeField] AudioClip[] sonidos;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        health = 1;
+        health = 100;
         originalPos = transform.position;
 
         // El searchRadius debe ser lo suficientemente grande como para abarcar todo el área del combate
@@ -55,7 +50,7 @@ public class JiroController : Enemy
     {
         
         // Si no está muerto y está activo (de momento se activa al pulsar una tecla)...
-        if (!isDead && isActive)
+        if (!isDead)
         {
             // Mientra sea true, Jiro mirará a la posición del jugador PERO la 'y' será la actual (mirará de frente)
             if (mustLookAtPlayer)
@@ -72,8 +67,8 @@ public class JiroController : Enemy
             if (mustChangeAction == 0)
             {
                 mustChangeAction++;
-                currentAction = ExtRandom.ChooseWeighted(actions);
-                //currentAction = enum_actions.Arm;
+                //currentAction = ExtRandom.ChooseWeighted(actions);
+                currentAction = enum_actions.Earthquake;
                 // Se dejan solo las restricciones angulares. Esto se hace porque en alguna acción es necesario restringir
                 // la posición de Jiro
                 rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -113,14 +108,7 @@ public class JiroController : Enemy
                 }
                 currentAction = enum_actions.Null;
             }
-        }
-        ////////////////////////////////////////////////////////////////////////////
-        // DEBUG. Seguramente no use isActive. Habrá que despertarlo de otra forma
-        ////////////////////////////////////////////////////////////////////////////
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            isActive = true;
-        }
+        }      
     }
 
     // Para cambiar la animación se elije la id y se activas el trigger
@@ -173,8 +161,6 @@ public class JiroController : Enemy
 
     private void earthquake()
     {
-        playSound(enum_sounds.EarthQuake);
-
         // Número aleatorio de piedras dentro de cierto rango
         int i = Random.Range(minRockNumber, maxRockNumber);
         while (i > 0)
@@ -213,7 +199,7 @@ public class JiroController : Enemy
         changeAnimation(enum_animations.Attack);
         cooldown = true;
         isAttacking = true;
-        StartCoroutine(cor_actions(1f, enum_cor.AttackSound));
+
         StartCoroutine(cor_actions(3f, 0));
     }
     // El cálculo del salto está hecho "a piñón". No se han tenido en cuenta fuerzas físicas como la masa
@@ -268,10 +254,6 @@ public class JiroController : Enemy
             }
         }
     }
-    private void playSound(enum_sounds sonido)
-    {
-        audiosource.PlayOneShot(sonidos[(int)sonido]);
-    }
     IEnumerator cor_actions(float time, enum_cor action = enum_cor.Default)
     {
         yield return new WaitForSeconds(time);
@@ -294,7 +276,6 @@ public class JiroController : Enemy
                 rb.constraints = RigidbodyConstraints.FreezeAll;
                 yield return new WaitForSeconds(1.2f);
                 energyBall();
-                playSound(enum_sounds.PrepareEnergyball);
                 break;
             case enum_cor.JumpToOrigin:
                 //Calcula la distancio Jiro - Posición original
@@ -304,7 +285,6 @@ public class JiroController : Enemy
                 changeAnimation(enum_animations.Jump_1);
                 yield return new WaitForSeconds(0.8f);
                 jumpToOriginalPosition(posMe, posOrg);
-                StartCoroutine(cor_actions(1f, enum_cor.JumpSound));
                 break;
             case enum_cor.Jump:
                 //Calcula la distancio Jiro - Jugador
@@ -324,19 +304,12 @@ public class JiroController : Enemy
                 GameObject clone = Instantiate(explosion, explosion.transform.position, explosion.transform.rotation, transform);
                 clone.SetActive(true);
                 StartCoroutine(cor_actions(1.2f));
-                playSound(enum_sounds.Jump);
                 StartCoroutine(cor_actions(0, enum_cor.CameraShake));
                 break;
             case enum_cor.CameraShake:
                 flag_shake_camera = true;
                 yield return new WaitForSeconds(0.6f);
                 flag_shake_camera = false;
-                break;
-            case enum_cor.AttackSound:
-                playSound(enum_sounds.Attack);
-                break;
-            case enum_cor.JumpSound:
-                playSound(enum_sounds.Jump);
                 break;
             default:
                 mustChangeAction--;
@@ -354,7 +327,6 @@ public class JiroController : Enemy
             isDead = true;
             rb.isKinematic = true;
             changeAnimation(enum_animations.Dead);
-            playSound(enum_sounds.Dead);   
         }
     }
     public void substractActionCounter()
@@ -365,7 +337,6 @@ public class JiroController : Enemy
     {
         return isDead;
     }
-
 }
 
 ///

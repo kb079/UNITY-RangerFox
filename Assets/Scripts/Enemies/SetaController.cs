@@ -11,6 +11,8 @@ public class SetaController : Enemy
     private bool isActive = false, isHiding = true, flag_attack = false, flag_prepare_unhide = false, flag_unhide = false, flag_hide = false;
     private float nZ, pZ, nX, pX, rad = 8f, playerRad = 2f;
     public GameObject[] animations;
+    public AudioSource audiosource;
+    public AudioClip[] audios = new AudioClip[4];
 
     private void Start()
     {
@@ -33,10 +35,21 @@ public class SetaController : Enemy
             checkIfActive();
             if (isActive)
             {
+                if (!audiosource.isPlaying && isHiding == false)
+                {
+                    audiosource.PlayOneShot(audios[1]);
+                }
+                
                 actions();
             }
         }
-        else StopAllCoroutines();
+
+        else
+        {
+            
+            StopAllCoroutines();
+            audiosource.PlayOneShot(audios[3], 0.5f);
+        }
     }
 
     private void changeAnimation(int id)
@@ -65,6 +78,7 @@ public class SetaController : Enemy
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
             StartCoroutine(waitTo(2, 0.8f));
             isActive = true;
+            
         }
         //desactivar al alejarse de la distancia establecida
         else if (distance > maxDis && isActive)
@@ -98,13 +112,16 @@ public class SetaController : Enemy
             changeAnimation(5);
             flag_unhide = false;
             unhide();
+            audiosource.PlayOneShot(audios[0], 0.6f);
             float time = Random.Range(2f, 4f);
             StartCoroutine(waitTo(0, time));
+            
         }
         else if (flag_attack)
         {
             changeAnimation(3);
             flag_attack = false;
+            
             //float time = Random.Range(1.5f, 2.5f);
             StartCoroutine(waitTo(5, 1f));
         }
@@ -113,6 +130,7 @@ public class SetaController : Enemy
             changeAnimation(2);
             flag_hide = false;
             hide_1();
+            audiosource.PlayOneShot(audios[0], 0.6f);
             float time = Random.Range(2.5f, 3.5f);
             StartCoroutine(waitTo(3, time));
         }
@@ -157,6 +175,7 @@ public class SetaController : Enemy
         GameObject attackClone = Instantiate(objAtk, objAtk.transform.position, transform.rotation);
         attackClone.SetActive(true);
         StartCoroutine(waitTo(6, 0.8f));
+        audiosource.PlayOneShot(audios[2]);
     }
 
     private void hide_1()

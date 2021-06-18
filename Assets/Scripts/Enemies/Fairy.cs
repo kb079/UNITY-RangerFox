@@ -8,6 +8,10 @@ public class Fairy : Enemy
     public GameObject normalAnimation;
     public GameObject deadAnimation;
     private float attackCooldown = 1.5f;
+    public AudioSource audio;
+    public AudioClip ataque;
+    public AudioClip muerte;
+    public AudioClip aleteo;
 
     /*
     private float hSpeed = 4f;
@@ -21,6 +25,7 @@ public class Fairy : Enemy
         attackRadius = 13;
         searchRadius = 25;
         createNavAgent();
+        StartCoroutine("reproducirAleteo");
     }
 
     protected override void attack()
@@ -30,6 +35,7 @@ public class Fairy : Enemy
         GameObject attackObjClone = Instantiate(attackObj, attackObj.transform.position, attackObj.transform.rotation);
         attackObjClone.SetActive(true);
         cooldown = true;
+        //audio.PlayOneShot(ataque);
         StartCoroutine(finishAttackCooldown(attackCooldown));
     }
 
@@ -84,6 +90,7 @@ public class Fairy : Enemy
             isDead = true;
             normalAnimation.SetActive(false);
             deadAnimation.SetActive(true);
+            audio.PlayOneShot(muerte);
             Destroy(gameObject, 4);
         }
     }
@@ -100,5 +107,13 @@ public class Fairy : Enemy
             agent = GetComponent<NavMeshAgent>();
             agent.baseOffset = 5;
         }
+    }
+
+    IEnumerator reproducirAleteo()
+    {
+
+        audio.PlayOneShot(aleteo);
+        yield return new WaitForSeconds(1f);
+        StartCoroutine(reproducirAleteo());
     }
 }

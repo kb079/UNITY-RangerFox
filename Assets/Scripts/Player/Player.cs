@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    private enum enum_sounds { Barrier = 0, Dash = 1, Attack = 2, Magic = 3 }
-
     private int health;
     private float stamina, mana;
 
@@ -33,23 +31,45 @@ public class Player : MonoBehaviour
     private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier, isDead;
 
     public AudioSource audiosource;
-    [SerializeField] AudioClip[] sonidos;
+    public AudioClip[] sonidos;
+    public AudioSource loopAudiosource;
+    private void Awake()
+    {
+
+        health = 100;
+        stamina = 100;
+        mana = 100;
+    }
     private void Start()
     {
         //El cursor no se sale de la pantalla
         Cursor.lockState = CursorLockMode.Confined;
 
+       
         inventory = GameObject.FindGameObjectWithTag("Inventory");
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         isAttacking = false;
         canUseBarrier = true;
         isPaused = false;
-        health = 100;
-        stamina = 200;
-        mana = 100;
         hudText = "";
 
+    }
+
+    public void StartWalkingSound(float time)
+    {
+        if (!loopAudiosource.isPlaying)
+        {
+            loopAudiosource.PlayDelayed(time);
+        }
+    }
+
+    public void StopWalkingSound()
+    {
+        if (loopAudiosource.isPlaying)
+        {
+            loopAudiosource.Stop();
+        }
     }
 
     void Update()
@@ -111,13 +131,15 @@ public class Player : MonoBehaviour
         if ((x != 0 || y != 0) && (!isAttacking && !runningAnim))
         {
 
-            if (Input.GetKey(GameConstants.key_run) && useStamina(0))
+            if (Input.GetKey(GameConstants.key_run) && useStamina(0.05F))
             {
+                StartWalkingSound(0.08f);
                 movSpeed += 25f;
                 toggleRunAnim(true);
             }
             else
             {
+                StartWalkingSound(0.23f);
                 toggleRunAnim(false);
                 //toggleWalkAnim(true);
             }
@@ -137,6 +159,7 @@ public class Player : MonoBehaviour
         }
         else
         {
+            StopWalkingSound();
             toggleWalkAnim(false);
             anim.SetFloat("mouseX", mouseX * 5.6f);
         }
@@ -372,6 +395,7 @@ public class Player : MonoBehaviour
 
     public float getMana()
     {
+        Debug.Log("este es el mana " + mana);
         return mana;
     }
 
@@ -425,22 +449,24 @@ public class Player : MonoBehaviour
         //barrera
         if (Input.GetKey(GameConstants.key_barrier) && canUseBarrier && !audiosource.isPlaying && mana > 0.05f)
         {
-            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Barrier]);
+            audiosource.PlayOneShot(sonidos[0]);
         }
         //dash
         if (Input.GetKeyDown(GameConstants.key_dash) && stamina > 10f && !cooldownDash)
         {
-            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Dash]);
+            audiosource.PlayOneShot(sonidos[1]);
+            Debug.Log(cooldownDash);
+
         }
         //atacar
         if (Input.GetKeyDown(GameConstants.key_attack) && !cooldownA2)
         {
-            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Attack]);
+            audiosource.PlayOneShot(sonidos[2]);
         }
         //bola fuego
         if (Input.GetKeyDown(GameConstants.key_magic) && mana > 8f && !cooldownA1)
         {
-            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Magic]);
+            audiosource.PlayOneShot(sonidos[3]);
         }
     }
 }

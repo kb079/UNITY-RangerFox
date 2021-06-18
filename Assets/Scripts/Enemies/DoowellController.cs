@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class DoowellController : Enemy
 {
-
     [SerializeField] GameObject[] animations;
     [SerializeField] GameObject[] cabezas;
     [SerializeField] GameObject bala;
@@ -19,6 +18,8 @@ public class DoowellController : Enemy
     private Vector3 pos2;
     private bool isHeadEnabled = true;
     private bool hasDiedOnce = false;
+    public AudioSource audio;
+    public AudioClip[] sounds = new AudioClip[3];
 
     void Start()
     {
@@ -155,7 +156,13 @@ public class DoowellController : Enemy
         {
             agent.SetDestination(pos2);
             isActive = true;
+            if (!audio.isPlaying)
+            {
+                audio.PlayOneShot(sounds[0]);
+            }
+            
             //count = 0;
+
             if (!cooldown)//puede atacar
             {
                 agent.SetDestination(pos2);
