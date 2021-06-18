@@ -18,8 +18,11 @@ public class DoowellController : Enemy
     private Vector3 pos2;
     private bool isHeadEnabled = true;
     private bool hasDiedOnce = false;
-    public AudioSource audio;
-    public AudioClip[] sounds = new AudioClip[3];
+
+    public AudioSource audiosource;
+    [SerializeField] AudioClip[] sonidos;
+    private enum enum_sounds { Dead = 0, Run = 1 }
+
 
     void Start()
     {
@@ -40,6 +43,10 @@ public class DoowellController : Enemy
         {
             Debug.Log("isdfeadddd");
         }
+    }
+    private void playSound(enum_sounds sonido)
+    {
+        audiosource.PlayOneShot(sonidos[(int)sonido]);
     }
     private void changeAnimation(int i)
     {
@@ -94,6 +101,7 @@ public class DoowellController : Enemy
                     isHeadEnabled = !isHeadEnabled;
                     break;
                 case actions.REVIVE_PART_1:
+                    playSound(enum_sounds.Dead);
                     changeAnimation(5);
                     StartCoroutine(waitTo(actions.REVIVE_PART_2, 1f));
                     break;
@@ -117,6 +125,7 @@ public class DoowellController : Enemy
     {
         if (health <= 0 && !isDead)
         {
+            playSound(enum_sounds.Dead);
             StopAllCoroutines();
             agent.isStopped = true;
             isDead = true;
@@ -156,10 +165,6 @@ public class DoowellController : Enemy
         {
             agent.SetDestination(pos2);
             isActive = true;
-            if (!audio.isPlaying)
-            {
-                audio.PlayOneShot(sounds[0]);
-            }
             
             //count = 0;
 
@@ -179,6 +184,9 @@ public class DoowellController : Enemy
                 {
                     //Debug.Log("Debería perseguir");
                     //Persigue al jugador
+                    if (!audiosource.isPlaying)
+                        playSound(enum_sounds.Run);
+
                     isIdle = false;
                     if (isRunning == false && isAttacking == false)
                     {
@@ -197,6 +205,8 @@ public class DoowellController : Enemy
                     Vector3 runTo = pos1 + pos1 - pos2;
                     agent.SetDestination(runTo);
                     isIdle = false;
+                    if (!audiosource.isPlaying)
+                        playSound(enum_sounds.Run);
                     if (isRunning == false && isAttacking == false)
                     {
                         changeAnimation(1);

@@ -343,11 +343,10 @@ MonoBehaviour:
   velocity: 10
   cabeza: {fileID: 7919484698402110497}
   cabezaRock: {fileID: 7066833715622371999}
-  audio: {fileID: -236347852387349339}
-  sounds:
-  - {fileID: 8300000, guid: 0debd330d7e0e2048a612b89e97846bc, type: 3}
-  - {fileID: 8300000, guid: 82d91404fb5e8a84bbb7bef7d445349a, type: 3}
+  audiosource: {fileID: -236347852387349339}
+  sonidos:
   - {fileID: 8300000, guid: 315889d5c1c06464cbf5a24ce656d379, type: 3}
+  - {fileID: 8300000, guid: 0debd330d7e0e2048a612b89e97846bc, type: 3}
 --- !u!82 &-236347852387349339
 AudioSource:
   m_ObjectHideFlags: 0
@@ -357,7 +356,8 @@ AudioSource:
   m_GameObject: {fileID: 8666757670346664039}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 324129994862794376, guid: f84d4ccb87dd1944f88823d0c59ab1ce,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -369,7 +369,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -404,7 +404,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.673
       inSlope: 0
       outSlope: 0
       tangentMode: 0

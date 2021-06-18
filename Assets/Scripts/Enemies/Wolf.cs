@@ -7,20 +7,33 @@ public class Wolf : Enemy
     private float attackingTime = 1.2f;
     private float attackCooldown = 1f;
     [SerializeField] Animator animator;
-
+    private int counterBreath = 0;
+    private enum enum_sounds { Attack = 0, Breath = 1, Dead = 2 }
+    public AudioSource audiosource;
+    [SerializeField] AudioClip[] sonidos;
     private void Start()
     {
         health = GameConstants.Wolf_HP;
         animator.SetInteger("id", 0);
     }
-
+    private void playSound(enum_sounds sonido)
+    {
+        audiosource.PlayOneShot(sonidos[(int)sonido]);
+    }
     protected override void searchPlayer()
     {
         Vector3 pos1 = transform.position;
         Vector3 pos2 = player.transform.position;
 
-
+        counterBreath++;
         int distance = (int)Vector3.Distance(pos1, pos2);
+        if (distance <= searchRadius && counterBreath % 200 == 0)
+        {
+            counterBreath = 0;
+            playSound(enum_sounds.Breath);
+
+        }
+
         if (distance <= searchRadius && distance > attackRadius)
         {
             agent.isStopped = false;
@@ -44,7 +57,7 @@ public class Wolf : Enemy
         animator.SetInteger("id", 2);
         cooldown = true;
         isAttacking = true;
-
+        playSound(enum_sounds.Attack);
         StartCoroutine(finishAttack(attackingTime));
         StartCoroutine(finishAttackCooldown(attackCooldown));
     }
@@ -53,6 +66,7 @@ public class Wolf : Enemy
     {
         if (health <= 0 && !isDead)
         {
+            playSound(enum_sounds.Dead);
             Destroy(gameObject, 2.8f);
             animator.SetInteger("id", 3);
             if (agent != null)
