@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 763201691720647820}
   - component: {fileID: 763201691720647823}
   - component: {fileID: 5036094129070358748}
-  - component: {fileID: 1852435546}
+  - component: {fileID: 7571118773107355919}
   m_Layer: 0
   m_Name: Yuki
   m_TagString: Player
@@ -120,7 +120,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 11b2438de0e92e140a74f89a7d0b5f89, type: 3}
   - {fileID: 8300000, guid: e720623bf386dc144b7921efd32fcbb2, type: 3}
   - {fileID: 8300000, guid: 226f3208d6db7924e9734ca6c7311f10, type: 3}
-  loopAudiosource: {fileID: 1852435546}
+  loopAudiosource: {fileID: 7571118773107355919}
 --- !u!82 &5036094129070358748
 AudioSource:
   m_ObjectHideFlags: 0
@@ -218,7 +218,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!82 &1852435546
+--- !u!82 &7571118773107355919
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,7 +227,8 @@ AudioSource:
   m_GameObject: {fileID: 456559236486208441}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 324129994862794376, guid: f84d4ccb87dd1944f88823d0c59ab1ce,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: ae270adeeebd4cf438bd536e71d9a1b8, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1

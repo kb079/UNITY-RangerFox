@@ -1,10 +1,13 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public abstract class Enemy : MonoBehaviour
 {
     protected float health;
-
+    protected Slider healthBar;
+    public GameObject healthBarGO;
+    protected GameObject healthBarClone;
     protected int searchRadius = 30;
     protected int attackRadius = 3;
 
@@ -14,12 +17,28 @@ public abstract class Enemy : MonoBehaviour
 
     protected GameObject player;
     protected NavMeshAgent agent;
+    protected float maxHealth = 9999;
 
     private void Awake()
     {
+        healthBarGO = GameObject.FindGameObjectWithTag("EnemyHealthBar");
+        DontDestroyOnLoad(healthBarGO.transform.gameObject);
+        healthBarClone = Instantiate(healthBarGO, transform.position, transform.rotation);
+        healthBar = healthBarClone.GetComponentInChildren<Slider>();
+        healthBar.gameObject.SetActive(false);
+        healthBar.value = 1;
         player = GameObject.FindGameObjectWithTag("Player");
         if (GetComponent<NavMeshAgent>() != null) {
             agent = GetComponent<NavMeshAgent>();
+        }
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if (!isDead)
+        {
+            healthBarClone.transform.position = new Vector3(transform.position.x, transform.position.y + 4, transform.position.z);
+            healthBarClone.transform.rotation = transform.rotation;
         }
     }
 
@@ -36,10 +55,23 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public virtual void doDamage(float dmg) {
+        if (!isDead)
+        {
+            healthBar.gameObject.SetActive(true);
+        }
         Debug.Log("doDamage");
+        if (maxHealth == 9999) {
+            maxHealth = health;
+        }
         health -= dmg;
+        healthBar.gameObject.SetActive(true);
+        healthBar.value = health / maxHealth;
         Debug.Log("esta es la vida que tiene ahora" + health);
         checkHP();
+        if (isDead)
+        {
+            healthBar.gameObject.SetActive(false);
+        }
     }
 
     protected abstract void attack();

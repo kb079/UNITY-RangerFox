@@ -27,7 +27,8 @@ public class Wolf : Enemy
 
         counterBreath++;
         int distance = (int)Vector3.Distance(pos1, pos2);
-        if (distance <= searchRadius && counterBreath % 200 == 0)
+        int random = Random.Range(200, 1000);
+        if (distance <= searchRadius && counterBreath % random == 0)
         {
             counterBreath = 0;
             playSound(enum_sounds.Breath);

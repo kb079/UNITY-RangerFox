@@ -551,6 +551,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5286a14c6b445684fa6e69cf76ec5924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarGO: {fileID: 8996629145842419465, guid: a63eb2359db51524a90b2db02660d328,
+    type: 3}
   enemyHand: {fileID: 512573977727783637}
   animator: {fileID: 1792238135073708519}
   audiosource: {fileID: 1543710172944134514}

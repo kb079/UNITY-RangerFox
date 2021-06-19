@@ -30,6 +30,7 @@ public class MenuButtonsController : MonoBehaviour
 
     public void playAgain()
     {
+        Time.timeScale = 1;
         SceneManager.LoadSceneAsync("Madriguera");
     }
 }

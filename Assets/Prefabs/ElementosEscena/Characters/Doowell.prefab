@@ -325,6 +325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e84b1665829bd74a96d9974a8e4d11d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarGO: {fileID: 8996629145842419465, guid: a63eb2359db51524a90b2db02660d328,
+    type: 3}
   animations:
   - {fileID: 315600632573739105}
   - {fileID: 1276328784202676307}
