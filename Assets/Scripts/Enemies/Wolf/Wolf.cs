@@ -1,25 +1,39 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class Wolf : Enemy
 {
-    public GameObject enemyHand;
-    private float attackingTime = 1.2f;
-    private float attackCooldown = 1f;
-    [SerializeField] Animator animator;
+    private float attackCooldown = 1.5f;
+    protected int damage = GameConstants.Wolf_Dmg;
+    new public bool isAttacking;
+
+    protected Animator animator;
+    private AudioSource audiosource;
+
     private int counterBreath = 0;
     private enum enum_sounds { Attack = 0, Breath = 1, Dead = 2 }
-    public AudioSource audiosource;
+    
     [SerializeField] AudioClip[] sonidos;
-    private void Start()
+
+    protected virtual void Start()
     {
+        audiosource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
         health = GameConstants.Wolf_HP;
-        animator.SetInteger("id", 0);
+        isAttacking = false;
     }
+
     private void playSound(enum_sounds sonido)
     {
         audiosource.PlayOneShot(sonidos[(int)sonido]);
     }
+
+    protected override void Update()
+    {
+        if (!isDead && player.GetComponent<Player>().getHealth() > 0) searchPlayer();
+    }
+
     protected override void searchPlayer()
     {
         Vector3 pos1 = transform.position;
@@ -27,12 +41,11 @@ public class Wolf : Enemy
 
         counterBreath++;
         int distance = (int)Vector3.Distance(pos1, pos2);
-        int random = Random.Range(200, 1000);
+        int random = UnityEngine.Random.Range(200, 1000);
         if (distance <= searchRadius && counterBreath % random == 0)
         {
             counterBreath = 0;
             playSound(enum_sounds.Breath);
-
         }
 
         if (distance <= searchRadius && distance > attackRadius)
@@ -59,7 +72,8 @@ public class Wolf : Enemy
         cooldown = true;
         isAttacking = true;
         playSound(enum_sounds.Attack);
-        StartCoroutine(finishAttack(attackingTime));
+        
+        StartCoroutine(damageAnimation(0.63f));
         StartCoroutine(finishAttackCooldown(attackCooldown));
     }
 
@@ -67,25 +81,23 @@ public class Wolf : Enemy
     {
         if (health <= 0 && !isDead)
         {
-            playSound(enum_sounds.Dead);
-            Destroy(gameObject, 2.8f);
-            animator.SetInteger("id", 3);
-            if (agent != null)
-            {
-                Destroy(agent);
-            }
             isDead = true;
+            playSound(enum_sounds.Dead);
+            Destroy(gameObject, 10f);
+            animator.SetInteger("id", 3);
         }
     }
 
-    IEnumerator finishAttack(float time)
+    IEnumerator damageAnimation(float time)
     {
         yield return new WaitForSeconds(time);
+        doPlayerDamage(damage);
     }
 
     IEnumerator finishAttackCooldown(float time)
     {
         yield return new WaitForSeconds(time);
         cooldown = false;
+        animator.SetInteger("id", 0);
     }
 }

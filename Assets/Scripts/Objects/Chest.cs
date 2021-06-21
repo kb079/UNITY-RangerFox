@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Chest : MonoBehaviour
 {
@@ -20,21 +19,27 @@ public class Chest : MonoBehaviour
     {
         if (!isOpened)
         {
-           
             animator.SetBool("boton", true);
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().setHudText("");
-            inventory.addItem(inventory.itemTypes[1], 1);
             isOpened = true;
+            StartCoroutine(giveObject(0.72f));
         }
     }
+
+    IEnumerator giveObject(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        int item = Random.Range(0, 4);
+        if (SceneManager.GetActiveScene().name == "Tutorial") item = 1;
+        inventory.addItem(inventory.itemTypes[item], 1);
+    }
+
     private void OnTriggerStay(Collider c)
     {
         if (c.gameObject.CompareTag("Player"))
         {
-            if (Input.GetKey(GameConstants.key_interact))
-            {
-                openChest();
-            }
+            if (Input.GetKey(GameConstants.key_interact)) openChest();
         }
     }
     void OnTriggerEnter(Collider c)
@@ -46,7 +51,9 @@ public class Chest : MonoBehaviour
     }
     private void OnTriggerExit(Collider c)
     {
-        Player p = c.GetComponent<Player>();
-        if(p != null) p.setHudText("");
+        if (c.CompareTag("Player")) {
+            Player p = c.GetComponent<Player>();
+            if (p != null) p.setHudText("");
+        }
     }
 }

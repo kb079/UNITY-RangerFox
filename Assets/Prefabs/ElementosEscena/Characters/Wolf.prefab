@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8591495903869853680}
   m_Layer: 0
   m_Name: ArmCollider
-  m_TagString: Untagged
+  m_TagString: wolfHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,12 +53,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512573977727783637}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f044f9c6337167488792be2316fc4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerGO: {fileID: 0}
 --- !u!54 &8591495903869853680
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -553,7 +552,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarGO: {fileID: 8996629145842419465, guid: a63eb2359db51524a90b2db02660d328,
     type: 3}
-  enemyHand: {fileID: 512573977727783637}
   animator: {fileID: 1792238135073708519}
   audiosource: {fileID: 1543710172944134514}
   sonidos:
@@ -1136,7 +1134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f044f9c6337167488792be2316fc4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerGO: {fileID: 0}
 --- !u!54 &8923363096409058396
 Rigidbody:
   m_ObjectHideFlags: 0

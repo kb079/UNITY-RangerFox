@@ -74,6 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490e68b2c1ccc8d48b56a28c9bab178a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarGO: {fileID: 8996629145842419465, guid: a63eb2359db51524a90b2db02660d328,
+    type: 3}
   attackObj: {fileID: 4655407248253149330}
   normalAnimation: {fileID: 2783401327542104224}
   deadAnimation: {fileID: 8703958426063273401}

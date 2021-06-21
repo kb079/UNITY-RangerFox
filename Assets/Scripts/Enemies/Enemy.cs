@@ -44,10 +44,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (!isDead)
-        {
-            searchPlayer();
-        }
+        if (!isDead) searchPlayer();
     }
 
     protected virtual void doPlayerDamage(int dmg) {
@@ -55,23 +52,26 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public virtual void doDamage(float dmg) {
+        if (isDead) return;
+
         if (!isDead)
         {
             healthBar.gameObject.SetActive(true);
         }
-        Debug.Log("doDamage");
+
+        //
         if (maxHealth == 9999) {
             maxHealth = health;
         }
+        //
+
         health -= dmg;
         healthBar.gameObject.SetActive(true);
         healthBar.value = health / maxHealth;
         Debug.Log("esta es la vida que tiene ahora" + health);
         checkHP();
-        if (isDead)
-        {
-            healthBar.gameObject.SetActive(false);
-        }
+
+        if (isDead) healthBar.gameObject.SetActive(false);
     }
 
     protected abstract void attack();
@@ -99,20 +99,18 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void checkHP()
     {
-        Debug.Log("estoy mirando la vida");
         if (health <= 0 && !isDead)
         {
-            Debug.Log("muerto");
-            if (agent != null)
-            {
-                Destroy(agent);
-            }
-            Debug.Log("doDamage");
             isDead = true;
+            if (agent != null) Destroy(agent);
+
             GetComponent<Rigidbody>().isKinematic = true;
+
+            /* OLD, YA NO SE USA XQ ESTAN LAS ANIMACIONES
             Vector3 originalRot = transform.localEulerAngles;
             originalRot.x = 90;
             transform.localEulerAngles = originalRot;
+            */
         }
     }
 

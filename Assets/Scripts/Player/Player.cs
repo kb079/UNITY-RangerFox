@@ -322,7 +322,15 @@ public class Player : MonoBehaviour
 
             SceneManager.LoadSceneAsync("FinalBoss");
         }
-        Debug.Log("esta colisionando");
+
+        //COLISION CON LA MANO DEL LOBO -- ATAQUE
+
+        if (c.gameObject.CompareTag("wolfHand") && c.GetComponentInParent<Wolf>().isAttacking)
+        {
+            //doSingleDamage(GameConstants.Wolf_Dmg); ESTA PUESTO EN LA CLASE WOLF -- attack()
+            c.GetComponentInParent<Wolf>().isAttacking = false;
+        }
+        //Debug.Log("esta colisionando");
     }
 
     private void OnCollisionEnter(Collision c)
@@ -330,7 +338,6 @@ public class Player : MonoBehaviour
         //TODO - KB
         //CHECKEO SI EL JUGADOR SE COLISIONA CON ALGUN OBJETO
         //SE EJECUTA ANIMACION DE "SE HA COLISIONADO CON ALGO" Y LO ECHA PARA ATRAS
-
         if (!runningAnim && c.gameObject.CompareTag("tree"))
         {
             runAnimation("blockWalk", 0.6f);
@@ -402,7 +409,7 @@ public class Player : MonoBehaviour
 
     public float getMana()
     {
-        Debug.Log("este es el mana " + mana);
+        //Debug.Log("este es el mana " + mana);
         return mana;
     }
 
@@ -467,7 +474,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(GameConstants.key_attack) && !cooldownA2)
         {
             audiosource.PlayOneShot(sonidos[(int)enum_sounds.Attack]);
-            Debug.Log("Ataca");
+            //Debug.Log("Ataca");
         }
         //bola fuego
         if (Input.GetKeyDown(GameConstants.key_magic) && mana > 8f && !cooldownA1)
