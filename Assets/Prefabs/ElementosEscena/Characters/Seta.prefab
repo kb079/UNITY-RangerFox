@@ -66,8 +66,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f7da72584ab4a47a143950de113494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarGO: {fileID: 0}
   maxDis: 20
-  objAtk: {fileID: 0}
+  objAtk: {fileID: 2097824125445324803, guid: 65f9bdca3aa23d547a64f2b530764e34, type: 3}
   negZ: {fileID: 0}
   posZ: {fileID: 0}
   negX: {fileID: 0}
