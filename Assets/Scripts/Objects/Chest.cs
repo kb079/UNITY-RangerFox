@@ -7,6 +7,7 @@ public class Chest : MonoBehaviour
     private bool isOpened;
     private InventoryObject inventory;
     private Animator animator;
+    public AudioClip used;
 
     void Start()
     {
@@ -19,6 +20,8 @@ public class Chest : MonoBehaviour
     {
         if (!isOpened)
         {
+
+            GetComponent<AudioSource>().PlayOneShot(used);
             animator.SetBool("boton", true);
             GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().setHudText("");
             isOpened = true;

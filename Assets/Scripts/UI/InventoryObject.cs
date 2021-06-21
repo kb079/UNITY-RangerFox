@@ -12,9 +12,11 @@ public class InventoryObject : MonoBehaviour
     private List<Image> images = new List<Image>();
     private List<Text> texts = new List<Text>();
     public List<InventorySlot> container = new List<InventorySlot>();
+    public AudioClip used;
 
     private void Awake()
     {
+        
         int i = 0;
         foreach (GameObject go in UISlots)
         {
@@ -52,22 +54,27 @@ public class InventoryObject : MonoBehaviour
 
         if (Input.GetKeyDown(GameConstants.key_inv1))
         {
+            GetComponent<AudioSource>().PlayOneShot(used);
             useItem(0);
         }
         else if (Input.GetKeyDown(GameConstants.key_inv2))
         {
+            GetComponent<AudioSource>().PlayOneShot(used);
             useItem(1);
         }
         else if (Input.GetKeyDown(GameConstants.key_inv3))
         {
+            GetComponent<AudioSource>().PlayOneShot(used);
             useItem(2);
         }
         else if (Input.GetKeyDown(GameConstants.key_inv4))
         {
+            GetComponent<AudioSource>().PlayOneShot(used);
             useItem(3);
         }
         else if (Input.GetKeyDown(GameConstants.key_inv5))
         {
+            GetComponent<AudioSource>().PlayOneShot(used);
             useItem(4);
         }
     }
