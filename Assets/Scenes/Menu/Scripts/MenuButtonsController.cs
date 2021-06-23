@@ -8,9 +8,14 @@ public class MenuButtonsController : MonoBehaviour
     public AudioSource Audio;
     public void playStart()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        
         DontDestroyOnLoad(Audio.transform.gameObject);
         SceneManager.LoadSceneAsync("Tutorial");
+    }
+    private void Start()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void exitGame()
@@ -25,11 +30,13 @@ public class MenuButtonsController : MonoBehaviour
 
     public void closeSettings()
     {
+        Cursor.visible = false;
         SceneManager.UnloadSceneAsync("SettingsMenu");
     }
 
     public void playAgain()
     {
+        Cursor.visible = false;
         Time.timeScale = 1;
         SceneManager.LoadSceneAsync("Madriguera");
     }
