@@ -30,7 +30,12 @@ public class tutorial : MonoBehaviour
     {
         if (isShowingUp)
         {
-              //si apreta w aparece 1 texto y asi con cada texto y el contador se le suma 1
+
+            if (Input.GetKey(KeyCode.F))
+            {
+                cambiarEscena();
+            }
+            //si apreta w aparece 1 texto y asi con cada texto y el contador se le suma 1
             if (Input.GetKeyDown(KeyCode.W) && cont == 0 || Input.GetKeyDown(KeyCode.A) && cont == 0 || Input.GetKeyDown(KeyCode.D) && cont == 0 || Input.GetKeyDown(KeyCode.S) && cont == 0
                 || Input.GetKeyDown(KeyCode.UpArrow) && cont == 0 || Input.GetKeyDown(KeyCode.DownArrow) && cont == 0 || Input.GetKeyDown(KeyCode.LeftArrow) && cont == 0 || Input.GetKeyDown(KeyCode.RightArrow) && cont == 0)
             {  
