@@ -51,6 +51,7 @@ public class Player : MonoBehaviour
         isAttacking = false;
         canUseBarrier = true;
         isPaused = false;
+        runningAnim = false;
         hudText = "";
     }
 
@@ -130,7 +131,29 @@ public class Player : MonoBehaviour
         Vector3 rotateValue = new Vector3(0, mouseX * -1, 0);
         transform.eulerAngles = transform.eulerAngles - rotateValue;
 
-        if (!isAttacking && !runningAnim) {
+        if (!isAttacking && !runningAnim)
+        {
+
+            if (anim.GetBool("run")) { 
+            if (x > 0.1 && x < 0.5)
+            {
+                x = 0.5f;
+            }
+            else if (x < -0.5)
+            {
+                x = -1;
+            }
+
+            if (y > 0.5 && y < 0.5f)
+            {
+                y = 0.5f;
+            }
+            else if (y < -0.5)
+            {
+                y = -1;
+            }
+        }
+
             anim.SetFloat("playerX", x);
             anim.SetFloat("playerZ", y);
 
@@ -142,9 +165,8 @@ public class Player : MonoBehaviour
             }
             else
             {
-                StartWalkingSound(0.23f);
                 toggleRunAnim(false);
-
+                StartWalkingSound(0.23f);
             }
 
             if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
