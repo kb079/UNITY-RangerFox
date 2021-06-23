@@ -7158,6 +7158,7 @@ GameObject:
   - component: {fileID: 974026645}
   - component: {fileID: 974026644}
   - component: {fileID: 974026647}
+  - component: {fileID: 974026648}
   m_Layer: 3
   m_Name: Post-process hadas
   m_TagString: Untagged
@@ -7315,6 +7316,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &974026648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974026643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a95023badf9e4a41a56714ce791f76e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundIndex: 5
 --- !u!1001 &978673692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8943,6 +8957,7 @@ GameObject:
   - component: {fileID: 1230375238}
   - component: {fileID: 1230375237}
   - component: {fileID: 1230375240}
+  - component: {fileID: 1230375241}
   m_Layer: 3
   m_Name: Post-process desierto
   m_TagString: Untagged
@@ -9005,7 +9020,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1473528472034433153, guid: f84d4ccb87dd1944f88823d0c59ab1ce,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 845207ac8806df64e8c0db2dad3047d8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5278654b5313f2d4e8488e8482194a53, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -9100,6 +9115,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1230375241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230375236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a95023badf9e4a41a56714ce791f76e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundIndex: 6
 --- !u!1001 &1230704317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10592,6 +10620,7 @@ GameObject:
   - component: {fileID: 1487905921}
   - component: {fileID: 1487905920}
   - component: {fileID: 1487905923}
+  - component: {fileID: 1487905924}
   m_Layer: 3
   m_Name: Post-process desierto (1)
   m_TagString: Untagged
@@ -10749,6 +10778,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1487905924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487905919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a95023badf9e4a41a56714ce791f76e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundIndex: 6
 --- !u!1 &1509078793 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 98ac315906e98e845b720679f124645e,
@@ -13721,6 +13763,7 @@ GameObject:
   - component: {fileID: 1900033032}
   - component: {fileID: 1900033031}
   - component: {fileID: 1900033034}
+  - component: {fileID: 1900033035}
   m_Layer: 3
   m_Name: Post-process colinas
   m_TagString: Untagged
@@ -13878,6 +13921,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1900033035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900033030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a95023badf9e4a41a56714ce791f76e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundIndex: 3
 --- !u!1 &1903103715 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 98ac315906e98e845b720679f124645e,

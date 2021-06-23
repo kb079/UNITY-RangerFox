@@ -14,6 +14,15 @@ public class MusicController : MonoBehaviour
         actual = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     }
 
+    public void setAudioSource(int i)
+    {
+        audiosource.Stop();
+        audiosource.clip = (sonidos[i]);
+        audiosource.loop = true;
+        audiosource.Play();
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -23,16 +32,17 @@ public class MusicController : MonoBehaviour
 
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
             {
-                audiosource.PlayOneShot(sonidos[0]);
+                setAudioSource(0);
             }
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Madriguera")
             {
-                audiosource.PlayOneShot(sonidos[2]);
+                setAudioSource(2);
+               
             }
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "FinalMap")
             {
-
-                audiosource.PlayOneShot(sonidos[1]);
+                setAudioSource(1);
+              
             }
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Tutorial")
             {
@@ -40,7 +50,8 @@ public class MusicController : MonoBehaviour
             }
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "FinalBoss")
             {
-                audiosource.PlayOneShot(sonidos[3]);
+                setAudioSource(4);
+               
             }
         }
         else
