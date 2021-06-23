@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
 
     public Camera playerCamera;
     public GameObject bola;
-    public GameObject hand;
     public GameObject barrier;
     public GameObject bossBarrier;
     public GameObject crossHair;
@@ -36,7 +35,6 @@ public class Player : MonoBehaviour
     public AudioSource loopAudiosource;
     private void Awake()
     {
-
         health = 100;
         stamina = 100;
         mana = 100;
@@ -44,8 +42,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         //El cursor no se sale de la pantalla
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
 
         inventory = GameObject.FindGameObjectWithTag("Inventory");
         rb = GetComponent<Rigidbody>();
@@ -55,14 +52,6 @@ public class Player : MonoBehaviour
         canUseBarrier = true;
         isPaused = false;
         hudText = "";
-
-        if (SceneManager.GetActiveScene().name.Equals("FinalBoss"))
-        {
-            //isDead = true;
-            isPaused = true;
-            StartCoroutine(cor_EndCinematic(22f));
-        }
-        
     }
 
     public void StartWalkingSound(float time)
@@ -89,7 +78,7 @@ public class Player : MonoBehaviour
             playerMoves();
             activateActions();
 
-            if (!cooldownA1 && Input.GetMouseButtonDown(1) && useMana(8))
+            if (!cooldownA1 && Input.GetKeyDown(GameConstants.key_magic) && useMana(8))
             {
                 cooldownA1 = true;
                 float time = 0.84f;
@@ -105,7 +94,7 @@ public class Player : MonoBehaviour
 
                 StartCoroutine(attack1(time));
             }
-            if (!cooldownA2 && Input.GetMouseButtonDown(0) && useStamina(5)) attack2();
+            if (!cooldownA2 && Input.GetKeyDown(GameConstants.key_attack) && useStamina(5)) attack2();
         }
 
         if (Input.GetKeyDown(KeyCode.P) && !isPaused)
@@ -124,6 +113,7 @@ public class Player : MonoBehaviour
         SceneManager.UnloadSceneAsync("PauseMenu");
         Time.timeScale = 1;
     }
+
     protected void playerMoves()
     {
         movSpeed = defaultSpeed;
@@ -132,30 +122,30 @@ public class Player : MonoBehaviour
 
         float mouseX = Input.GetAxis("Mouse X") * GameConstants.camMovementSpeed;
 
-        Vector3 move = transform.right * x * movSpeed + transform.forward * y * movSpeed;
+        float a = (x * movSpeed) * Time.deltaTime;
+        float b = (y * movSpeed) * Time.deltaTime;
+
+        Vector3 move = new Vector3(a, 0, b);
         //ROTATE PLAYER WITH CAMERA
         Vector3 rotateValue = new Vector3(0, mouseX * -1, 0);
         transform.eulerAngles = transform.eulerAngles - rotateValue;
 
-        if ((x != 0 || y != 0) && (!isAttacking && !runningAnim))
-        {
+        if (!isAttacking && !runningAnim) {
+            anim.SetFloat("playerX", x);
+            anim.SetFloat("playerZ", y);
 
             if (Input.GetKey(GameConstants.key_run) && useStamina(0.05F))
             {
+                toggleRunAnim(true);
                 StartWalkingSound(0.08f);
                 movSpeed += 25f;
-                toggleRunAnim(true);
             }
             else
             {
                 StartWalkingSound(0.23f);
                 toggleRunAnim(false);
-                //toggleWalkAnim(true);
-            }
 
-            toggleWalkAnim(true);
-            anim.SetFloat("playerX", x);
-            anim.SetFloat("playerZ", y);
+            }
 
             if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
             {
@@ -166,22 +156,11 @@ public class Player : MonoBehaviour
 
             rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
-        else
-        {
-            StopWalkingSound();
-            toggleWalkAnim(false);
-            anim.SetFloat("mouseX", mouseX * 5.6f);
-        }
-    }
-
-    private void toggleWalkAnim(bool state)
-    {
-        if (anim.GetBool("walk") != state) anim.SetBool("walk", state);
     }
 
     private void toggleRunAnim(bool state)
     {
-        anim.SetBool("run", state);
+        if (anim.GetBool("run") != state) anim.SetBool("run", state);
     }
 
     private void runAnimation(string name, float time)
@@ -206,8 +185,7 @@ public class Player : MonoBehaviour
             inventory.SetActive(isInventoryEnabled);
         }
         if (Input.GetKeyDown(GameConstants.key_barrier) && !isBarrierActive && canUseBarrier && useMana(0.05f))
-        {
-            isBarrierActive = true;
+        { 
             StartCoroutine(delayActiveBarrier());
             runAnimation("barrier", 2.4f);
             canUseBarrier = false;
@@ -224,6 +202,7 @@ public class Player : MonoBehaviour
     IEnumerator delayActiveBarrier()
     {
         yield return new WaitForSeconds(1.5f);
+        isBarrierActive = true;
         barrier.SetActive(true);
     }
 
@@ -490,12 +469,5 @@ public class Player : MonoBehaviour
         {
             audiosource.PlayOneShot(sonidos[(int)enum_sounds.Magic]);
         }
-    }
-
-    IEnumerator cor_EndCinematic(float time)
-    {
-        yield return new WaitForSeconds(time);
-        //isDead = false;
-        isPaused = false;
     }
 }
