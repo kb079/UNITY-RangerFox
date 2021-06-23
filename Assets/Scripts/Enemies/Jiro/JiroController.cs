@@ -51,6 +51,11 @@ public class JiroController : Enemy
         isDead = true;
         StartCoroutine(cor_EndCinematic(22f));
     }
+
+    protected override void FixedUpdate() {
+        healthBarClone.transform.position = healthBar.transform.position;
+        healthBarClone.transform.rotation = healthBar.transform.rotation;
+    }
     private new void Update()
     {   
         // Si no está muerto y está activo (de momento se activa al pulsar una tecla)...

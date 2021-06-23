@@ -26,32 +26,6 @@ public class InventoryObject : MonoBehaviour
     }
     private void Update()
     {
-        //**********
-        // DEBUG
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            addItem(itemTypes[0], 1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            addItem(itemTypes[1], 1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            addItem(itemTypes[2], 1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha9))
-        {
-            addItem(itemTypes[3], 7);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            addItem(itemTypes[4], 4);
-        }
-        // DEBUG
-        //**********
-
-
         if (Input.GetKeyDown(GameConstants.key_inv1))
         {
             GetComponent<AudioSource>().PlayOneShot(used);
@@ -108,6 +82,24 @@ public class InventoryObject : MonoBehaviour
         // Lo añado gráficamente (sprite + 'x' stack)
         addInfoToInventory(container.Count, item.sprite, stack);
         container.Add(new InventorySlot(item, stack, container.Count));
+    }
+
+    // Dropear item al matar enemigo
+    public void OnEnemyDead(int dropProbabilitySuccess, int dropProbabilityMax, Vector3 position)
+    {
+        int result = Random.Range(0, dropProbabilityMax);
+        if (result < dropProbabilitySuccess)
+        {
+            Dictionary<ItemObject, int> items = new Dictionary<ItemObject, int>();
+            foreach (ItemObject it in itemTypes)
+            {
+                items.Add(it, it.dropWeight);
+            }
+            ItemObject item = ExtRandom.ChooseWeighted(items);
+            Vector3 nPos = new Vector3(position.x, position.y + 2, position.z);
+            GameObject itemGO = Instantiate(item.itemGameObject, position, item.itemGameObject.transform.rotation, transform);
+            itemGO.SetActive(true);
+        }
     }
 
     // Info gráfica (sprite + 'x' stack)

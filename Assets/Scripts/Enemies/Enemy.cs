@@ -1,11 +1,11 @@
-using UnityEngine;
+ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
 public abstract class Enemy : MonoBehaviour
 {
     protected float health;
-    protected Slider healthBar;
+    protected Image healthBar;
     public GameObject healthBarGO;
     protected GameObject healthBarClone;
     protected int searchRadius = 30;
@@ -19,14 +19,23 @@ public abstract class Enemy : MonoBehaviour
     protected NavMeshAgent agent;
     protected float maxHealth = 9999;
 
+    protected int dropProbabilityMax = 4;
+    protected int dropProbabilitySuccess = 4;
+    protected InventoryObject inventory;
+    protected float healthBarYPosition = 5;
+    protected Vector3 healthBarScale = new Vector3(1, 1, 1);
+
     private void Awake()
     {
         healthBarGO = GameObject.FindGameObjectWithTag("EnemyHealthBar");
+        inventory = GameObject.FindGameObjectWithTag("UIManager").GetComponent<InventoryObject>();
         DontDestroyOnLoad(healthBarGO.transform.gameObject);
         healthBarClone = Instantiate(healthBarGO, transform.position, transform.rotation);
-        healthBar = healthBarClone.GetComponentInChildren<Slider>();
+        //Segundo componente image (barra roja)
+        healthBar = healthBarClone.GetComponentsInChildren<Image>()[1];
+        healthBarClone.gameObject.SetActive(false);
         healthBar.gameObject.SetActive(false);
-        healthBar.value = 1;
+        healthBar.fillAmount = 1;
         player = GameObject.FindGameObjectWithTag("Player");
         if (GetComponent<NavMeshAgent>() != null) {
             agent = GetComponent<NavMeshAgent>();
@@ -37,7 +46,7 @@ public abstract class Enemy : MonoBehaviour
     {
         if (!isDead)
         {
-            healthBarClone.transform.position = new Vector3(transform.position.x, transform.position.y + 4, transform.position.z);
+            healthBarClone.transform.position = new Vector3(transform.position.x, transform.position.y + healthBarYPosition, transform.position.z);
             healthBarClone.transform.rotation = transform.rotation;
         }
     }
@@ -66,8 +75,8 @@ public abstract class Enemy : MonoBehaviour
         //
 
         health -= dmg;
-        healthBar.gameObject.SetActive(true);
-        healthBar.value = health / maxHealth;
+        healthBarClone.gameObject.SetActive(true);
+        healthBar.fillAmount = health / maxHealth;
         Debug.Log("esta es la vida que tiene ahora" + health);
         checkHP();
 
@@ -75,6 +84,11 @@ public abstract class Enemy : MonoBehaviour
     }
 
     protected abstract void attack();
+
+    protected void OnDestroy()
+    {
+        inventory.OnEnemyDead(dropProbabilitySuccess, dropProbabilityMax, transform.position);
+    }
 
     protected virtual void searchPlayer() {
         Vector3 pos1 = transform.position;

@@ -16,3 +16,6 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 3b449d783eb281b4aadfcba95a2f893a, type: 3}
   type: 0
   maxStack: 5
+  dropWeight: 4
+  itemGameObject: {fileID: 4081514431054238382, guid: 62837e186111a45419b9bc53145bf954,
+    type: 3}

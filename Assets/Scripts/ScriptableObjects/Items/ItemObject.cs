@@ -9,6 +9,8 @@ public class ItemObject : ScriptableObject
     public Sprite sprite;
     public ItemType type;
     public int maxStack;
+    public int dropWeight;
+    public GameObject itemGameObject;
 }
 
 public enum ItemType

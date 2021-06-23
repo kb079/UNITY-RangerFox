@@ -585,11 +585,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 51ff40f7c03e45e49a3470f16a5b4328, type: 2}
   - {fileID: 11400000, guid: 8b25609ebc41fcd45ae2a7ac63e0646c, type: 2}
   - {fileID: 11400000, guid: 5ca13f463b00de0418c0d96ec6497902, type: 2}
-  - {fileID: 11400000, guid: f39479aa2ef20a14880edad149070464, type: 2}
-  - {fileID: 11400000, guid: 19362cfd014959540b124201b82e0991, type: 2}
   player: {fileID: 0}
   nullSprite: {fileID: 21300000, guid: 7881e228b9f7de84d94dd303971aa8c9, type: 3}
   container: []
+  used: {fileID: 0}
 --- !u!1 &7680218051592089265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,6 +1144,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CanvasEnemyHP
+      objectReference: {fileID: 0}
+    - target: {fileID: 8996629145842419465, guid: a63eb2359db51524a90b2db02660d328,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyHealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 8996629145842419469, guid: a63eb2359db51524a90b2db02660d328,
         type: 3}
