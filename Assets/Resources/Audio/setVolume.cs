@@ -9,8 +9,7 @@ public class setVolume : MonoBehaviour
     // Start is called before the first frame update
     public void setLevel(float level)
     {
-        mixer.SetFloat("SoundVolum", Mathf.Log10(level) * 20);
-        /*GameConstants.volume = (int)(100*level);
-        Debug.Log(level);*/
+        mixer.SetFloat("SoundVolum", Mathf.Log10(level/100) * 20);
+      
     }
 }

@@ -44,7 +44,8 @@ public class Player : MonoBehaviour
     private void Start()
     {
         //El cursor no se sale de la pantalla
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         inventory = GameObject.FindGameObjectWithTag("Inventory");
         rb = GetComponent<Rigidbody>();
