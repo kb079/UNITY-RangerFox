@@ -55,6 +55,14 @@ public class Player : MonoBehaviour
         canUseBarrier = true;
         isPaused = false;
         hudText = "";
+
+        if (SceneManager.GetActiveScene().name.Equals("FinalBoss"))
+        {
+            //isDead = true;
+            isPaused = true;
+            StartCoroutine(cor_EndCinematic(22f));
+        }
+        
     }
 
     public void StartWalkingSound(float time)
@@ -482,5 +490,12 @@ public class Player : MonoBehaviour
         {
             audiosource.PlayOneShot(sonidos[(int)enum_sounds.Magic]);
         }
+    }
+
+    IEnumerator cor_EndCinematic(float time)
+    {
+        yield return new WaitForSeconds(time);
+        //isDead = false;
+        isPaused = false;
     }
 }

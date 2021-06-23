@@ -42,14 +42,17 @@ public class JiroController : Enemy
         actions.Add(enum_actions.Arm, 4);
         actions.Add(enum_actions.Jump, 4);
         actions.Add(enum_actions.Earthquake, 3);
-        actions.Add(enum_actions.EnergyBall, 2);
+        actions.Add(enum_actions.EnergyBall, 200);
 
         // Esto es para el ataque del salto. La altura está calculada "a mano"
         yForce = yFloatForce * Vector3.up;
+
+        //Jiro permanece inactivo al inicio (cinematica)
+        isDead = true;
+        StartCoroutine(cor_EndCinematic(22f));
     }
     private new void Update()
-    {
-        
+    {   
         // Si no está muerto y está activo (de momento se activa al pulsar una tecla)...
         if (!isDead)
         {
@@ -352,6 +355,12 @@ public class JiroController : Enemy
     public bool isJiroDead()
     {
         return isDead;
+    }
+
+    IEnumerator cor_EndCinematic(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isDead = false;
     }
 }
 
