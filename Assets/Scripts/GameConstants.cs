@@ -2,6 +2,12 @@ using UnityEngine;
 
 public class GameConstants : MonoBehaviour
 {
+    //Player
+    public static int attack_damage = 5;
+    public static float camMovementSpeed = 1.6f;
+    public const float magic_damage = 8f;
+
+
     //nombre de archivo de items
     public const string it_no_item = "emptySlot";
     public const string it_healing_1 = "healing1";
@@ -10,13 +16,13 @@ public class GameConstants : MonoBehaviour
 
     //teclas
     public static KeyCode key_attack = KeyCode.Mouse0;
-    public static KeyCode key_magic = KeyCode.Mouse1;
+    public static KeyCode key_magic = KeyCode.Space;
     public static KeyCode key_inventory = KeyCode.I;
-    public static KeyCode key_run = KeyCode.Space;
+    public static KeyCode key_run = KeyCode.LeftShift;
     public static KeyCode key_dash = KeyCode.R;
     public static KeyCode key_interact = KeyCode.E;
     public static KeyCode key_barrier = KeyCode.B;
-    public static KeyCode key_cameraZoom = KeyCode.K;
+    public static KeyCode key_cameraZoom = KeyCode.Mouse1;
 
     public static KeyCode key_inv1 = KeyCode.Alpha1;
     public static KeyCode key_inv2 = KeyCode.Alpha2;
@@ -32,18 +38,15 @@ public class GameConstants : MonoBehaviour
     public const int Fairy_HP = 12;
 
     //daño ataques enemigos
-    public const int Wolf_Dmg = 40;
-    public const int Seta_Dmg = 3;
-    public const int Doowell_Dmg = 20;
+    public const int Wolf_Dmg = 8;
+    public const int Seta_Dmg = 4;
+    public const int Doowell_Dmg = 8;
     public const int Chest_Dmg = 6;
-    public const int Fairy_Dmg = 8;
-
-    //player
-    public static float camMovementSpeed = 1.6f;
-    public const float ballDamage = 8f;
+    public const int Fairy_Dmg = 4;
 
     //misc
     public static int volume = 100;
+
 }
 
 

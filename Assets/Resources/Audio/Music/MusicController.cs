@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicController : MonoBehaviour
@@ -20,7 +18,6 @@ public class MusicController : MonoBehaviour
         audiosource.clip = (sonidos[i]);
         audiosource.loop = true;
         audiosource.Play();
-        
     }
 
     // Update is called once per frame
@@ -28,8 +25,6 @@ public class MusicController : MonoBehaviour
     {
         if (!audiosource.isPlaying)
         {
-
-
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainMenu")
             {
                 setAudioSource(0);
@@ -51,7 +46,6 @@ public class MusicController : MonoBehaviour
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "FinalBoss")
             {
                 setAudioSource(4);
-               
             }
         }
         else

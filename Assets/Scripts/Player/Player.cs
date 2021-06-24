@@ -108,13 +108,21 @@ public class Player : MonoBehaviour
             if (!cooldownA2 && Input.GetKeyDown(GameConstants.key_attack) && useStamina(5)) attack2();
         }
 
-        if (Input.GetKeyDown(KeyCode.P) && !isPaused)
-        {
-            isPaused = true;
-            Time.timeScale = 0;
-            SceneManager.LoadSceneAsync("PauseMenu", LoadSceneMode.Additive);
-            playerCamera.GetComponent<CameraManager>().isPaused = true;
-        }
+        #if UNITY_WEBGL
+            if (Input.GetKeyDown(KeyCode.P) && !isPaused) pauseGame();
+        #endif
+
+        #if UNITY_STANDALONE
+            if (Input.GetKeyDown(KeyCode.Escape) && !isPaused) pauseGame();
+        #endif
+    }
+
+    private void pauseGame()
+    {
+        isPaused = true;
+        Time.timeScale = 0;
+        SceneManager.LoadSceneAsync("PauseMenu", LoadSceneMode.Additive);
+        playerCamera.GetComponent<CameraManager>().isPaused = true;
     }
 
     public void resumeGame()
@@ -172,10 +180,9 @@ public class Player : MonoBehaviour
                 StartWalkingSound(0.08f);
                 movSpeed += 25f;
             }
-            else
+            else if(Input.GetKeyUp(GameConstants.key_run))
             {
                 toggleRunAnim(false);
-                StartWalkingSound(0.23f);
             }
 
             if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
@@ -185,6 +192,10 @@ public class Player : MonoBehaviour
                 StartCoroutine(finishDash(2f));
             }
 
+            if (!anim.GetBool("run") && (x != 0 || y != 0)) StartWalkingSound(0.30f);
+            else if(!anim.GetBool("run") &&  x == 0 || y == 0) StopWalkingSound();
+
+                
             rb.velocity = new Vector3(move.x, rb.velocity.y, move.z);
         }
     }
@@ -215,6 +226,7 @@ public class Player : MonoBehaviour
             isInventoryEnabled = !isInventoryEnabled;
             inventory.SetActive(isInventoryEnabled);
         }
+
         if (Input.GetKeyDown(GameConstants.key_barrier) && !isBarrierActive && canUseBarrier && useMana(0.05f))
         { 
             StartCoroutine(delayActiveBarrier());
@@ -222,6 +234,7 @@ public class Player : MonoBehaviour
             canUseBarrier = false;
             StartCoroutine(delayBarrierKey());
         }
+
         if (Input.GetKeyUp(GameConstants.key_barrier) && isBarrierActive && canUseBarrier)
         {
             barrier.SetActive(false);

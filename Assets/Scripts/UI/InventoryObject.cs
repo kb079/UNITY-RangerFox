@@ -103,9 +103,10 @@ public class InventoryObject : MonoBehaviour
                 items.Add(it, it.dropWeight);
             }
             ItemObject item = ExtRandom.ChooseWeighted(items);
-            Vector3 nPos = new Vector3(position.x, position.y + 2, position.z);
+            //Vector3 nPos = new Vector3(position.x, position.y + 2, position.z);
+
             GameObject itemGO = Instantiate(item.itemGameObject, position, item.itemGameObject.transform.rotation, transform);
-            itemGO.SetActive(true);
+            if(itemGO != null) itemGO.SetActive(true);
         }
     }
 

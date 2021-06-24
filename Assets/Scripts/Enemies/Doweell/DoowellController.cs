@@ -111,6 +111,7 @@ public class DoowellController : Enemy
                     isAttacking = false;
                     cooldown = false;
                     health = GameConstants.Doowell_HP;
+                    healthBar.fillAmount = 1;
                     changeAnimation(0);
                     rb.isKinematic = false;
                     break;

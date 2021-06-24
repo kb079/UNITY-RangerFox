@@ -87,6 +87,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected void OnDestroy()
     {
+        Destroy(healthBarClone.gameObject);
         inventory.OnEnemyDead(dropProbabilitySuccess, dropProbabilityMax, transform.position);
     }
 
@@ -119,12 +120,6 @@ public abstract class Enemy : MonoBehaviour
             if (agent != null) Destroy(agent);
 
             GetComponent<Rigidbody>().isKinematic = true;
-
-            /* OLD, YA NO SE USA XQ ESTAN LAS ANIMACIONES
-            Vector3 originalRot = transform.localEulerAngles;
-            originalRot.x = 90;
-            transform.localEulerAngles = originalRot;
-            */
         }
     }
 
@@ -134,7 +129,7 @@ public abstract class Enemy : MonoBehaviour
         {
             if (c.gameObject.GetComponentInParent<Player>().isAttacking)
             {
-                doDamage(5);
+                doDamage(GameConstants.attack_damage);
                 c.gameObject.GetComponentInParent<Player>().isAttacking = false;
             }
         }

@@ -82,6 +82,7 @@ public class Wolf : Enemy
     {
         if (health <= 0 && !isDead)
         {
+            agent.isStopped = true;
             isDead = true;
             playSound(enum_sounds.Dead);
             Destroy(gameObject, 10f);
