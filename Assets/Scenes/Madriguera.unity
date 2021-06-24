@@ -1321,7 +1321,7 @@ PrefabInstance:
         type: 3}
       propertyPath: crosshair
       value: 
-      objectReference: {fileID: 1751740033}
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 763201691720647823, guid: 43baac21f2da0ea4182cda0330566964, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 43baac21f2da0ea4182cda0330566964, type: 3}
@@ -1575,12 +1575,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909835976}
   m_Mesh: {fileID: -5243098771569098612, guid: 604e3857ba30ec843b131325d7433d10, type: 3}
---- !u!1 &962609742 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5539413872419233495, guid: 43baac21f2da0ea4182cda0330566964,
-    type: 3}
-  m_PrefabInstance: {fileID: 683999831}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &983631559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3097,14 +3091,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8165067290726415968, guid: 59add1fba459d2341a396a97d7f05212,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1928542228}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59add1fba459d2341a396a97d7f05212, type: 3}
---- !u!1 &1751740033 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5552890324679473618, guid: 59add1fba459d2341a396a97d7f05212,
-    type: 3}
-  m_PrefabInstance: {fileID: 1751740032}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1800006444 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0f592f5a4a4e7db449d2008ffc929fa5,
@@ -3561,14 +3554,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 340364202}
   bola: {fileID: 0}
-  hand: {fileID: 962609742}
   barrier: {fileID: 1801359419}
   bossBarrier: {fileID: 0}
-  crossHair: {fileID: 1751740033}
+  crossHair: {fileID: 0}
   isAttacking: 0
   isBarrierActive: 0
   nuevaPosicion: {fileID: 0}
   isPaused: 0
+  isDead: 0
   audiosource: {fileID: 1928542230}
   sonidos:
   - {fileID: 8300000, guid: 75150b93af544354596d6e3eba157794, type: 3}

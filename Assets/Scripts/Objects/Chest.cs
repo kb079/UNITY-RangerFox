@@ -33,7 +33,7 @@ public class Chest : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
 
-        int item = Random.Range(0, 4);
+        int item = Random.Range(0, 2);
         if (SceneManager.GetActiveScene().name == "Tutorial") item = 1;
         inventory.addItem(inventory.itemTypes[item], 1);
     }

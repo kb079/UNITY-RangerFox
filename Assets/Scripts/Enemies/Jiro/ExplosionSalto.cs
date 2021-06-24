@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class ExplosionSalto : MonoBehaviour
 {
-    public GameObject player;
+    private float lifeTime = 0.85f;
+    private GameObject player;
     private Rigidbody playerRB;
     private float scaleVal = 0.18f;
     private float baseDamage = 30;
     private float finalDamage = 0;
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         playerRB = player.GetComponent<Rigidbody>();
-        Destroy(gameObject, 0.3f);
+        Destroy(gameObject, lifeTime);
     }
     private void Update()
     {
+
         float scale = (float)(transform.localScale.x + scaleVal);
         // Puede llegar a restar unos 14 de daño del daño base
         finalDamage += scaleVal;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JiroController : Enemy
 {
@@ -24,6 +25,7 @@ public class JiroController : Enemy
     [SerializeField] AudioClip[] sonidos;
     private void Start()
     {
+       
         rb = GetComponent<Rigidbody>();
         health = 100;
         originalPos = transform.position;
@@ -39,10 +41,10 @@ public class JiroController : Enemy
         changeAnimation(enum_animations.Idle);
         
         // Peso de cada acción (cuanto más peso, más probable que lo haga)
-        actions.Add(enum_actions.Arm, 4);
-        actions.Add(enum_actions.Jump, 4);
-        actions.Add(enum_actions.Earthquake, 3);
-        actions.Add(enum_actions.EnergyBall, 200);
+        actions.Add(enum_actions.Arm, 3);
+        actions.Add(enum_actions.Jump, 5);
+        actions.Add(enum_actions.Earthquake, 5);
+        actions.Add(enum_actions.EnergyBall, 2);
 
         // Esto es para el ataque del salto. La altura está calculada "a mano"
         yForce = yFloatForce * Vector3.up;
@@ -52,9 +54,18 @@ public class JiroController : Enemy
         StartCoroutine(cor_EndCinematic(22f));
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        healthBarClone = healthBarGO;
+        healthBar = healthBarClone.GetComponentsInChildren<Image>()[1];
+    }
+
+
+
     protected override void FixedUpdate() {
-        healthBarClone.transform.position = healthBar.transform.position;
-        healthBarClone.transform.rotation = healthBar.transform.rotation;
+       // healthBarClone.transform.position = healthBar.transform.position;
+        //healthBarClone.transform.rotation = healthBar.transform.rotation;
     }
     private new void Update()
     {   
@@ -247,7 +258,7 @@ public class JiroController : Enemy
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "bossFloor")
+        if (collision.gameObject.CompareTag("bossFloor"))
         {
             rb.velocity = Vector3.zero;
             // Si está realizando la acción para la energy ball
@@ -266,6 +277,13 @@ public class JiroController : Enemy
                 canExplodeFloor = false;
                 StartCoroutine(cor_actions(0.2f, enum_cor.EndJump));
             }
+        }
+        if (collision.gameObject.CompareTag("Player") && canExplodeFloor)
+        {
+            rb.velocity = Vector3.zero;
+            rb.AddForce(-transform.forward * 3f, ForceMode.Impulse);
+            rb.AddForce(transform.up * 3f, ForceMode.Impulse);
+            Debug.Log("se esta aplicando");
         }
     }
     IEnumerator cor_actions(float time, enum_cor action = enum_cor.Default)

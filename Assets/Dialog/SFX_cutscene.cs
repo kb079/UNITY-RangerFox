@@ -7,6 +7,12 @@ public class SFX_cutscene : MonoBehaviour
 {
     public GameObject camara;
     public GameObject cutscene;
+    public GameObject hud;
+    public GameObject enemyBar;
+    public GameObject playerStats;
+    public GameObject inventary;
+    public GameObject dialogos;
+    
     PostProcessVolume m_Volume;
     Vignette m_Vignette;
     void Start()
@@ -22,12 +28,18 @@ public class SFX_cutscene : MonoBehaviour
 
     void Update()
     {
-        if (Time.timeSinceLevelLoad >= 22)
+        if (Time.timeSinceLevelLoad >= 22 || Input.anyKey)
         {
             Debug.Log("Termina la cinematica");
             m_Vignette.enabled.Override(false);
             cutscene.SetActive(false);
+            dialogos.SetActive(false);
             camara.SetActive(true);
+            inventary.SetActive(true);
+            hud.SetActive(true);
+            enemyBar.SetActive(true);
+            playerStats.SetActive(true);
+            
         }
         // Change vignette intensity using a sinus curve
         //m_Vignette.intensity.value = Mathf.Sin(Time.realtimeSinceStartup);

@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     protected bool isInventoryEnabled = true;
     public GameObject nuevaPosicion;
     public bool isPaused;
+    
 
     private enum enum_sounds { Barrier = 0, Dash = 1, Attack = 2, Magic = 3 }
     private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier;
@@ -48,6 +49,8 @@ public class Player : MonoBehaviour
         stamina = 100;
         mana = 100;
     }
+
+
     private void Start()
     {
         instance = this;
@@ -63,6 +66,11 @@ public class Player : MonoBehaviour
         isPaused = false;
         runningAnim = false;
         hudText = "";
+        if (SceneManager.GetActiveScene().name.Equals("FinalBoss"))
+        {
+            isDead = true;
+            StartCoroutine(cor_EndCinematic(22f));
+        }
     }
 
     public void StartWalkingSound(float time)
@@ -253,6 +261,12 @@ public class Player : MonoBehaviour
     IEnumerator delayBarrierKey()
     {
         yield return new WaitForSeconds(1.2f);
+        canUseBarrier = true;
+    }
+
+    IEnumerator RegenStamina()
+    {
+        yield return new WaitForSeconds(1f);
         canUseBarrier = true;
     }
 
@@ -533,5 +547,11 @@ public class Player : MonoBehaviour
         {
             audiosource.PlayOneShot(sonidos[(int)enum_sounds.Magic]);
         }
+    }
+
+    IEnumerator cor_EndCinematic(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isDead = false;
     }
 }

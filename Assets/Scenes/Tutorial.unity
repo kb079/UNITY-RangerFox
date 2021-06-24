@@ -1647,6 +1647,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1720523561}
+    - target: {fileID: 4432907623169561833, guid: 672b3117e7a3aca4fa967e911cbd0126,
+        type: 3}
+      propertyPath: itemTypes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4432907624336865364, guid: 672b3117e7a3aca4fa967e911cbd0126,
         type: 3}
       propertyPath: m_RootOrder
@@ -1730,7 +1735,7 @@ PrefabInstance:
     - target: {fileID: 8109590582249996734, guid: 672b3117e7a3aca4fa967e911cbd0126,
         type: 3}
       propertyPath: indications.Array.data[1]
-      value: Para correr Espacio
+      value: Para correr shift
       objectReference: {fileID: 0}
     - target: {fileID: 8109590582249996734, guid: 672b3117e7a3aca4fa967e911cbd0126,
         type: 3}
@@ -1750,22 +1755,22 @@ PrefabInstance:
     - target: {fileID: 8109590582249996734, guid: 672b3117e7a3aca4fa967e911cbd0126,
         type: 3}
       propertyPath: indications.Array.data[5]
-      value: pulsa click derecho para usar magia
+      value: Pulsa espacio para usar magia
       objectReference: {fileID: 0}
     - target: {fileID: 8109590582249996734, guid: 672b3117e7a3aca4fa967e911cbd0126,
         type: 3}
       propertyPath: indications.Array.data[6]
-      value: 'Usa K para apuntar '
+      value: 'Usa click derecho  para apuntar '
       objectReference: {fileID: 0}
     - target: {fileID: 8109590582249996734, guid: 672b3117e7a3aca4fa967e911cbd0126,
         type: 3}
       propertyPath: indications.Array.data[7]
-      value: ' click derecho para usar magia'
+      value: Espacio para usar magia
       objectReference: {fileID: 0}
     - target: {fileID: 8109590582249996734, guid: 672b3117e7a3aca4fa967e911cbd0126,
         type: 3}
       propertyPath: indications.Array.data[8]
-      value: "Pulsa B para la Barrera evita el da\xF1o temporal"
+      value: Pulsa y manten B para la Barrera
       objectReference: {fileID: 0}
     - target: {fileID: 8109590582249996734, guid: 672b3117e7a3aca4fa967e911cbd0126,
         type: 3}

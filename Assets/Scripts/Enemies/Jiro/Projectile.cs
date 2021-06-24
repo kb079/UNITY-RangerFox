@@ -4,7 +4,7 @@ using UnityEngine;
 public class Projectile : EnemyBall
 {
     public GameObject jiro;
-    public GameObject player;
+    private GameObject player;
     private bool isGrowing = true;
     private float scaleFactor = 0.06f;
     private float adjustYPosition;
@@ -23,9 +23,10 @@ public class Projectile : EnemyBall
 
     protected override void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
         adjustYPosition = scaleFactor / 2;
         damage = 50;
-        impulse = 40f;
+        impulse = 25f;
         StartCoroutine(cor_prepare_attack());
     }
 

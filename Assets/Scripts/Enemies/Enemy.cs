@@ -25,12 +25,13 @@ public abstract class Enemy : MonoBehaviour
     protected float healthBarYPosition = 5;
     protected Vector3 healthBarScale = new Vector3(1, 1, 1);
 
-    private void Awake()
+    protected virtual void Awake()
     {
+
         healthBarGO = GameObject.FindGameObjectWithTag("EnemyHealthBar");
         inventory = GameObject.FindGameObjectWithTag("UIManager").GetComponent<InventoryObject>();
         DontDestroyOnLoad(healthBarGO.transform.gameObject);
-        healthBarClone = Instantiate(healthBarGO, transform.position, transform.rotation);
+        healthBarClone = Instantiate(healthBarGO);
         //Segundo componente image (barra roja)
         healthBar = healthBarClone.GetComponentsInChildren<Image>()[1];
         healthBarClone.gameObject.SetActive(false);
