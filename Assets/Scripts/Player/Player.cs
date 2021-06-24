@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    private static Player instance;
-
     private int health;
     private float stamina, mana;
 
@@ -35,12 +33,6 @@ public class Player : MonoBehaviour
     public AudioSource audiosource;
     public AudioClip[] sonidos;
     public AudioSource loopAudiosource;
-
-    public static Player getInstance()
-    {
-        return instance;
-    }
-
     private void Awake()
     {
         health = 100;
@@ -49,7 +41,6 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
-        instance = this;
         //El cursor no se sale de la pantalla
         Cursor.lockState = CursorLockMode.Confined;
 
@@ -62,6 +53,12 @@ public class Player : MonoBehaviour
         isPaused = false;
         runningAnim = false;
         hudText = "";
+        if (SceneManager.GetActiveScene().name.Equals("FinalBoss"))
+        {
+            isDead = true;
+            StartCoroutine(cor_EndCinematic(22f));
+        }
+        
     }
 
     public void StartWalkingSound(float time)
@@ -142,25 +139,26 @@ public class Player : MonoBehaviour
 
         if (!isAttacking && !runningAnim)
         {
-            if (anim.GetBool("run")) { 
-                if (x > 0.1 && x < 0.5)
-                {
-                    x = 0.5f;
-                }
-                else if (x < -0.5)
-                {
-                    x = -1;
-                }
 
-                if (y > 0.5 && y < 0.5f)
-                {
-                    y = 0.5f;
-                }
-                else if (y < -0.5)
-                {
-                    y = -1;
-                }
+            if (anim.GetBool("run")) { 
+            if (x > 0.1 && x < 0.5)
+            {
+                x = 0.5f;
             }
+            else if (x < -0.5)
+            {
+                x = -1;
+            }
+
+            if (y > 0.5 && y < 0.5f)
+            {
+                y = 0.5f;
+            }
+            else if (y < -0.5)
+            {
+                y = -1;
+            }
+        }
 
             anim.SetFloat("playerX", x);
             anim.SetFloat("playerZ", y);
@@ -414,21 +412,6 @@ public class Player : MonoBehaviour
         else health = 100;
     }
 
-    public void setHealth(int v)
-    {
-        health = (v > 100) ? health = 100 : health = v;        
-    }
-
-    public void setMana(float v)
-    {
-        mana = (v > 100) ? mana = 100 : mana = v;
-    }
-
-    public void setStamina(float v)
-    {
-        stamina = (v > 100) ? stamina = 100 : stamina = v;
-    }
-
     public void addMana(int addedMana)
     {
         if (addedMana + mana < 100) mana += addedMana;
@@ -514,5 +497,11 @@ public class Player : MonoBehaviour
         {
             audiosource.PlayOneShot(sonidos[(int)enum_sounds.Magic]);
         }
+    }
+
+    IEnumerator cor_EndCinematic(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isDead = false;
     }
 }
