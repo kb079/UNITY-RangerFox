@@ -1,10 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryObject : MonoBehaviour
 {
+    private static InventoryObject instance;
+
     [SerializeField] GameObject[] UISlots;
     public List<ItemObject> itemTypes;
     [SerializeField] Player player;
@@ -14,9 +15,15 @@ public class InventoryObject : MonoBehaviour
     public List<InventorySlot> container = new List<InventorySlot>();
     public AudioClip used;
 
+    public static InventoryObject getInstance()
+    {
+        return instance;
+    }
+
     private void Awake()
     {
-        
+        instance = this;
+
         int i = 0;
         foreach (GameObject go in UISlots)
         {
@@ -170,6 +177,11 @@ public class InventoryObject : MonoBehaviour
             // Actualizo su info gráfica (cantidad de stack)
             updateStackCount(position);
         }
+    }
+
+    public List<InventorySlot> getInventory()
+    {
+        return container;
     }
 }
 
