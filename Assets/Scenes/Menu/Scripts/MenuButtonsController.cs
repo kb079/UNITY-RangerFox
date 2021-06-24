@@ -30,7 +30,6 @@ public class MenuButtonsController : MonoBehaviour
 
     public void closeSettings()
     {
-        Cursor.visible = false;
         SceneManager.UnloadSceneAsync("SettingsMenu");
     }
 

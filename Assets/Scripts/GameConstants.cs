@@ -32,7 +32,7 @@ public class GameConstants : MonoBehaviour
     public const int Fairy_HP = 12;
 
     //daño ataques enemigos
-    public const int Wolf_Dmg = 4;
+    public const int Wolf_Dmg = 40;
     public const int Seta_Dmg = 3;
     public const int Doowell_Dmg = 20;
     public const int Chest_Dmg = 6;

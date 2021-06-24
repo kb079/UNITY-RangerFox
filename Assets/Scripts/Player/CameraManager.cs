@@ -1,20 +1,19 @@
-using System.Collections;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    //Cam Rotation Values from transform.rotation.x
-    private float maxY = -0.12f;
-    private float minY = 0.40f;
-    private bool canRotate, touchingUp, touchingDown;
+    private float maxY = 25;
+    private float minY = -5;
 
     //Zoom camera
     public Camera camera1;
     public Camera camera2;
     public GameObject crosshair;
+
     private GameObject player;
-    private bool blocked;
     public bool isPaused = false;
+    private Quaternion camRotation;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -22,43 +21,20 @@ public class CameraManager : MonoBehaviour
 
     void Update()
     {
-        if (!isPaused)
-        {
-            //Camera limit
-            touchingUp = (Input.mousePosition.y >= Screen.height * 0.95) ? true : false;
-            touchingDown = (Input.mousePosition.y <= Screen.height / 2) ? true : false;
-            canRotate = true;
+        if (!isPaused && !player.GetComponent<Player>().isDead) {
 
-            float camRotation = gameObject.transform.rotation.x;
+            camRotation.x += Input.GetAxis("Mouse Y") * GameConstants.camMovementSpeed * (-1);
+            camRotation.x = Mathf.Clamp(camRotation.x, minY, maxY);
 
-            if (camRotation <= maxY && touchingUp || camRotation >= minY && touchingDown) canRotate = false;
+            transform.localRotation = Quaternion.Euler(camRotation.x, 0, camRotation.z);
 
-            if (canRotate)
-            {
-                float mouseY = Input.GetAxis("Mouse Y") * GameConstants.camMovementSpeed;
-                transform.Rotate(-mouseY, 0, 0);
-            }
+            float mouseY = Input.GetAxis("Mouse Y") * GameConstants.camMovementSpeed;
+            transform.Rotate(-mouseY, 0, 0);
 
             //Zoom camera
-            if (Input.GetKey(GameConstants.key_cameraZoom) && !blocked) StartCoroutine(doAction());
+            if (Input.GetKeyUp(GameConstants.key_cameraZoom)) ShowFirstPersonView();
+            else if (Input.GetKeyDown(GameConstants.key_cameraZoom)) ShowOverheadView();
         }
-    }
-
-    IEnumerator doAction()
-    {
-        blocked = true;
-        if (!crosshair.activeInHierarchy)
-        {
-            ShowOverheadView();
-            player.GetComponent<Animator>().SetBool("crosshair", true);
-        }
-        else
-        {
-            ShowFirstPersonView();
-            player.GetComponent<Animator>().SetBool("crosshair", false);
-        }
-        yield return new WaitForSeconds(0.5f);
-        blocked = false;
     }
 
     private void ShowOverheadView()
@@ -67,10 +43,12 @@ public class CameraManager : MonoBehaviour
         camera2.enabled = true;
         crosshair.SetActive(true);
         Cursor.visible = false;
+        player.GetComponent<Animator>().SetBool("crosshair", true);
     }
 
     private void ShowFirstPersonView()
     {
+        player.GetComponent<Animator>().SetBool("crosshair", false);
         camera1.enabled = true;
         camera2.enabled = false;
         crosshair.SetActive(false);

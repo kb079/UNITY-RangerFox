@@ -122,6 +122,5 @@ public class PlayerStats : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         xpBarLevelUP.SetActive(false);
-
     }
 }

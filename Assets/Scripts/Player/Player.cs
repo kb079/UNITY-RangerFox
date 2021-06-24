@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public GameObject bossBarrier;
     public GameObject crossHair;
 
-    private const float defaultSpeed = 7.5f;
+    private const float defaultSpeed = 10f;
     private float movSpeed;
     public bool isAttacking;
     public bool isBarrierActive = false;
@@ -30,7 +30,8 @@ public class Player : MonoBehaviour
     public bool isPaused;
 
     private enum enum_sounds { Barrier = 0, Dash = 1, Attack = 2, Magic = 3 }
-    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier, isDead;
+    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier;
+    public bool isDead;
 
     public AudioSource audiosource;
     public AudioClip[] sonidos;
@@ -132,8 +133,8 @@ public class Player : MonoBehaviour
 
         float mouseX = Input.GetAxis("Mouse X") * GameConstants.camMovementSpeed;
 
-        float a = (x * movSpeed) * Time.deltaTime;
-        float b = (y * movSpeed) * Time.deltaTime;
+        float a = (x * movSpeed);
+        float b = (y * movSpeed);
 
         Vector3 move = new Vector3(a, 0, b);
         //ROTATE PLAYER WITH CAMERA
@@ -346,7 +347,9 @@ public class Player : MonoBehaviour
         if (c.gameObject.CompareTag("wolfHand") && c.GetComponentInParent<Wolf>().isAttacking)
         {
             //doSingleDamage(GameConstants.Wolf_Dmg); ESTA PUESTO EN LA CLASE WOLF -- attack()
-            c.GetComponentInParent<Wolf>().isAttacking = false;
+            c.GetComponentInParent<Wolf>().doAttack();
+
+
         }
         //Debug.Log("esta colisionando");
     }
@@ -371,17 +374,20 @@ public class Player : MonoBehaviour
         if (!isDead)
             audiosource.PlayOneShot(sonidos[4]);
         if (health <= 0) playerDead();
-
-
     }
 
     private void playerDead()
     {
-        if (!isDead) { 
+        if (!isDead)
+        {
             audiosource.PlayOneShot(sonidos[5]);
             isDead = true;
             //SE EJECUTA SONIDO MUERTE
             anim.SetTrigger("death");
+            if (crossHair.activeInHierarchy) { 
+                crossHair.SetActive(false);
+                anim.SetBool("crosshair", false);
+            }
             StartCoroutine(playerDead(4f));
         }
     }

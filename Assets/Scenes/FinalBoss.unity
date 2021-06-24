@@ -3896,30 +3896,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &893216489 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7680218051782337427, guid: 59add1fba459d2341a396a97d7f05212,
-    type: 3}
-  m_PrefabInstance: {fileID: 1799221474}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &895589241 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3458045735729285816, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1793318584}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &895589243 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3458045735729285814, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1793318584}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895589241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &922790443
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4009,12 +3985,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 98ac315906e98e845b720679f124645e,
     type: 3}
   m_PrefabInstance: {fileID: 922790443}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &943423544 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3458045735854168087, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1793318584}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &944764464
 PrefabInstance:
@@ -4309,6 +4279,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 33912951074639829, guid: c9645de1b3a13944c90e74a8d65274c7,
     type: 3}
   m_PrefabInstance: {fileID: 1006707845}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1029571018 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8165067291547711924, guid: 59add1fba459d2341a396a97d7f05212,
+    type: 3}
+  m_PrefabInstance: {fileID: 1799221474}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1035237655
 PrefabInstance:
@@ -5041,12 +5017,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a200b19ca1a9685429ed7e043c28e904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1279605565 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7680218051592089277, guid: 59add1fba459d2341a396a97d7f05212,
-    type: 3}
-  m_PrefabInstance: {fileID: 1799221474}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1304634764 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2114260931997684039, guid: 859e9a149913e6f4f899529f785a1748,
@@ -5613,140 +5583,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1410222955
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1410222956}
-  - component: {fileID: 1410222958}
-  - component: {fileID: 1410222957}
-  m_Layer: 5
-  m_Name: Char_name
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1410222956
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410222955}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3093453, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 943423544}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -140.8, y: 23}
-  m_SizeDelta: {x: 300, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1410222957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410222955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: Hola
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &1410222958
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1410222955}
-  m_CullTransparentMesh: 1
 --- !u!1001 &1414768660
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6214,64 +6050,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ef13a6f38dd5b746a4c800d9451fa2d, type: 3}
---- !u!1 &1547296177 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3458045735216921001, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1793318584}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1547296179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547296177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51e435a5fc7626e4eb52ee6b9df1ed96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _textContainers:
-  - {fileID: 1410222957}
-  - {fileID: 895589243}
-  _sentences:
-  - _character: 0
-    _2say: Jiro
-    _active: 1
-    _deactive: 0
-    _timeActive: 0.5
-    _o2ActiveEnd: {fileID: 0}
-  - _character: 1
-    _2say: Hola Yukki, llevo mucho tiempo esperando
-    _active: 1
-    _deactive: 1
-    _timeActive: 8
-    _o2ActiveEnd: {fileID: 0}
-  - _character: 1
-    _2say: "Llorar la muerte de mi hermano te tom\xF3 tanto tiempo?"
-    _active: 1
-    _deactive: 1
-    _timeActive: 8
-    _o2ActiveEnd: {fileID: 0}
-  - _character: 0
-    _2say: Yukki
-    _active: 1
-    _deactive: 0
-    _timeActive: 0.5
-    _o2ActiveEnd: {fileID: 0}
-  - _character: 1
-    _2say: Maldito bastardo, voy a darte tu merecido
-    _active: 1
-    _deactive: 1
-    _timeActive: 4
-    _o2ActiveEnd: {fileID: 0}
-  _dialogBoxes:
-  - _character: 0
-    _box: {fileID: 1410222955}
-  - _character: 1
-    _box: {fileID: 895589241}
-  _speedWrite: 0.02
 --- !u!1001 &1614346135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6995,131 +6773,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1780201467}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1793318584
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1279605565}
-    m_Modifications:
-    - target: {fileID: 3458045734312791062, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -395
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -95.31317
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 76.278564
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 424.44794
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921001, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_Name
-      value: Dialogos
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735216921001, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735729285814, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_text
-      value: Las pollas son como las lentajas, si quieres las tomas, y sino las dejas
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735729285814, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_fontSize
-      value: 28
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735729285814, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee,
-        type: 2}
-    - target: {fileID: 3458045735729285814, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_fontSizeBase
-      value: 28
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735729285814, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-    - target: {fileID: 3458045735729285815, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 1500
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735729285816, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735854168087, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 3458045735854168087, guid: 0bebf1e4f5f89c84e99b137f096c2ac6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -360
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0bebf1e4f5f89c84e99b137f096c2ac6, type: 3}
 --- !u!1001 &1799221474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8483,7 +8136,7 @@ PrefabInstance:
         type: 3}
       propertyPath: crossHair
       value: 
-      objectReference: {fileID: 893216489}
+      objectReference: {fileID: 1029571018}
     - target: {fileID: 763201691720647823, guid: 43baac21f2da0ea4182cda0330566964,
         type: 3}
       propertyPath: nuevaPosicion
@@ -8598,7 +8251,7 @@ PrefabInstance:
         type: 3}
       propertyPath: crosshair
       value: 
-      objectReference: {fileID: 893216489}
+      objectReference: {fileID: 1029571018}
     - target: {fileID: 4707497509918070582, guid: 43baac21f2da0ea4182cda0330566964,
         type: 3}
       propertyPath: m_IsActive

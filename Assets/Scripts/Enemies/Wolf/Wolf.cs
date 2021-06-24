@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Wolf : Enemy
 {
-    private float attackCooldown = 1.5f;
+    private float attackCooldown = 1.9f;
     protected int damage = GameConstants.Wolf_Dmg;
     new public bool isAttacking;
 
@@ -22,6 +22,7 @@ public class Wolf : Enemy
         animator = GetComponent<Animator>();
         health = GameConstants.Wolf_HP;
         isAttacking = false;
+        attackRadius = 2;
     }
 
     private void playSound(enum_sounds sonido)
@@ -68,12 +69,12 @@ public class Wolf : Enemy
 
     protected override void attack()
     {
+        transform.LookAt(player.transform);
         animator.SetInteger("id", 2);
         cooldown = true;
         isAttacking = true;
         playSound(enum_sounds.Attack);
         
-        StartCoroutine(damageAnimation(0.63f));
         StartCoroutine(finishAttackCooldown(attackCooldown));
     }
 
@@ -98,6 +99,14 @@ public class Wolf : Enemy
     {
         yield return new WaitForSeconds(time);
         cooldown = false;
+        isAttacking = false;
         animator.SetInteger("id", 0);
+    }
+
+    public void doAttack()
+    {
+        isAttacking = false;
+        doPlayerDamage(damage);
+        //StartCoroutine(damageAnimation(0.15f));
     }
 }

@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -62,7 +60,7 @@ public class MenuSettingsController : MonoBehaviour
         inv5.GetComponentInChildren<Text>().text = translateKeyText(GameConstants.key_inv5.ToString());
         inv5.onClick.AddListener(delegate { recordKey(inv5); });
 
-        volume.value = (float)GameConstants.volume;
+        volume.value = GameConstants.volume/100;
         volume.GetComponentInChildren<Text>().text = volume.value + "%";
 
         sens.value = GameConstants.camMovementSpeed;
@@ -206,9 +204,7 @@ public class MenuSettingsController : MonoBehaviour
 
     public void updateVolumeValue()
     {
-        Debug.Log(volume.value);
         GameConstants.volume = (int)(volume.value);
-        
         volume.GetComponentInChildren<Text>().text = Mathf.Floor(volume.value) + "%";
     }
 
