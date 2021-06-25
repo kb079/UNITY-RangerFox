@@ -17,9 +17,9 @@ public class WolfTutorial : Wolf
     protected override void Update()
     {
        if (!attacked) base.Update();
-       if(health <= 0 && cambioTexto == false)
+       if(health <= 0 && !cambioTexto)
         {
-            pegar.changeText();
+            pegar.changeText(KeyCode.None);
             cambioTexto = true;
         }
     }
@@ -29,8 +29,6 @@ public class WolfTutorial : Wolf
         base.attack();
         StartCoroutine(checkAttack(0.63f));
     }
-
-    
 
     IEnumerator checkAttack(float time)
     {
@@ -57,7 +55,7 @@ public class WolfTutorial : Wolf
             {
                 if (pegar.cont == 3)
                 {
-                    pegar.changeText();
+                    pegar.changeText(GameConstants.key_attack);
                     doDamage(4);
                 }
                 if(pegar.cont >= 9)
@@ -77,7 +75,7 @@ public class WolfTutorial : Wolf
         {
             if(pegar.cont == 5 || pegar.cont == 7)
             {
-                pegar.changeText();
+                pegar.changeText(GameConstants.key_magic);
                 doDamage(2);
             }
             if(pegar.cont >= 9)
@@ -88,6 +86,4 @@ public class WolfTutorial : Wolf
             Destroy(c.gameObject);
         }
     }
-
-   
 }

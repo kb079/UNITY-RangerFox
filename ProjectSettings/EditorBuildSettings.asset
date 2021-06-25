@@ -32,4 +32,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DeathMenu.unity
     guid: 928f0ee0ea03eb04bb3bc8983c3f914e
+  - enabled: 1
+    path: Assets/Scenes/AfterBossFight.unity
+    guid: 2913e7dc0c5607d4c97af4b816365581
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 3eef04a0c14eaaf409ab6deeb3ed6a6d
   m_configObjects: {}

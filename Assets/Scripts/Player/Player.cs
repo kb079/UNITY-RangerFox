@@ -69,10 +69,17 @@ public class Player : MonoBehaviour
         isPaused = false;
         runningAnim = false;
         hudText = "";
+
         if (SceneManager.GetActiveScene().name.Equals("FinalBoss"))
         {
             isDead = true;
-            StartCoroutine(cor_EndCinematic(22f));
+            StartCoroutine(cor_EndCinematic(20f));
+        }
+
+        if (SceneManager.GetActiveScene().name.Equals("AfterBossFight"))
+        {
+            isDead = true;
+            StartCoroutine(cor_EndCinematic(16.5f));
         }
     }
 
@@ -111,12 +118,12 @@ public class Player : MonoBehaviour
 
         if (!isDead && !isPaused)
         {
-            playSound();
             playerMoves();
             activateActions();
 
             if (!cooldownA1 && Input.GetKeyDown(GameConstants.key_magic) && useMana(8))
             {
+                audiosource.PlayOneShot(sonidos[(int)enum_sounds.Magic]);
                 cooldownA1 = true;
                 float time = 0.84f;
                 if (!crossHair.activeInHierarchy)
@@ -131,7 +138,8 @@ public class Player : MonoBehaviour
 
                 StartCoroutine(attack1(time));
             }
-            if (!cooldownA2 && Input.GetKeyDown(GameConstants.key_attack) && useStamina(5)) attack2();
+
+            if (Input.GetKeyDown(GameConstants.key_attack) && !anim.GetBool("crosshair") && !cooldownA2 && useStamina(5)) attack2();
         }
 
         #if UNITY_WEBGL
@@ -213,6 +221,7 @@ public class Player : MonoBehaviour
 
             if (!cooldownDash && Input.GetKey(GameConstants.key_dash) && useStamina(10))
             {
+                audiosource.PlayOneShot(sonidos[(int)enum_sounds.Dash]);
                 rb.AddForce(transform.forward + playerCamera.transform.forward * 30000f);
                 cooldownDash = true;
                 StartCoroutine(finishDash(2f));
@@ -254,7 +263,8 @@ public class Player : MonoBehaviour
         }
 
         if (Input.GetKeyDown(GameConstants.key_barrier) && !isBarrierActive && canUseBarrier && useMana(0.05f))
-        { 
+        {
+            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Barrier]);
             StartCoroutine(delayActiveBarrier());
             runAnimation("barrier", 2.4f);
             canUseBarrier = false;
@@ -351,11 +361,12 @@ public class Player : MonoBehaviour
     //ataque físico
     private void attack2()
     {
+        audiosource.PlayOneShot(sonidos[(int)enum_sounds.Attack]);
         cooldownA2 = true;
         anim.SetTrigger("hit");
         isAttacking = true;
 
-        StartCoroutine(finishAttack2Cooldown(1.6f));
+        StartCoroutine(finishAttack2Cooldown(1.52f));
     }
 
     IEnumerator finishAttack2Cooldown(float time)
@@ -547,30 +558,6 @@ public class Player : MonoBehaviour
             return true;
         }
         return false;
-    }
-    private void playSound()
-    {
-        //barrera
-        if (Input.GetKey(GameConstants.key_barrier) && canUseBarrier && !audiosource.isPlaying && mana > 0.05f)
-        {
-            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Barrier]);
-        }
-        //dash
-        if (Input.GetKeyDown(GameConstants.key_dash) && stamina > 10f && !cooldownDash)
-        {
-            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Dash]);
-        }
-        //atacar
-        if (Input.GetKeyDown(GameConstants.key_attack) && !cooldownA2)
-        {
-            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Attack]);
-            //Debug.Log("Ataca");
-        }
-        //bola fuego
-        if (Input.GetKeyDown(GameConstants.key_magic) && mana > 8f && !cooldownA1)
-        {
-            audiosource.PlayOneShot(sonidos[(int)enum_sounds.Magic]);
-        }
     }
 
     IEnumerator cor_EndCinematic(float time)

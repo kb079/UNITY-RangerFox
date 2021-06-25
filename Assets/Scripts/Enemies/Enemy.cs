@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public abstract class Enemy : MonoBehaviour
 {
+
+    protected float currentHealth;
+    protected float currentAuxHealth;
+    private float auxHealth;
+    private bool animatedHpBar = false;
+
     protected float health;
     protected Image healthBar;
     public GameObject healthBarGO;
@@ -70,16 +76,19 @@ public abstract class Enemy : MonoBehaviour
             healthBar.gameObject.SetActive(true);
         }
 
-        //
-        if (maxHealth == 9999) {
-            maxHealth = health;
-        }
-        //
+        maxHealth = health;
+        currentHealth = maxHealth;
 
         health -= dmg;
         healthBarClone.gameObject.SetActive(true);
-        healthBar.fillAmount = health / maxHealth;
-        Debug.Log("esta es la vida que tiene ahora" + health);
+        //animación barra hp
+        auxHealth = currentHealth - health;
+        currentHealth = health;
+        currentAuxHealth = currentHealth;
+        animatedHpBar = true;
+        StartCoroutine(controlHpAnimation());
+        StartCoroutine(hpBarAnimation());
+
         checkHP();
 
         if (isDead) healthBar.gameObject.SetActive(false);
@@ -131,6 +140,27 @@ public abstract class Enemy : MonoBehaviour
                 doDamage(GameConstants.attack_damage);
                 c.gameObject.GetComponentInParent<Player>().isAttacking = false;
             }
+        }
+    }
+
+    protected IEnumerator controlHpAnimation()
+    {
+        yield return new WaitForSeconds(0.6f);
+        animatedHpBar = false;
+        float hp = currentHealth / maxHealth;
+        healthBar.fillAmount = hp;
+    }
+
+    protected IEnumerator hpBarAnimation()
+    {
+        currentAuxHealth = currentHealth + auxHealth;
+        while (animatedHpBar)
+        {
+            auxHealth /= 2;
+            currentAuxHealth -= auxHealth;
+            float hp = currentAuxHealth / maxHealth;
+            healthBar.fillAmount = hp;
+            yield return new WaitForSeconds(0.03f);
         }
     }
 }

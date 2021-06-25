@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.SceneManagement;
+
 public class SFX_cutscene : MonoBehaviour
 {
     public GameObject camara;
@@ -12,6 +10,8 @@ public class SFX_cutscene : MonoBehaviour
     public GameObject playerStats;
     public GameObject inventary;
     public GameObject dialogos;
+
+    public GameObject skipPanel;
     
     PostProcessVolume m_Volume;
     Vignette m_Vignette;
@@ -40,7 +40,7 @@ public class SFX_cutscene : MonoBehaviour
             hud.SetActive(true);
             enemyBar.SetActive(true);
             playerStats.SetActive(true);
-            
+            skipPanel.SetActive(false);
         }
         // Change vignette intensity using a sinus curve
         //m_Vignette.intensity.value = Mathf.Sin(Time.realtimeSinceStartup);

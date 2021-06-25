@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -9,6 +8,7 @@ public class tutorial : MonoBehaviour
 
     //este script se pone en el text dondee quieres que aparezca cada mensaje en este caso TextIndications iria que seria el texto donde aparece cada 1
     private Text text;
+
     [TextArea]
     public string[] indications;
     public bool isShowingUp;
@@ -16,8 +16,6 @@ public class tutorial : MonoBehaviour
     private float time = 1F;
     public bool funciona = false;
    
-    
-
     // Start is called before the first frame update
     void Start()
     {
@@ -30,8 +28,6 @@ public class tutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("hoalslasd  "  +  cont );
-
         if (isShowingUp)
         {
 
@@ -46,15 +42,15 @@ public class tutorial : MonoBehaviour
                (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && cont == 0)
                 
             {  
-                StartCoroutine(ShowingText());
+                StartCoroutine(ShowingText(GameConstants.key_run));
             }
             if (Input.GetKey(GameConstants.key_run) && cont == 1)
             {
-                StartCoroutine(ShowingText());
+                StartCoroutine(ShowingText(GameConstants.key_dash));
             }
             if (Input.GetKey(GameConstants.key_dash) && cont == 2)
             {
-                StartCoroutine(ShowingText());
+                StartCoroutine(ShowingText(KeyCode.None));
             }
             if (cont == 4 && funciona == false)
             {
@@ -63,28 +59,28 @@ public class tutorial : MonoBehaviour
             }
             if (Input.GetKey(GameConstants.key_cameraZoom) && cont == 6)
             {
-                StartCoroutine(ShowingText());
+                StartCoroutine(ShowingText(GameConstants.key_barrier));
             }
             if (Input.GetKey(GameConstants.key_barrier) && cont == 8)
             {
-                StartCoroutine(ShowingText());
+                StartCoroutine(ShowingText(GameConstants.key_interact));
             }
             if (Input.GetKey(GameConstants.key_interact) && cont == 10)
             {
-                StartCoroutine(ShowingText());
+                StartCoroutine(ShowingText(GameConstants.key_inv1));
             }
             if (Input.GetKey(GameConstants.key_inv1) && cont == 11)
             {
-                StartCoroutine(ShowingText());
+                StartCoroutine(ShowingText(KeyCode.None));
             }
 
         }
         
     }
 
-    public void changeText()
+    public void changeText(KeyCode key)
     {
-        StartCoroutine(ShowingText());
+        StartCoroutine(ShowingText(key));
     }
 
     public void cambiarEscena()
@@ -93,7 +89,7 @@ public class tutorial : MonoBehaviour
     }
 
     //showing text sirve para que enseñe cada texto que se ponga
-    public IEnumerator  ShowingText()
+    public IEnumerator ShowingText(KeyCode key)
     {
         //al principio showingup es falso ya que no saca nada
         isShowingUp = false;
@@ -102,12 +98,20 @@ public class tutorial : MonoBehaviour
         //luego cambia a true para que enseñe y el contador suma 1 apra que cada iteración sea distinta.
         isShowingUp = true;
         cont++;
-        text.text = indications[cont];
+        if(key != KeyCode.None)
+        {
+            text.text = indications[cont].Replace("%key%", key.ToString());
+        }
+        else
+        {
+            text.text = indications[cont];
+        }
+        
     }
 
     IEnumerator CambioAutomatico()
     {
         yield return new WaitForSeconds(1.2F);
-        StartCoroutine(ShowingText());    
+        StartCoroutine(ShowingText(KeyCode.None));    
     }
 }

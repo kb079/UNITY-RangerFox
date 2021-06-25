@@ -18,7 +18,7 @@ public class PlayerStats : MonoBehaviour
     private int neededXP;
 
     private int health;
-    private float mana;
+    private int mana;
     private int vigor;
     private float attackDamage;
     private float magicDamage;
@@ -47,7 +47,7 @@ public class PlayerStats : MonoBehaviour
         set { health = value; }
     }
 
-    public float Mana
+    public int Mana
     {
         get { return mana; }
         set { mana = value; }
@@ -78,12 +78,17 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
-        xpBar = GameObject.FindGameObjectWithTag("xpBar").GetComponent<Image>();
         DontDestroyOnLoad(this);
+
         instance = this;
 
+        xpBar = GameObject.FindGameObjectWithTag("xpBar").GetComponent<Image>();
+  
         attackDamage = GameConstants.attack_damage;
         magicDamage = GameConstants.magic_damage;
+
+        attackDmgText.text = attackDamage + "";
+        magicDmgText.text = magicDamage + "";
         neededXP = 50;
 
         health = 100;
@@ -123,17 +128,16 @@ public class PlayerStats : MonoBehaviour
         StartCoroutine(FadeImage(false));
         //TODO: ADD SOUND
         //TODO: ADD EXPLOSION
-        //TODO: ADD MESSAGE ON SCREEN WHEN LEVEL UP
 
         neededXP *= 2;
         updateStats();
         StartCoroutine(endLevelUPAnimation(3f));
     }
     private void updateStats()
-    {
-        
+    { 
         health += 25;
-        mana += Mathf.Abs(mana * 1.18f);
+        float manaCalc = mana * 1.2f;
+        mana = (int) manaCalc;
         vigor += 10;
         attackDamage *= 1.2f;
         magicDamage *= 1.4f;
@@ -142,7 +146,7 @@ public class PlayerStats : MonoBehaviour
         Player.getInstance().maxHealth = health;
         Player.getInstance().addHealth(25);
 
-        Player.getInstance().maxMana = (int) mana;
+        Player.getInstance().maxMana = mana;
         Player.getInstance().addMana(25);
 
         Player.getInstance().maxStamina = vigor;

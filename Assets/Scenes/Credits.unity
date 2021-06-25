@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.07171627, g: 0.0793537, b: 0.092452295, a: 1}
+  m_IndirectSpecularColor: {r: 0.08795182, g: 0.10546879, b: 0.114135794, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Equipo desarrollador\n\nIv\xE1n Villanueva\nCarlos Ram\xEDrez\nKrystian
+  m_text: "Equipo desarrollador\n\nIv\xE1n Villanueva - Cinematicas\nCarlos Ram\xEDrez\nKrystian
     Baczek\nJavier Sol\xEDs\nDavid Amor\xF2s\nLorena Ioana\n\nUn agradecimiento especial
     a los profesores\n \nDaniel Palacios Samitier\nJos\xE9 Antonio P\xE9rez Esteban\nFrancisco
     de Zuleta Dorado"

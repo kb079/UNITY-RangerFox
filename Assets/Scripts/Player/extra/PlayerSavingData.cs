@@ -13,7 +13,7 @@ public class PlayerSavingData
         //PLAYER MAIN SAVING
         var playerStatusObj = new PlayerStatus();
         playerStatusObj.health = p.getHealth();
-        playerStatusObj.mana = p.getMana();
+        playerStatusObj.mana = (int) p.getMana();
         playerStatusObj.stamina = p.getStamina();
 
         Save("player", playerStatusObj);
@@ -132,7 +132,7 @@ public class Stats
     public int neededXP;
 
     public int health;
-    public float mana;
+    public int mana;
     public int vigor;
     public float attackDamage;
     public float magicDamage;

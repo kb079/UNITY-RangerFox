@@ -79,7 +79,6 @@ public class DoowellController : Enemy
 
     IEnumerator waitTo(actions i, float time)
     {
-        Debug.Log("mira la corrutiiiina");
         yield return new WaitForSeconds(time);
         if (!isDead || hasDiedOnce)
         {
@@ -111,9 +110,13 @@ public class DoowellController : Enemy
                     isAttacking = false;
                     cooldown = false;
                     health = GameConstants.Doowell_HP;
+                    healthBar.gameObject.SetActive(true);
+                    currentAuxHealth = health;
+                    currentHealth = health;
                     healthBar.fillAmount = 1;
                     changeAnimation(0);
                     rb.isKinematic = false;
+
                     break;
                 default:
                     break;
