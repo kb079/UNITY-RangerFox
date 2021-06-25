@@ -300,18 +300,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 273998511}
   m_CullTransparentMesh: 1
---- !u!114 &283093508 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8109590582249996734, guid: 672b3117e7a3aca4fa967e911cbd0126,
-    type: 3}
-  m_PrefabInstance: {fileID: 8109590582474924727}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a04ba52e9b5f30849a3deece617f9f3b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &386039787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1329,7 +1317,7 @@ PrefabInstance:
     - target: {fileID: 753863434, guid: 43baac21f2da0ea4182cda0330566964, type: 3}
       propertyPath: pegar
       value: 
-      objectReference: {fileID: 283093508}
+      objectReference: {fileID: 0}
     - target: {fileID: 456559236486208441, guid: 43baac21f2da0ea4182cda0330566964,
         type: 3}
       propertyPath: m_Name
@@ -1344,7 +1332,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pegar
       value: 
-      objectReference: {fileID: 283093508}
+      objectReference: {fileID: 0}
     - target: {fileID: 763201691720647823, guid: 43baac21f2da0ea4182cda0330566964,
         type: 3}
       propertyPath: crossHair
@@ -1464,6 +1452,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9acbd22115e706944bc690576cf3149f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1848359005 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8109590582249996720, guid: 672b3117e7a3aca4fa967e911cbd0126,
+    type: 3}
+  m_PrefabInstance: {fileID: 8109590582474924727}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1848359009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1848359005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9c6f0e1e6a15144a085f628fcfb912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indications:
+  - Para avanzar W,A,S,D
+  - Para correr pulsa %key%
+  - Para dashear pulsa %key%
+  - Dirigete al lobo y pulsa %key%
+  - Puedes utilizar magia para atacar
+  - Pulsa %key% para usar magia
+  - Pulsa %key% para apuntar
+  - Apreta %key% para usar magia
+  - 'Apreta y Manten %key% para usar barrera '
+  - Derrota al lobo
+  - Interactua con el cofre
+  - Apreta %key% para usar pocion
+  - Dirigete a a madriguera y comenzar tu aventura
+  isShowingUp: 0
+  cont: 0
+  funciona: 0
 --- !u!1 &1991419714
 GameObject:
   m_ObjectHideFlags: 0
@@ -1583,7 +1606,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7d3828b2d62e578469d7c8eab0b3f081, type: 3}
   - {fileID: 8300000, guid: 7845745776aec414cbd92f21db432248, type: 3}
   - {fileID: 8300000, guid: 0969be428ba5ca540aa31811ae292b69, type: 3}
-  pegar: {fileID: 283093508}
+  pegar: {fileID: 1848359009}
 --- !u!4 &2167855631255315143
 Transform:
   m_ObjectHideFlags: 0
@@ -1822,7 +1845,8 @@ PrefabInstance:
       propertyPath: indications.Array.data[12]
       value: Dirigete a la madriguera y comienza tu aventura
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8109590582249996734, guid: 672b3117e7a3aca4fa967e911cbd0126, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 672b3117e7a3aca4fa967e911cbd0126, type: 3}
 --- !u!224 &8109590582474924728 stripped
 RectTransform:

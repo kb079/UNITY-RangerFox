@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -85,11 +84,12 @@ public class Wolf : Enemy
             isDead = true;
             playSound(enum_sounds.Dead);  
             animator.SetInteger("id", 3);
-            StartCoroutine(dropItem(2f));
             PlayerStats.getInstance().addXP(GameConstants.Wolf_Exp);
+            Destroy(healthBarClone.gameObject, 1f);
+            StartCoroutine(dropItem(3f));
+            
         }
     }
-
 
     IEnumerator damageAnimation(float time)
     {

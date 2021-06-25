@@ -30,6 +30,8 @@ TagManager:
   - EnemyHealthBar
   - wolfHand
   - xpBar
+  - Musica
+  - playerStats
   layers:
   - Default
   - TransparentFX

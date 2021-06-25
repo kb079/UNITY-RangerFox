@@ -50,16 +50,17 @@ public class tutorial : MonoBehaviour
             }
             if (Input.GetKey(GameConstants.key_dash) && cont == 2)
             {
-                StartCoroutine(ShowingText(KeyCode.None));
+                StartCoroutine(ShowingText(GameConstants.key_attack));
             }
             if (cont == 4 && funciona == false)
             {
                 StartCoroutine(CambioAutomatico());
                 funciona = true;
             }
+
             if (Input.GetKey(GameConstants.key_cameraZoom) && cont == 6)
             {
-                StartCoroutine(ShowingText(GameConstants.key_barrier));
+                StartCoroutine(ShowingText(GameConstants.key_magic));
             }
             if (Input.GetKey(GameConstants.key_barrier) && cont == 8)
             {
@@ -71,6 +72,7 @@ public class tutorial : MonoBehaviour
             }
             if (Input.GetKey(GameConstants.key_inv1) && cont == 11)
             {
+                
                 StartCoroutine(ShowingText(KeyCode.None));
             }
 
@@ -91,6 +93,7 @@ public class tutorial : MonoBehaviour
     //showing text sirve para que enseñe cada texto que se ponga
     public IEnumerator ShowingText(KeyCode key)
     {
+        Debug.Log("hola" + key.ToString());
         //al principio showingup es falso ya que no saca nada
         isShowingUp = false;
         text.text = "";
@@ -100,6 +103,7 @@ public class tutorial : MonoBehaviour
         cont++;
         if(key != KeyCode.None)
         {
+            
             text.text = indications[cont].Replace("%key%", key.ToString());
         }
         else
@@ -112,6 +116,6 @@ public class tutorial : MonoBehaviour
     IEnumerator CambioAutomatico()
     {
         yield return new WaitForSeconds(1.2F);
-        StartCoroutine(ShowingText(KeyCode.None));    
+        StartCoroutine(ShowingText(GameConstants.key_magic));    
     }
 }

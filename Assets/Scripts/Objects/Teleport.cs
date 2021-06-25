@@ -6,16 +6,6 @@ using UnityEngine.SceneManagement;
 public class Teleport : MonoBehaviour
 {
     public AudioClip used;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerStay(Collider c)
     {
@@ -24,7 +14,8 @@ public class Teleport : MonoBehaviour
             if (Input.GetKey(GameConstants.key_interact))
             {
                 GetComponent<AudioSource>().PlayOneShot(used);
-                
+
+                PlayerSavingData.savePlayerData();
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().setHudText("");
                 SceneManager.LoadSceneAsync("Madriguera");
             }

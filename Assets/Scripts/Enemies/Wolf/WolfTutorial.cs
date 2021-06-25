@@ -11,7 +11,7 @@ public class WolfTutorial : Wolf
     {
         base.Start();
         damage = 50;
-        health = 18;
+        health = 15;
     }
 
     protected override void Update()
@@ -73,13 +73,18 @@ public class WolfTutorial : Wolf
        
         if (c.gameObject.name.Equals("Yukki_ball(Clone)"))
         {
-            if(pegar.cont == 5 || pegar.cont == 7)
+            if(pegar.cont == 5)
             {
-                pegar.changeText(GameConstants.key_magic);
+                pegar.changeText(GameConstants.key_cameraZoom);
                 doDamage(2);
+            }
+            if(pegar.cont == 7)
+            {
+                pegar.changeText(GameConstants.key_barrier);
             }
             if(pegar.cont >= 9)
             {
+                
                 doDamage(2);
             }
             

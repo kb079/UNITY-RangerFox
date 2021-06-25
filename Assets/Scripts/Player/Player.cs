@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
     public GameObject nuevaPosicion;
     public bool isPaused;
     
-
     private enum enum_sounds { Barrier = 0, Dash = 1, Attack = 2, Magic = 3 }
     private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier;
     public bool isDead;
@@ -80,6 +79,11 @@ public class Player : MonoBehaviour
         {
             isDead = true;
             StartCoroutine(cor_EndCinematic(16.5f));
+        }
+  
+        if (SceneManager.GetActiveScene().name.Equals("FinalMap") && PlayerSavingData.runLoadData)
+        {
+            PlayerSavingData.loadData();
         }
     }
 
@@ -151,7 +155,7 @@ public class Player : MonoBehaviour
         #endif
     }
 
-    private void pauseGame()
+    public void pauseGame()
     {
         isPaused = true;
         Time.timeScale = 0;

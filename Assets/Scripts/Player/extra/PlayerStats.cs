@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour
 
     private int maxLevel = 5;
 
-    private int level = 1;
+    private int level;
     private int xp;
     private int neededXP;
 
@@ -76,24 +76,33 @@ public class PlayerStats : MonoBehaviour
         return instance;
     }
 
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
+        instance = this;
+    }
+
     void Start()
     {
-        DontDestroyOnLoad(this);
-
-        instance = this;
-
         xpBar = GameObject.FindGameObjectWithTag("xpBar").GetComponent<Image>();
-  
-        attackDamage = GameConstants.attack_damage;
-        magicDamage = GameConstants.magic_damage;
+        if (!PlayerSavingData.runLoadData) {
+            attackDamage = GameConstants.attack_damage;
+            magicDamage = GameConstants.magic_damage;
 
-        attackDmgText.text = attackDamage + "";
-        magicDmgText.text = magicDamage + "";
-        neededXP = 50;
+            attackDmgText.text = attackDamage + "";
+            magicDmgText.text = magicDamage + "";
+            neededXP = 50;
+            level = 1;
 
-        health = 100;
-        mana = 100;
-        vigor = 100;
+            health = 100;
+            mana = 100;
+            vigor = 100;
+        }
     }
 
     public void addXP(int amount)
@@ -117,7 +126,7 @@ public class PlayerStats : MonoBehaviour
 
     private void updateXPBar()
     {
-        xpBar.fillAmount = (float)xp / 100;
+        xpBar.fillAmount = (float)xp / neededXP;
     }
 
     private void levelUp()
@@ -126,8 +135,6 @@ public class PlayerStats : MonoBehaviour
         if (level == maxLevel) return;
 
         StartCoroutine(FadeImage(false));
-        //TODO: ADD SOUND
-        //TODO: ADD EXPLOSION
 
         neededXP *= 2;
         updateStats();
@@ -153,7 +160,7 @@ public class PlayerStats : MonoBehaviour
         Player.getInstance().addStamina(25);
     }
 
-    private void updateUI()
+    public void updateUI()
     {
         levelText.text = level + "";
         healthText.text = health + "";
@@ -170,7 +177,6 @@ public class PlayerStats : MonoBehaviour
         StartCoroutine(FadeImage(true));
         updateXPBar();
     }
-
 
     IEnumerator FadeImage(bool fadeAway)
     {

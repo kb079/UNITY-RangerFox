@@ -13,20 +13,20 @@ public class PlayerMadriguera : Player
             activateActions();
         }
 
-        if (Input.GetKeyDown(KeyCode.P) && !isPaused)
-        {
-            isPaused = true;
-            Time.timeScale = 0;
-            SceneManager.LoadSceneAsync("PauseMenu", LoadSceneMode.Additive);
-            playerCamera.GetComponent<CameraManager>().isPaused = true;
-        }
+        #if UNITY_WEBGL
+                if (Input.GetKeyDown(KeyCode.P) && !isPaused) pauseGame();
+        #endif
+
+        #if UNITY_STANDALONE
+                if (Input.GetKeyDown(KeyCode.Escape) && !isPaused) pauseGame();
+        #endif
     }
 
     private void OnTriggerExit(Collider c)
     {
         if (c.gameObject.CompareTag("madriguera"))
         {
-            SceneManager.LoadSceneAsync(2);
+            SceneManager.LoadSceneAsync("FinalMap");
         }
     }
 

@@ -96,12 +96,6 @@ public abstract class Enemy : MonoBehaviour
 
     protected abstract void attack();
 
-    protected void OnDestroy()
-    {
-        Destroy(healthBarClone.gameObject);
-        //inventory.OnEnemyDead(dropProbabilitySuccess, dropProbabilityMax, transform.position);
-    }
-
     protected virtual void searchPlayer() {
         Vector3 pos1 = transform.position;
         Vector3 pos2 = player.transform.position;
@@ -128,7 +122,7 @@ public abstract class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         inventory.OnEnemyDead(dropProbabilitySuccess, dropProbabilityMax, transform.position);
-        Destroy(gameObject, time);
+        DestroyImmediate(gameObject);
     }
 
     protected virtual void OnTriggerStay(Collider c)

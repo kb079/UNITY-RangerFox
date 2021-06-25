@@ -2,13 +2,22 @@ using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
+    private MusicController instance;
+
     public AudioSource audiosource;
     [SerializeField] AudioClip[] sonidos;
     private string actual;
-    // Start is called before the first frame update
+
+    void Awake()
+    {
+        if (instance != null) Destroy(gameObject);
+
+        instance = this;
+        DontDestroyOnLoad(transform.gameObject);
+    }
+
     void Start()
     {
-        DontDestroyOnLoad(transform.gameObject);
         actual = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
     }
 
@@ -20,7 +29,6 @@ public class MusicController : MonoBehaviour
         audiosource.Play();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!audiosource.isPlaying)

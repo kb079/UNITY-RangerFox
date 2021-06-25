@@ -1,8 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSavingData
+public class PlayerSavingData : MonoBehaviour
 {
+    public static bool runLoadData;
+
+    void Awake()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
+
     public static void savePlayerData()
     {
         Player p = Player.getInstance();
@@ -21,17 +28,39 @@ public class PlayerSavingData
         //
 
         //INVENTORY SAVING
-        if (InventoryObject.getInstance() != null) { 
+        if (InventoryObject.getInstance() != null)
+        {
             List<InventorySlot> inv = InventoryObject.getInstance().getInventory();
 
             var inventoryObj = new Inventory();
-            inventoryObj.item0 = inv[0].item;
-            inventoryObj.item1 = inv[1].item;
-            inventoryObj.item2 = inv[2].item;
-            inventoryObj.item3 = inv[3].item;
-            inventoryObj.item4 = inv[4].item;
+            if (inv.Count != 0) {
+                if (inv.Count > 0)
+                {
+                    inventoryObj.item0 = inv[0].item;
+                }
 
-            Save("inv", inventoryObj);
+                if (inv.Count > 1)
+                {
+                    inventoryObj.item1 = inv[1].item;
+                }
+
+                if (inv.Count > 2)
+                {
+                    inventoryObj.item2 = inv[2].item;
+                }
+
+                if (inv.Count > 3)
+                {
+                    inventoryObj.item3 = inv[3].item;
+                }
+
+                if (inv.Count > 4)
+                {
+                    inventoryObj.item4 = inv[4].item;
+                }
+
+                Save("inv", inventoryObj);
+            }
         }
         //
 
@@ -50,17 +79,16 @@ public class PlayerSavingData
         Save("stats", statsObj);
         //
 
-        PlayerPrefs.Save();   
+        //PlayerPrefs.Save();   
     }
 
     public static void loadData()
     {
         Player p = Player.getInstance();
-        PlayerStats pStats = PlayerStats.getInstance();
+       
+        if (p == null ) return;
 
-        if (p == null || pStats == null) return;
-
-        //LOAD PLAYER
+        //LOAD PLAYERS
         var playerStatusObj = new PlayerStatus();
         Load("player", ref playerStatusObj);
 
@@ -76,16 +104,33 @@ public class PlayerSavingData
             var inventoryObj = new Inventory();
             Load("inv", ref inventoryObj);
 
-            inv.addItem(inventoryObj.item0, inventoryObj.item0.value);
-            inv.addItem(inventoryObj.item1, inventoryObj.item1.value);
-            inv.addItem(inventoryObj.item2, inventoryObj.item2.value);
-            inv.addItem(inventoryObj.item3, inventoryObj.item3.value);
-            inv.addItem(inventoryObj.item4, inventoryObj.item4.value);
+            if(inventoryObj.item0 != null)
+            {
+                inv.addItem(inventoryObj.item0, inventoryObj.item0.value);
+            }
+            if (inventoryObj.item1 != null)
+            {
+                inv.addItem(inventoryObj.item1, inventoryObj.item1.value);
+            }
+            if (inventoryObj.item2 != null)
+            {
+                inv.addItem(inventoryObj.item2, inventoryObj.item2.value);
+            }
+            if (inventoryObj.item3 != null)
+            {
+                inv.addItem(inventoryObj.item3, inventoryObj.item3.value);
+            }
+            if (inventoryObj.item4 != null)
+            {
+                inv.addItem(inventoryObj.item4, inventoryObj.item4.value);
+            }
         }
 
         //LOAD LEVEL STATS
         var statsObj = new Stats();
         Load("stats", ref statsObj);
+
+        PlayerStats pStats = PlayerStats.getInstance();
 
         pStats.Level = statsObj.level;
         pStats.XP = statsObj.xp;
@@ -96,15 +141,20 @@ public class PlayerSavingData
         pStats.Vigor = statsObj.vigor;
         pStats.AttackDmg = statsObj.attackDamage;
         pStats.MagicDmg = statsObj.magicDamage;
+
+        GameConstants.attack_damage = statsObj.attackDamage;
+        GameConstants.magic_damage = statsObj.magicDamage;
+
+        pStats.updateUI();
     }
 
-    public static void Save(string keyname, object data)
+    private static void Save(string keyname, object data)
     {
         string json = JsonUtility.ToJson(data);
         PlayerPrefs.SetString(keyname, json);
     }
 
-    public static void Load<T>(string keyname, ref T data)
+    private static void Load<T>(string keyname, ref T data)
     {
         string json = PlayerPrefs.GetString(keyname, "{}");
         JsonUtility.FromJsonOverwrite(json, data);
@@ -121,6 +171,11 @@ public class PlayerSavingData
         }
 
         return false;
+    }
+
+    public static void deleteData()
+    {
+        PlayerPrefs.DeleteAll();
     }
 
 }
