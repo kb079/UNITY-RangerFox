@@ -14,9 +14,14 @@ public class CameraManager : MonoBehaviour
     public bool isPaused = false;
     private Quaternion camRotation;
 
+    private void Awake()
+    {
+        crosshair = GameObject.FindGameObjectWithTag("crosshair");
+    }
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        crosshair.SetActive(false);
     }
 
     void Update()

@@ -20,7 +20,7 @@ public class Wolf : Enemy
         animator = GetComponent<Animator>();
         health = GameConstants.Wolf_HP;
         isAttacking = false;
-        attackRadius = 2;
+        attackRadius = 3;
     }
 
     private void playSound(enum_sounds sonido)
@@ -82,9 +82,12 @@ public class Wolf : Enemy
         {
             agent.isStopped = true;
             isDead = true;
-            playSound(enum_sounds.Dead);  
+            playSound(enum_sounds.Dead);
             animator.SetInteger("id", 3);
-            PlayerStats.getInstance().addXP(GameConstants.Wolf_Exp);
+            if (PlayerStats.getInstance() != null)
+            {
+                PlayerStats.getInstance().addXP(GameConstants.Wolf_Exp);
+            }
             Destroy(healthBarClone.gameObject, 1f);
             StartCoroutine(dropItem(3f));
             

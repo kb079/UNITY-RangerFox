@@ -23,6 +23,7 @@ public class MenuPauseController : MonoBehaviour
     public void closeMenu()
     {
         Time.timeScale = 1;
+        DestroyImmediate(GameObject.FindGameObjectWithTag("Player"));
         SceneManager.LoadSceneAsync("MainMenu");
     }
 }

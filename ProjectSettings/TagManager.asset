@@ -32,6 +32,8 @@ TagManager:
   - xpBar
   - Musica
   - playerStats
+  - EscenaMadriguera
+  - PS
   layers:
   - Default
   - TransparentFX

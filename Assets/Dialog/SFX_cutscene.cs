@@ -3,9 +3,8 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class SFX_cutscene : MonoBehaviour
 {
-    public GameObject camara;
+    private GameObject camara;
     public GameObject cutscene;
-    public GameObject hud;
     public GameObject enemyBar;
     public GameObject playerStats;
     public GameObject inventary;
@@ -17,6 +16,12 @@ public class SFX_cutscene : MonoBehaviour
     Vignette m_Vignette;
     void Start()
     {
+        inventary = GameObject.FindGameObjectWithTag("Inventory");
+        playerStats = GameObject.FindGameObjectWithTag("PS");
+        camara = GameObject.FindGameObjectWithTag("playerCam");
+        camara.SetActive(false);
+        playerStats.SetActive(false);
+        inventary.SetActive(false);
         // Create an instance of a vignette
         m_Vignette = ScriptableObject.CreateInstance<Vignette>();
         m_Vignette.enabled.Override(true);
@@ -28,16 +33,15 @@ public class SFX_cutscene : MonoBehaviour
 
     void Update()
     {
-        if (Time.timeSinceLevelLoad >= 20f || Input.GetKeyDown(GameConstants.key_interact))
+        if (Time.timeSinceLevelLoad >= 20f || Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Termina la cinematica");
             m_Vignette.enabled.Override(false);
             cutscene.SetActive(false);
-            //dialogos.SetActive(false);
+            dialogos.SetActive(false);
             Destroy(dialogos);
             camara.SetActive(true);
             inventary.SetActive(true);
-            hud.SetActive(true);
             enemyBar.SetActive(true);
             playerStats.SetActive(true);
             skipPanel.SetActive(false);

@@ -433,6 +433,9 @@ MonoBehaviour:
   newButton: {fileID: 1461240752}
   resume: {fileID: 341874230}
   closePanel: {fileID: 1539227576}
+  playerInst: {fileID: 456559236486208441, guid: 43baac21f2da0ea4182cda0330566964,
+    type: 3}
+  hudInst: {fileID: 8165067289561141982, guid: 59add1fba459d2341a396a97d7f05212, type: 3}
 --- !u!114 &314389298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2153,7 +2156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6f24bce8559b2940ad9b5a28c00dd53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 
   audiosource: {fileID: 1684077759}
   sonidos:
   - {fileID: 8300000, guid: 0caab271e01ab664a98a2c99590a2242, type: 3}

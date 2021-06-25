@@ -88,6 +88,7 @@ public class tutorial : MonoBehaviour
     public void cambiarEscena()
     {
         SceneManager.LoadSceneAsync("Madriguera");
+        Player.getInstance().transform.position = new Vector3(-10, -7, -35);
     }
 
     //showing text sirve para que enseñe cada texto que se ponga

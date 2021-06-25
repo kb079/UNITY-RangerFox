@@ -4,9 +4,13 @@ using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour
 {
+    private static HUDController instance;
+
     public Image hpBar;
     public Image mpBar;
     public Image staminaBar;
+    public Text hudText;
+    public GameObject statsPanel;
 
     //Para animación barra hp
     private float currentHealth;
@@ -20,8 +24,20 @@ public class HUDController : MonoBehaviour
     private float auxMana;
     private bool animatedMpBar = false;
 
-    public Text hudText;
     private Player player;
+
+    private void Awake()
+    {
+        if (instance != null) Destroy(gameObject);
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+
+    public static HUDController getInstance()
+    {
+        return instance;
+    }
 
     private void Start()
     {
@@ -37,6 +53,12 @@ public class HUDController : MonoBehaviour
 
     void Update()
     {
+        //Esconder/mostrar ventana de estadísticas
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            statsPanel.SetActive(!statsPanel.activeInHierarchy);
+        }
+
         //Si nota un cambio en la vida del jugador
         if (player.getHealth() != currentHealth)
         {

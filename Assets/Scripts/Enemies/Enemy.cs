@@ -17,6 +17,7 @@ public abstract class Enemy : MonoBehaviour
     protected GameObject healthBarClone;
     protected int searchRadius = 30;
     protected int attackRadius = 3;
+    public EnemySpawn spawner;
 
     public bool isAttacking;
     protected bool isDead;
@@ -37,7 +38,6 @@ public abstract class Enemy : MonoBehaviour
 
         healthBarGO = GameObject.FindGameObjectWithTag("EnemyHealthBar");
         inventory = GameObject.FindGameObjectWithTag("UIManager").GetComponent<InventoryObject>();
-        DontDestroyOnLoad(healthBarGO.transform.gameObject);
         healthBarClone = Instantiate(healthBarGO);
         //Segundo componente image (barra roja)
         healthBar = healthBarClone.GetComponentsInChildren<Image>()[1];
@@ -117,11 +117,21 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    protected void OnDestroy()
+    {
+        if (spawner != null)
+        {
+            spawner.flag_create_enemy = true;
+            spawner.numberOfEnemies++;
+        }
+    }
+
     protected abstract void checkHP();
     protected IEnumerator dropItem(float time)
     {
         yield return new WaitForSeconds(time);
-        inventory.OnEnemyDead(dropProbabilitySuccess, dropProbabilityMax, transform.position);
+        Vector3 dropPos = new Vector3(transform.position.x, 2, transform.position.z);
+        inventory.OnEnemyDead(dropProbabilitySuccess, dropProbabilityMax, dropPos);
         DestroyImmediate(gameObject);
     }
 

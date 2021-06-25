@@ -27,9 +27,9 @@ public class JiroController : Enemy
     [SerializeField] AudioClip[] sonidos;
     private void Start()
     {
-       
+        cam = GameObject.FindGameObjectWithTag("playerCam");
         rb = GetComponent<Rigidbody>();
-        health = 1;
+        health = GameConstants.Jiro_HP;
         originalPos = transform.position;
 
         // El searchRadius debe ser lo suficientemente grande como para abarcar todo el área del combate
@@ -75,6 +75,7 @@ public class JiroController : Enemy
         if (Input.GetKeyDown(GameConstants.key_interact) && count_cin == 0 && SceneManager.GetActiveScene().name.Equals("FinalBoss"))
         {
             StopCoroutine(cor_EndCinematic(17.5f));
+            player.GetComponent<Player>().isDead = false;
             isDead = false;
             count_cin++;
             healthBarClone.SetActive(true);
@@ -403,7 +404,8 @@ public class JiroController : Enemy
     IEnumerator cor_StartFinalCinem(float time)
     {
         yield return new WaitForSeconds(time);
-        
+        Destroy(Player.getInstance().gameObject);
+        Destroy(HUDController.getInstance().gameObject);
         SceneManager.LoadScene("AfterBossFight");
     }
 }

@@ -3,10 +3,14 @@ using UnityEngine;
 
 public class PlayerSavingData : MonoBehaviour
 {
+    private static PlayerSavingData instance;
+
     public static bool runLoadData;
 
     void Awake()
     {
+        if (instance != null) Destroy(gameObject);
+        instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -77,9 +81,8 @@ public class PlayerSavingData : MonoBehaviour
         statsObj.magicDamage = pStats.MagicDmg;
 
         Save("stats", statsObj);
-        //
-
-        //PlayerPrefs.Save();   
+        
+        PlayerPrefs.Save();   
     }
 
     public static void loadData()

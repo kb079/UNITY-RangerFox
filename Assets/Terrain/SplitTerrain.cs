@@ -11,7 +11,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Split terrain.
 /// </summary>
-public class SplitTerrain : EditorWindow {
+/*public class SplitTerrain : EditorWindow {
 		
 	string num = "4";
 
@@ -542,4 +542,4 @@ public class SplitTerrain : EditorWindow {
 	
 		
 	
-}
+}*/

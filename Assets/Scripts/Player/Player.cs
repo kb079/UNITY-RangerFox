@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     private static Player instance;
-
+    private bool canRun = true;
     private int count_cin = 0;
 
     private int health;
@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public int maxHealth = 100, maxMana = 100, maxStamina = 100;
 
     protected Rigidbody rb;
-    private Animator anim;
+    public Animator anim;
 
     public Camera playerCamera;
     public GameObject bola;
@@ -34,8 +34,8 @@ public class Player : MonoBehaviour
     public bool isPaused;
     
     private enum enum_sounds { Barrier = 0, Dash = 1, Attack = 2, Magic = 3 }
-    private bool cooldownA1, cooldownA2, cooldownDash, runningAnim, canUseBarrier;
-    public bool isDead;
+    private bool cooldownA1, cooldownA2, cooldownDash, canUseBarrier;
+    public bool isDead, runningAnim;
 
     public AudioSource audiosource;
     public AudioClip[] sonidos;
@@ -48,14 +48,19 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
+        if (instance != null) Destroy(gameObject);
+        instance = this;
+        DontDestroyOnLoad(transform.gameObject);
+
         health = 100;
         stamina = 100;
         mana = 100;
+
+        crossHair = GameObject.FindGameObjectWithTag("crosshair");
     }
 
     private void Start()
     {
-        instance = this;
         //El cursor no se sale de la pantalla
         Cursor.lockState = CursorLockMode.Confined;
 
@@ -81,7 +86,7 @@ public class Player : MonoBehaviour
             StartCoroutine(cor_EndCinematic(16.5f));
         }
   
-        if (SceneManager.GetActiveScene().name.Equals("FinalMap") && PlayerSavingData.runLoadData)
+        if (SceneManager.GetActiveScene().name.Equals("Madriguera") && PlayerSavingData.runLoadData)
         {
             PlayerSavingData.loadData();
         }
@@ -108,6 +113,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(GameConstants.key_interact) && count_cin == 0 && SceneManager.GetActiveScene().name.Equals("FinalBoss"))
         {
             StopCoroutine(cor_EndCinematic(20f));
+            playerCamera.gameObject.SetActive(true);
             isDead = false;
             count_cin++;
 
@@ -116,6 +122,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(GameConstants.key_interact) && count_cin == 1 && SceneManager.GetActiveScene().name.Equals("AfterBossFight"))
         {
             StopCoroutine(cor_EndCinematic(16.5f));
+            playerCamera.gameObject.SetActive(true);
             isDead = false;
             count_cin++;
         }
@@ -212,14 +219,13 @@ public class Player : MonoBehaviour
             anim.SetFloat("playerX", x);
             anim.SetFloat("playerZ", y);
 
-            if (Input.GetKey(GameConstants.key_run) && useStamina(0.2f))
+            if (Input.GetKey(GameConstants.key_run) && canRun && useStamina(0.07f))
             {
                 toggleRunAnim(true);
                 StartWalkingSound(0.08f);
                 movSpeed += 25f;
             }
-            else if(Input.GetKeyUp(GameConstants.key_run))
-            {
+            else {
                 toggleRunAnim(false);
             }
 
@@ -391,27 +397,13 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider c)
     {
-        if (c.gameObject.CompareTag("madriguera"))
-        {
-            SceneManager.LoadSceneAsync("Madriguera");
-        }
-        if (c.gameObject.CompareTag("SceneBoss"))
-        {
-            //bossBarrier.SetActive(true);
-
-            SceneManager.LoadSceneAsync("FinalBoss");
-        }
-
         //COLISION CON LA MANO DEL LOBO -- ATAQUE
 
         if (c.gameObject.CompareTag("wolfHand") && c.GetComponentInParent<Wolf>().isAttacking)
         {
             //doSingleDamage(GameConstants.Wolf_Dmg); ESTA PUESTO EN LA CLASE WOLF -- attack()
             c.GetComponentInParent<Wolf>().doAttack();
-
-
         }
-        //Debug.Log("esta colisionando");
     }
 
     private void OnCollisionEnter(Collision c)
@@ -457,16 +449,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(time);
         Time.timeScale = 0;
         SceneManager.LoadSceneAsync("DeathMenu", LoadSceneMode.Additive);
-    }
-
-    private void OnTriggerExit(Collider c)
-    {
-        if (c.gameObject.CompareTag("bossFloor"))
-        {
-            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
-            Vector3 dir = transform.position - c.transform.position;
-            rb.AddForce(-dir * 300f, ForceMode.Force);
-        }
     }
 
     public int getHealth()
@@ -543,7 +525,15 @@ public class Player : MonoBehaviour
             }
             return true;
         }
+        canRun = false;
+        StartCoroutine(cor_canRun());
         return false;
+    }
+
+    IEnumerator cor_canRun()
+    {
+        yield return new WaitForSeconds(2f);
+        canRun = true;
     }
 
     public bool useMana(float needed)
@@ -564,9 +554,10 @@ public class Player : MonoBehaviour
         return false;
     }
 
-    IEnumerator cor_EndCinematic(float time)
+    public IEnumerator cor_EndCinematic(float time)
     {
         yield return new WaitForSeconds(time);
         isDead = false;
+        playerCamera.gameObject.SetActive(true);
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
-    private MusicController instance;
+    private static MusicController instance;
 
     public AudioSource audiosource;
     [SerializeField] AudioClip[] sonidos;
@@ -11,9 +11,8 @@ public class MusicController : MonoBehaviour
     void Awake()
     {
         if (instance != null) Destroy(gameObject);
-
         instance = this;
-        DontDestroyOnLoad(transform.gameObject);
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()

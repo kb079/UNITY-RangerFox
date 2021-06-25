@@ -12,11 +12,18 @@ public class SFX_cutscene2 : MonoBehaviour
     public GameObject playerStats;
     public GameObject inventary;
     public GameObject dialogos;
+    public GameObject skipPanel;
 
     PostProcessVolume m_Volume;
     Vignette m_Vignette;
     void Start()
     {
+        inventary = GameObject.FindGameObjectWithTag("Inventory");
+        playerStats = GameObject.FindGameObjectWithTag("PS");
+        camara = GameObject.FindGameObjectWithTag("playerCam");
+        camara.SetActive(false);
+        playerStats.SetActive(false);
+        inventary.SetActive(false);
         // Create an instance of a vignette
         m_Vignette = ScriptableObject.CreateInstance<Vignette>();
         m_Vignette.enabled.Override(true);
@@ -40,7 +47,9 @@ public class SFX_cutscene2 : MonoBehaviour
             hud.SetActive(true);
             enemyBar.SetActive(true);
             playerStats.SetActive(true);*/
-            SceneManager.LoadScene("Credits");
+            skipPanel.SetActive(false);
+            Destroy(Player.getInstance().gameObject);
+            SceneManager.LoadSceneAsync("Credits");
 
         }
         // Change vignette intensity using a sinus curve

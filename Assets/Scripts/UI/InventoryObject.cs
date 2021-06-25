@@ -24,13 +24,18 @@ public class InventoryObject : MonoBehaviour
     {
         instance = this;
 
-        int i = 0;
         foreach (GameObject go in UISlots)
         {
             images.Add(go.GetComponent<Image>());
             texts.Add(go.GetComponentInChildren<Text>());
         }
     }
+
+    private void Start()
+    {
+        player = Player.getInstance();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(GameConstants.key_inv1))

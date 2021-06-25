@@ -35,19 +35,21 @@ public class GameConstants : MonoBehaviour
     public const int Doowell_HP = 12;
     public const int Chest_HP = 24;
     public const int Fairy_HP = 12;
+    public const int Jiro_HP = 400;
 
     //daño ataques enemigos
-    public const int Wolf_Dmg = 8;
+    public const int Wolf_Dmg = 6;
     public const int Seta_Dmg = 4;
     public const int Doowell_Dmg = 8;
     public const int Chest_Dmg = 6;
     public const int Fairy_Dmg = 4;
+    public const int Jiro_Dmg = 16;
 
     //experiencia enemigos
-    public const int Wolf_Exp = 125;
-    public const int Seta_Exp = 100;
-    public const int Doowell_Exp = 200;
-    public const int Fairy_Exp = 50;
+    public const int Wolf_Exp = 250;
+    public const int Seta_Exp = 50;
+    public const int Doowell_Exp = 100;
+    public const int Fairy_Exp = 30;
     public const int Jiro_Exp = 500;
 
 

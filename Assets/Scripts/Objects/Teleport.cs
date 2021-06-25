@@ -17,7 +17,6 @@ public class Teleport : MonoBehaviour
 
                 PlayerSavingData.savePlayerData();
                 GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().setHudText("");
-                SceneManager.LoadSceneAsync("Madriguera");
             }
         }
     }
@@ -26,7 +25,7 @@ public class Teleport : MonoBehaviour
     {
         if (c.gameObject.CompareTag("Player"))
         {
-            c.GetComponent<Player>().setHudText("Press [" + GameConstants.key_interact.ToString() + "] to teleport to home");
+            c.GetComponent<Player>().setHudText("Pulsa [" + GameConstants.key_interact.ToString() + "] para guardar");
         }
     }
 

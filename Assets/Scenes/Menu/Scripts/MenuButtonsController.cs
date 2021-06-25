@@ -4,14 +4,16 @@ using UnityEngine.UI;
 
 public class MenuButtonsController : MonoBehaviour
 {
+
     public AudioSource Audio;
 
     public GameObject buttons, panel;
     public Button newButton, resume, closePanel;
+    public GameObject playerInst;
+    public GameObject hudInst;
 
     public void playStart()
     {
-        DontDestroyOnLoad(Audio.transform.gameObject);
         
         if (PlayerSavingData.checkExistsData())
         {
@@ -49,6 +51,8 @@ public class MenuButtonsController : MonoBehaviour
     private void resumeGame()
     {
         SceneManager.LoadSceneAsync("Madriguera");
+        Instantiate(hudInst);
+        Instantiate(playerInst, new Vector3(-10, -7, -35), Quaternion.identity);
         PlayerSavingData.runLoadData = true;
     }
 
@@ -76,10 +80,11 @@ public class MenuButtonsController : MonoBehaviour
 
     public void playAgain()
     {
-        Cursor.visible = false;
+
         Time.timeScale = 1;
         SceneManager.LoadSceneAsync("Madriguera");
+        Instantiate(HUDController.getInstance().gameObject);
+        Instantiate(Player.getInstance().gameObject, new Vector3(-10, -7, -35), Quaternion.identity);
     }
-
     
 }

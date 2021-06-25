@@ -154,7 +154,7 @@ public class PlayerStats : MonoBehaviour
         Player.getInstance().addHealth(25);
 
         Player.getInstance().maxMana = mana;
-        Player.getInstance().addMana(25);
+        Player.getInstance().addMana((int)manaCalc);
 
         Player.getInstance().maxStamina = vigor;
         Player.getInstance().addStamina(25);

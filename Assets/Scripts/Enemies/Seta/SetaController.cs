@@ -228,6 +228,7 @@ public class SetaController : Enemy
             isDead = true;
             changeAnimation(1);
             StartCoroutine(dropItem(3f));
+            Destroy(healthBarClone.gameObject, 1f);
             PlayerStats.getInstance().addXP(GameConstants.Seta_Exp);
         }
     }
