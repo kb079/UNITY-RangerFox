@@ -22,7 +22,7 @@ public class MenuPauseController : MonoBehaviour
     }
     public void closeMenu()
     {
-   
+        Time.timeScale = 1;
         SceneManager.LoadSceneAsync("MainMenu");
     }
 }
