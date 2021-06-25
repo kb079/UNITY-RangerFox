@@ -141,6 +141,7 @@ public class DialogManager : MonoBehaviour
             }
             tiempoEspera = _sentences[_index]._2say.Length * (_speedWrite * 10);
             Debug.Log(tiempoEspera);
+            if(gameObject.active == true)
             StartCoroutine(Talk());
            
             if (_sentences[_index]._o2ActiveEnd != null)

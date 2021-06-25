@@ -29,6 +29,7 @@ TagManager:
   - terreno
   - EnemyHealthBar
   - wolfHand
+  - xpBar
   layers:
   - Default
   - TransparentFX
