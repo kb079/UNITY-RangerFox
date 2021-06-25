@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,7 +17,7 @@ public class ChangeScene : MonoBehaviour
         player = GetComponent<Player>();
         playerCameras = GetComponentsInChildren<Camera>();
         posMadriguera = new Vector3(-10, -7, -35);
-        posFinalMap = new Vector3(16.9f, 0.03f, 15.71f);
+        posFinalMap = new Vector3(16.9f, 0.13f, 15.71f);
         posFinalBoss = new Vector3(174.460007f, 10.1999998f, 121.268112f);
     }
 
@@ -44,11 +43,8 @@ public class ChangeScene : MonoBehaviour
             playerCameras[1].clearFlags = CameraClearFlags.Skybox;
             StartCoroutine(player.cor_EndCinematic(20f));
         }
-    }
 
-    private void OnTriggerExit(Collider c)
-    {
-        if (c.gameObject.CompareTag("EscenaMadriguera"))
+        if (c.gameObject.CompareTag("madrigueraExit"))
         {
             SceneManager.LoadSceneAsync("FinalMap");
             playerCameras[0].clearFlags = CameraClearFlags.Skybox;
@@ -58,5 +54,6 @@ public class ChangeScene : MonoBehaviour
 
             transform.position = posFinalMap;
         }
+
     }
 }

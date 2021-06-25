@@ -113,6 +113,7 @@ public class InventoryObject : MonoBehaviour
             if (transform != null) {
                 GameObject itemGO = Instantiate(item.itemGameObject, position, item.itemGameObject.transform.rotation, transform);
                 itemGO.SetActive(true);
+                GameConstants.instanciedObjects.Add(itemGO);
             }
         }
     }

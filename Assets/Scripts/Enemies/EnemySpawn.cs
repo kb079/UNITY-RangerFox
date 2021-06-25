@@ -113,6 +113,7 @@ public class EnemySpawn : MonoBehaviour
             clone.SetActive(true);
             clone.GetComponent<Enemy>().spawner = thisSpawner;
             numberOfEnemies--;
+            GameConstants.instanciedObjects.Add(clone);
         }
     }
 }

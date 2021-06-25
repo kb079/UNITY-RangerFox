@@ -82,9 +82,9 @@ public class MenuButtonsController : MonoBehaviour
     {
 
         Time.timeScale = 1;
-        SceneManager.LoadSceneAsync("Madriguera");
-        Instantiate(HUDController.getInstance().gameObject);
-        Instantiate(Player.getInstance().gameObject, new Vector3(-10, -7, -35), Quaternion.identity);
+        Player.getInstance().resetGame();
+        //Instantiate(HUDController.getInstance().gameObject);
+        //Instantiate(Player.getInstance().gameObject, new Vector3(-10, -7, -35), Quaternion.identity);
     }
     
 }

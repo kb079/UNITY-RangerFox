@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameConstants : MonoBehaviour
@@ -46,16 +47,17 @@ public class GameConstants : MonoBehaviour
     public const int Jiro_Dmg = 16;
 
     //experiencia enemigos
-    public const int Wolf_Exp = 250;
-    public const int Seta_Exp = 50;
+    public const int Wolf_Exp = 25;
+    public const int Seta_Exp = 20;
     public const int Doowell_Exp = 100;
     public const int Fairy_Exp = 30;
-    public const int Jiro_Exp = 500;
-
+    public const int Jiro_Exp = 400;
 
     //misc
     public static int volume = 100;
 
+
+    public static List<GameObject> instanciedObjects = new List<GameObject>();
 }
 
 

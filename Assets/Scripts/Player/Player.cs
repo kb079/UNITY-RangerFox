@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -52,27 +53,17 @@ public class Player : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(transform.gameObject);
 
-        health = 100;
-        stamina = 100;
-        mana = 100;
-
         crossHair = GameObject.FindGameObjectWithTag("crosshair");
     }
 
     private void Start()
     {
-        //El cursor no se sale de la pantalla
         Cursor.lockState = CursorLockMode.Confined;
 
         inventory = GameObject.FindGameObjectWithTag("Inventory");
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
-        isDead = false;
-        isAttacking = false;
-        canUseBarrier = true;
-        isPaused = false;
-        runningAnim = false;
-        hudText = "";
+        runInitial();
 
         if (SceneManager.GetActiveScene().name.Equals("FinalBoss"))
         {
@@ -85,10 +76,37 @@ public class Player : MonoBehaviour
             isDead = true;
             StartCoroutine(cor_EndCinematic(16.5f));
         }
-  
+
         if (SceneManager.GetActiveScene().name.Equals("Madriguera") && PlayerSavingData.runLoadData)
         {
             PlayerSavingData.loadData();
+        };
+    }
+
+    private void runInitial()
+    {
+        isDead = false;
+        isAttacking = false;
+        canUseBarrier = true;
+        isPaused = false;
+        runningAnim = false;
+        hudText = "";
+        health = 100;
+        mana = 100;
+        stamina = 100;
+    }
+
+    public void resetGame()
+    {
+        SceneManager.LoadSceneAsync("Madriguera");
+        transform.position = transform.position = new Vector3(-10.7769747f, -7.00001335f, -36.1819725f);
+        runInitial();
+
+        List<GameObject> entities = GameConstants.instanciedObjects;
+
+        foreach (GameObject go in entities)
+        {
+            DestroyImmediate(go);
         }
     }
 
