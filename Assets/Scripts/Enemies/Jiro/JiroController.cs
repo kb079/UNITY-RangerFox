@@ -16,7 +16,7 @@ public class JiroController : Enemy
     [SerializeField] int minRockNumber = 9, maxRockNumber = 12;
 
     private Dictionary<enum_actions, int> actions = new Dictionary<enum_actions, int>();
-    private BoxCollider armCollider;
+    public BoxCollider armCollider;
     private enum_actions currentAction;
     private Rigidbody rb;
     private Vector3 yForce, originalPos, yForceReturning = 8.0f * Vector3.up;
@@ -234,7 +234,7 @@ public class JiroController : Enemy
         lookAtPlayer();
         changeAnimation(enum_animations.Attack);
         cooldown = true;
-        isAttacking = true;
+
         StartCoroutine(cor_actions(1f, enum_cor.AttackSound));
         StartCoroutine(cor_actions(3f, 0));
     }

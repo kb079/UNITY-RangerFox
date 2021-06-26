@@ -88,7 +88,6 @@ public abstract class Enemy : MonoBehaviour
         animatedHpBar = true;
         StartCoroutine(controlHpAnimation());
         StartCoroutine(hpBarAnimation());
-
         checkHP();
 
         if (isDead) healthBar.gameObject.SetActive(false);

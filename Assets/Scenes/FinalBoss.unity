@@ -884,7 +884,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7760618, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3958,6 +3958,11 @@ PrefabInstance:
       objectReference: {fileID: 572905043}
     - target: {fileID: 1955791164583548567, guid: 8a77aac20ff1876408fb5860e0c74b70,
         type: 3}
+      propertyPath: armCollider
+      value: 
+      objectReference: {fileID: 724766028}
+    - target: {fileID: 1955791164583548567, guid: 8a77aac20ff1876408fb5860e0c74b70,
+        type: 3}
       propertyPath: healthBarGO
       value: 
       objectReference: {fileID: 8996629145842419465, guid: a63eb2359db51524a90b2db02660d328,
@@ -3967,6 +3972,31 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 542b573caa6fca0448f0c3b1e0493127, type: 2}
+    - target: {fileID: 2294862067571553468, guid: 8a77aac20ff1876408fb5860e0c74b70,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 8.151005
+      objectReference: {fileID: 0}
+    - target: {fileID: 2294862067571553468, guid: 8a77aac20ff1876408fb5860e0c74b70,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.8004308
+      objectReference: {fileID: 0}
+    - target: {fileID: 2294862067571553468, guid: 8a77aac20ff1876408fb5860e0c74b70,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 4.4375243
+      objectReference: {fileID: 0}
+    - target: {fileID: 2294862067571553468, guid: 8a77aac20ff1876408fb5860e0c74b70,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1.7358528
+      objectReference: {fileID: 0}
+    - target: {fileID: 2294862067571553468, guid: 8a77aac20ff1876408fb5860e0c74b70,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.91236526
+      objectReference: {fileID: 0}
     - target: {fileID: 2350444728947177579, guid: 8a77aac20ff1876408fb5860e0c74b70,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4594,6 +4624,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a77aac20ff1876408fb5860e0c74b70, type: 3}
+--- !u!65 &724766028 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 2294862067571553468, guid: 8a77aac20ff1876408fb5860e0c74b70,
+    type: 3}
+  m_PrefabInstance: {fileID: 724766027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &785996084
 GameObject:
   m_ObjectHideFlags: 0
@@ -8744,8 +8780,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutscene: {fileID: 626851455}
-  hud: {fileID: 0}
   enemyBar: {fileID: 1626942023}
+  playerStats: {fileID: 0}
   inventary: {fileID: 0}
   dialogos: {fileID: 32439327}
   skipPanel: {fileID: 945284545}
@@ -9344,6 +9380,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f46157aa9daec7042b3288cc9b0ff310,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ee75931a076a8714f840a34eb252c8a1, type: 2}
     - target: {fileID: 919132149155446097, guid: f46157aa9daec7042b3288cc9b0ff310,
         type: 3}
       propertyPath: m_Name
@@ -9363,12 +9404,32 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3411938477853932661, guid: 88f2f66f53449c74c9cb04fe9432233e,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3411938477853932661, guid: 88f2f66f53449c74c9cb04fe9432233e,
+        type: 3}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3540933955137503602, guid: 88f2f66f53449c74c9cb04fe9432233e,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyHealthBar
+      objectReference: {fileID: 0}
     - target: {fileID: 4984694945116850710, guid: 88f2f66f53449c74c9cb04fe9432233e,
         type: 3}
       propertyPath: m_Name
       value: JiroHP
       objectReference: {fileID: 0}
     - target: {fileID: 4984694945116850710, guid: 88f2f66f53449c74c9cb04fe9432233e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5096884998594269467, guid: 88f2f66f53449c74c9cb04fe9432233e,
         type: 3}
       propertyPath: m_IsActive
       value: 1

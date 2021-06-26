@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyArm : MonoBehaviour
 {
-    bool isAttacking = false;
+    public bool isAttacking = false;
     private Player player;
     void Start()
     {
@@ -11,27 +11,25 @@ public class EnemyArm : MonoBehaviour
     }
     private void OnTriggerEnter(Collider c)
     {
-        if (c.CompareTag("Player") )
+        if (c.CompareTag("Player") && !isAttacking)
         {
-            if (isAttacking)
-            {
-                isAttacking = false;
-                if (player.barrier.activeInHierarchy)
-                {
-                    player.useMana(20);
-                }
-                else
-                {
-                    player.doDamage(GameConstants.Jiro_Dmg, 1);
-                }
-            }
+           if (player.barrier.activeInHierarchy)
+           {
+                player.useMana(20);
+           }
+           else
+           {
+                isAttacking = true;
+                player.doDamage(GameConstants.Jiro_Dmg, 1);
+                StartCoroutine(finishCooldown());
+           }
         }
     }
 
     IEnumerator finishCooldown()
     {
-        yield return new WaitForSeconds(0.8f);
-        isAttacking = true;
+        yield return new WaitForSeconds(1.045f);
+        isAttacking = false;
     }
 
 }

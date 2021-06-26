@@ -36,7 +36,7 @@ public class GameConstants : MonoBehaviour
     public const int Doowell_HP = 12;
     public const int Chest_HP = 24;
     public const int Fairy_HP = 12;
-    public const int Jiro_HP = 400;
+    public const int Jiro_HP = 250;
 
     //daño ataques enemigos
     public const int Wolf_Dmg = 6;
