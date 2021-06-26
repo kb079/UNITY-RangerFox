@@ -19,15 +19,31 @@ TagManager:
   - Inventory
   - chestEnemy
   - Barrier
+  - bossRock
+  - bossBarrier
+  - crosshair
+  - bossFloor
+  - tree
+  - yuki_hand
+  - SceneBoss
+  - terreno
+  - EnemyHealthBar
+  - wolfHand
+  - xpBar
+  - Musica
+  - playerStats
+  - EscenaMadriguera
+  - PS
+  - madrigueraExit
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Postprocessing
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - DroppableItem
   - 
   - 
   - 

@@ -1,34 +1,67 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    protected float health;
 
+    protected float currentHealth;
+    protected float currentAuxHealth;
+    private float auxHealth;
+    private bool animatedHpBar = false;
+
+    protected float health;
+    protected Image healthBar;
+    public GameObject healthBarGO;
+    protected GameObject healthBarClone;
     protected int searchRadius = 30;
     protected int attackRadius = 3;
+    public EnemySpawn spawner;
 
-    protected bool isAttacking;
+    public bool isAttacking;
     protected bool isDead;
     protected bool cooldown;
 
     protected GameObject player;
     protected NavMeshAgent agent;
+    protected float maxHealth = 9999;
 
-    private void Awake()
+    protected int dropProbabilityMax = 4;
+    protected int dropProbabilitySuccess = 4;
+    protected InventoryObject inventory;
+    protected float healthBarYPosition = 5;
+    protected Vector3 healthBarScale = new Vector3(1, 1, 1);
+
+    protected virtual void Awake()
     {
+
+        healthBarGO = GameObject.FindGameObjectWithTag("EnemyHealthBar");
+        inventory = GameObject.FindGameObjectWithTag("UIManager").GetComponent<InventoryObject>();
+        healthBarClone = Instantiate(healthBarGO);
+        //Segundo componente image (barra roja)
+        healthBar = healthBarClone.GetComponentsInChildren<Image>()[1];
+        healthBarClone.gameObject.SetActive(false);
+        healthBar.gameObject.SetActive(false);
+        healthBar.fillAmount = 1;
         player = GameObject.FindGameObjectWithTag("Player");
         if (GetComponent<NavMeshAgent>() != null) {
             agent = GetComponent<NavMeshAgent>();
         }
     }
 
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
         if (!isDead)
         {
-            searchPlayer();
+            healthBarClone.transform.position = new Vector3(transform.position.x, transform.position.y + healthBarYPosition, transform.position.z);
+            healthBarClone.transform.rotation = transform.rotation;
         }
+    }
+
+    protected virtual void Update()
+    {
+        if (!isDead) searchPlayer();
     }
 
     protected virtual void doPlayerDamage(int dmg) {
@@ -36,10 +69,29 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public virtual void doDamage(float dmg) {
-        Debug.Log("doDamage");
+        if (isDead) return;
+
+        if (!isDead)
+        {
+            healthBar.gameObject.SetActive(true);
+        }
+
+        maxHealth = health;
+        currentHealth = maxHealth;
+
         health -= dmg;
-        Debug.Log("esta es la vida que tiene ahora" + health);
+        healthBarClone.gameObject.SetActive(true);
+        //animación barra hp
+        auxHealth = currentHealth - health;
+        currentHealth = health;
+        currentAuxHealth = currentHealth;
+        animatedHpBar = true;
+        StartCoroutine(controlHpAnimation());
+        StartCoroutine(hpBarAnimation());
+
         checkHP();
+
+        if (isDead) healthBar.gameObject.SetActive(false);
     }
 
     protected abstract void attack();
@@ -65,34 +117,54 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual void checkHP()
+    protected void OnDestroy()
     {
-        Debug.Log("estoy mirando la vida");
-        if (health <= 0 && !isDead)
+        if (spawner != null)
         {
-            Debug.Log("muerto");
-            if (agent != null)
-            {
-                Destroy(agent);
-            }
-            Debug.Log("doDamage");
-            isDead = true;
-            GetComponent<Rigidbody>().isKinematic = true;
-            Vector3 originalRot = transform.localEulerAngles;
-            originalRot.x = 90;
-            transform.localEulerAngles = originalRot;
+            spawner.flag_create_enemy = true;
+            spawner.numberOfEnemies++;
         }
+    }
+
+    protected abstract void checkHP();
+    protected IEnumerator dropItem(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Vector3 dropPos = new Vector3(transform.position.x, 2, transform.position.z);
+        inventory.OnEnemyDead(dropProbabilitySuccess, dropProbabilityMax, dropPos);
+        DestroyImmediate(gameObject);
     }
 
     protected virtual void OnTriggerStay(Collider c)
     {
-        if (c.gameObject.CompareTag("playerHand"))
+        if (c.gameObject.CompareTag("yuki_hand"))
         {
             if (c.gameObject.GetComponentInParent<Player>().isAttacking)
             {
-                doDamage(5);
+                doDamage(GameConstants.attack_damage);
                 c.gameObject.GetComponentInParent<Player>().isAttacking = false;
             }
+        }
+    }
+
+    protected IEnumerator controlHpAnimation()
+    {
+        yield return new WaitForSeconds(0.6f);
+        animatedHpBar = false;
+        float hp = currentHealth / maxHealth;
+        healthBar.fillAmount = hp;
+    }
+
+    protected IEnumerator hpBarAnimation()
+    {
+        currentAuxHealth = currentHealth + auxHealth;
+        while (animatedHpBar)
+        {
+            auxHealth /= 2;
+            currentAuxHealth -= auxHealth;
+            float hp = currentAuxHealth / maxHealth;
+            healthBar.fillAmount = hp;
+            yield return new WaitForSeconds(0.03f);
         }
     }
 }

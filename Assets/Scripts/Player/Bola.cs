@@ -12,7 +12,6 @@ public class Bola : MonoBehaviour
         playerCam = GameObject.FindGameObjectWithTag("playerCam").GetComponent<Camera>();
         rb = GetComponent<Rigidbody>();
 
-        
         //rb.AddForce(transform.forward + playerCam.transform.forward * 2000f, ForceMode.Acceleration);
         rb.AddForce((playerCam.transform.forward + new Vector3(0, 0.35F, 0)) * 30F, ForceMode.Impulse);
     }
@@ -21,7 +20,7 @@ public class Bola : MonoBehaviour
     {
         if (c.gameObject.CompareTag("enemy"))
         {
-            c.gameObject.GetComponent<Enemy>().doDamage(GameConstants.ballDamage);
+            c.gameObject.GetComponent<Enemy>().doDamage(GameConstants.magic_damage);
             Destroy(gameObject);
         }
     }
